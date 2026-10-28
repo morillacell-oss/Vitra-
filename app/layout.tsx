@@ -13,6 +13,7 @@ import './light-shell.css';
 import './free-style.css';
 import './auth.css';
 import './integrations-motion.css';
+import './motion-polish.css';
 import './mobile-dashboard-polish.css';
 import './theme-dna.css';
 
