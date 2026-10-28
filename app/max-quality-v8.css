@@ -1,0 +1,94 @@
+/* VITRA v8 — maximum-quality resilience layer.
+   Purpose: make every art direction survive real client content without flattening its identity. */
+
+.clientSite,.csSite{
+  --mq-gutter:clamp(20px,4.8vw,78px);
+  --mq-section:clamp(68px,8vw,132px);
+  --mq-reading:68ch;
+  overflow:clip;
+}
+.clientSite *,.csSite *{box-sizing:border-box;min-width:0}
+.clientSite img,.clientSite video,.csSite img,.csSite video{max-width:100%}
+.clientSite h1,.clientSite h2,.clientSite h3,.csSite h1,.csSite h2,.csSite h3{overflow-wrap:normal;word-break:normal;text-wrap:balance}
+.clientSite p,.csSite p{overflow-wrap:anywhere;text-wrap:pretty}
+.clientSite button,.clientSite a,.csSite button,.csSite a{touch-action:manipulation}
+
+/* Content-aware typography: long client copy scales down gracefully. */
+.csHeroCopy h1{font-size:clamp(48px,6.4vw,104px);line-height:.9;max-width:12ch}
+.csHeroCopy p{max-width:var(--mq-reading)}
+.csSectionHead h2,.csAboutCopy h2,.csFaq h2,.csLocation h2{font-size:clamp(38px,4.4vw,72px);line-height:.96}
+.csService h3,.csPackage h3{overflow-wrap:anywhere}
+
+/* Media is always intentional, never distorted. */
+.csHeroMedia img,.csHeroMedia video,.csAboutImage img,.csGallery img,.csAutoProjectMedia img,.csBeforeAfter img{width:100%;height:100%;object-fit:cover}
+.csHeroMedia img,.csHeroMedia video{object-position:var(--hero-pos,50% 50%)}
+
+/* Missing/small content recomposes instead of leaving visual holes. */
+.csServicesGrid:has(> :only-child),.csPackageGrid:has(> :only-child),.csProofGrid:has(> :only-child){grid-template-columns:minmax(0,760px);justify-content:center}
+.csServicesGrid:has(> :nth-child(2):last-child),.csPackageGrid:has(> :nth-child(2):last-child),.csProofGrid:has(> :nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+.csGalleryGrid:has(> :only-child){grid-template-columns:1fr}.csGalleryGrid:has(> :only-child)>*{min-height:clamp(360px,58vw,760px)}
+.csGalleryGrid:has(> :nth-child(2):last-child){grid-template-columns:1.25fr .75fr}
+.csHoursList:empty,.csFaqList:empty,.csGalleryGrid:empty{display:none}
+
+/* Contact/location: robust with partial client data. */
+.csLocation{align-items:start}
+.csLocationCopy,.csHoursList{min-width:0}
+.csHoursList>div{gap:20px}.csHoursList span,.csHoursList b{overflow-wrap:anywhere}
+.csClosing,.csAutoClosing{isolation:isolate}
+.csAutoAssessment{min-width:0;width:100%}
+.csAutoAssessment input,.csAutoAssessment select,.csAutoAssessment textarea{max-width:100%}
+
+/* Interactive quality and accessibility. */
+.clientSite :focus-visible,.csSite :focus-visible{outline:3px solid color-mix(in srgb,var(--cs-accent,#ff6844) 70%,white);outline-offset:4px}
+.csFaq summary{min-height:48px;align-items:center}
+.csCta,.csPrimary,.csAutoAssessment button{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+
+/* Builder itself: stable, readable and proportioned. */
+@media (min-width:1280px){
+  .vxBuilderGrid{grid-template-columns:92px minmax(500px,40%) minmax(0,60%)}
+  .vxStage{min-width:0}.vxStageInner,.vxStage>div{max-width:780px}
+  .vxLivePreview{min-width:0;overflow:hidden}
+}
+.vxSteps button{min-height:46px}.vxSteps button small{line-height:1.2}
+.vxSteps button:not(.active):not(.done){opacity:.62}.vxSteps button.done{opacity:.84}.vxSteps button.active{opacity:1}
+.vxQualityGrid,.qualityChecklist{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.vxQualityGrid>*,.qualityChecklist>*{min-height:48px}
+.vxFontGrid,.fontGrid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.vxPaletteGrid,.paletteGrid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+
+/* Notebook/tablet: composition changes before columns become cramped. */
+@media (max-width:1180px){
+  .csHeroCopy h1{font-size:clamp(48px,7.5vw,82px)}
+  .csAutoClosing{grid-template-columns:minmax(0,1fr) minmax(340px,.8fr)}
+  .csAutoClosingMedia{grid-column:1}.csAutoClosingCopy{grid-column:1}.csAutoAssessment{grid-column:2;grid-row:1 / span 2}
+  .csAutoProjectList{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:900px){
+  .csSectionHead,.csAbout,.csLocation,.csFaq,.csAutoClosing{grid-template-columns:1fr!important}
+  .csAutoClosingMedia,.csAutoClosingCopy,.csAutoAssessment{grid-column:1!important;grid-row:auto!important}
+  .csAutoProjectList,.csServicesGrid,.csPackageGrid,.csProofGrid{grid-template-columns:1fr!important}
+  .csGalleryGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .csSectionHead p{max-width:62ch}
+}
+@media (max-width:600px){
+  .clientSite,.csSite{--mq-gutter:20px;--mq-section:64px}
+  .csHero{min-height:min(760px,88svh)}
+  .csHeroCopy h1{font-size:clamp(42px,13vw,62px);line-height:.92;max-width:11ch}
+  .csHeroCopy p{font-size:clamp(14px,4vw,17px);line-height:1.58}
+  .csHeroActions{align-items:stretch;flex-direction:column}.csHeroActions .csCta{width:100%}
+  .csGalleryGrid{grid-template-columns:1fr!important}.csGalleryGrid>*{min-height:260px}
+  .csAutoProjectList{display:grid;grid-template-columns:1fr!important}
+  .csAutoProject{min-height:0!important}.csAutoProjectMedia{min-height:300px}
+  .csHoursList>div{align-items:flex-start;flex-direction:column;gap:5px}
+  .vxQualityGrid,.qualityChecklist{grid-template-columns:1fr}
+  .vxPaletteGrid,.paletteGrid,.vxFontGrid,.fontGrid{grid-template-columns:1fr}
+}
+@media (max-width:390px){
+  .clientSite,.csSite{--mq-gutter:16px}
+  .csHeroCopy h1{font-size:clamp(38px,12.5vw,50px)}
+  .csAutoProjectMedia{min-height:250px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .clientSite *,.clientSite *::before,.clientSite *::after,.csSite *,.csSite *::before,.csSite *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
