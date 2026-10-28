@@ -1,0 +1,93 @@
+/* VITRA premium interaction layer */
+:root{--ease-out:cubic-bezier(.2,.8,.2,1);--focus:rgba(255,104,68,.28)}
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+button{transition:transform .22s var(--ease-out),background-color .22s ease,border-color .22s ease,color .22s ease,opacity .22s ease,box-shadow .22s ease}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent,#ff6844);outline-offset:3px}
+.vitraIcon{display:block;flex:0 0 auto;vector-effect:non-scaling-stroke}
+.actionArrow{width:27px;height:27px;border:1px solid currentColor;border-radius:999px;display:inline-grid;place-items:center;flex:0 0 auto;opacity:.72;transition:transform .25s var(--ease-out),opacity .25s ease,background .25s ease}
+button:hover .actionArrow,a:hover .actionArrow,.projectCard:hover .actionArrow,.nicheCard:hover .actionArrow{transform:translate(2px,-2px);opacity:1}
+.newProjectBtn,.saveBtn,.heroCreateBtn,.emptyProjects button,.nextStep,.sitePrimary,.siteHeader>button,.packageCard button,.siteClosing button{display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.newProjectBtn:hover,.saveBtn:hover,.heroCreateBtn:hover,.emptyProjects button:hover,.nextStep:hover{box-shadow:0 10px 28px rgba(0,0,0,.24)}
+.railNav button .vitraIcon{transition:transform .25s var(--ease-out),stroke .2s ease}
+.railNav button:hover .vitraIcon,.railNav button.active .vitraIcon{transform:translateY(-1px) scale(1.04)}
+.railNav button.active{box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 8px 24px rgba(0,0,0,.2)}
+.wizardTopActions button{display:inline-flex;align-items:center;gap:8px}
+.previewPanelTop b{display:flex!important;align-items:center;gap:6px}
+.stepDots button span{transition:all .25s var(--ease-out)}
+.stepDots button:hover span{border-color:#555b67;color:#c9ccd2;transform:scale(1.04)}
+.stepDots button.active span{box-shadow:0 0 0 4px rgba(255,104,68,.07),0 8px 24px rgba(0,0,0,.22)}
+.stepDots button.done span .vitraIcon{stroke:#9dc5a8}
+.nicheChoice>button{position:relative;overflow:hidden;isolation:isolate}
+.nicheChoice>button:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 12% 50%,rgba(255,255,255,.055),transparent 27%);opacity:0;transition:opacity .28s ease;z-index:-1}
+.nicheChoice>button:hover:before,.nicheChoice>button.active:before{opacity:1}
+.nicheChoice>button:hover{transform:translateY(-2px);border-color:#555b67;box-shadow:0 14px 34px rgba(0,0,0,.22)}
+.nicheChoice>button .actionArrow{justify-self:end}
+.nicheVector{width:54px;height:54px!important;border-radius:14px!important;background:linear-gradient(145deg,#23262e,#191b21)!important;border:1px solid #2e323b!important;display:grid!important;place-items:center!important;color:#d8dbe1!important;font-size:0!important}
+.nicheChoice>button.active .nicheVector{color:#fff!important;border-color:#515762!important;background:linear-gradient(145deg,#282b34,#1b1e25)!important;box-shadow:inset 0 1px rgba(255,255,255,.04)}
+.emptyMark{width:52px;height:52px;border-radius:15px!important;border:1px solid #333842;display:grid!important;place-items:center;color:#a0a5af!important;background:linear-gradient(145deg,#17191e,#101115)}
+.stars{display:flex;align-items:center;gap:3px;color:var(--site-accent,#c89b5b)}
+.stars .vitraIcon{fill:currentColor;stroke:currentColor}
+.ratingRow{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ratingRow select{width:auto!important;min-width:105px}
+.sectionGlyph{width:34px;height:34px;border:1px solid #343943;border-radius:9px;display:grid;place-items:center;color:#7e8590;background:#121419;flex:0 0 auto}
+.sectionManager>div.active .sectionGlyph{color:#e4e2dc;border-color:#515762;background:#191c22}
+.visibilityBtn{display:inline-flex!important;align-items:center;gap:6px!important;margin-left:auto!important}
+.orderActions{display:flex!important;align-items:center;gap:4px!important}
+.orderActions button{width:30px;height:30px;border:1px solid #343943;background:#121419;color:#7f8590;border-radius:8px;display:grid;place-items:center}
+.orderActions button:first-child .vitraIcon{transform:rotate(90deg)}
+.orderActions button:last-child .vitraIcon{transform:rotate(90deg)}
+.gripIcon{color:#4d525c;margin-left:4px}
+.removeMedia{display:inline-flex!important;align-items:center;gap:7px;margin-top:10px}
+.addRowBtn{display:flex!important;align-items:center;justify-content:center;gap:8px}
+.reviewSeal{display:grid!important;place-items:center!important}
+.reviewCard ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:9px}
+.reviewCard li{display:flex;align-items:center;gap:9px;color:#8f949e;font-size:10px}
+.reviewCard li .vitraIcon{color:#8fc09d}
+.closingMeta{display:flex;justify-content:center;flex-wrap:wrap;gap:15px;margin-top:24px}
+.mediaPlaceholder{width:100%;height:100%;min-height:280px;background:linear-gradient(135deg,var(--site-surface),color-mix(in srgb,var(--site-surface) 80%,var(--site-accent)))}
+.siteHeader>button,.sitePrimary,.packageCard button,.siteClosing button,.aboutCopy button,.locationCopy a{align-items:center;gap:8px}
+.siteHeader>button .actionArrow,.sitePrimary .actionArrow,.packageCard button .actionArrow,.siteClosing button .actionArrow,.aboutCopy button .actionArrow,.locationCopy a .actionArrow{width:20px;height:20px;border:0}
+.trustStrip span{display:flex!important;align-items:center;gap:7px}
+.faqList summary{align-items:center;gap:18px}
+.faqList details[open] summary .vitraIcon{transform:rotate(180deg)}
+.faqList summary .vitraIcon{transition:transform .25s var(--ease-out)}
+.paletteGrid button,.fontGrid button,.templateGrid button{position:relative}
+.paletteGrid button:hover,.fontGrid button:hover,.templateGrid button:hover{transform:translateY(-2px);border-color:#555b67}
+.paletteGrid button>span:last-child{position:absolute;right:8px;top:8px;width:22px;height:22px;border-radius:999px;background:#fff;color:#111;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.dropZone{transition:border-color .25s ease,background .25s ease,transform .25s var(--ease-out),box-shadow .25s ease}
+.dropZone:hover{transform:translateY(-1px);box-shadow:0 16px 40px rgba(0,0,0,.17)}
+.uploadIcon{transition:transform .28s var(--ease-out),background .25s ease,border-color .25s ease}
+.dropZone:hover .uploadIcon{transform:translateY(-2px);background:#1e2128;border-color:#5b616d;color:#e3e5e9}
+.galleryItem button{display:grid!important;place-items:center!important}
+.repeaterCard{transition:border-color .22s ease,background .22s ease,transform .22s var(--ease-out),box-shadow .22s ease}
+.repeaterCard:focus-within{border-color:#555b67;background:#191b21;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+.repeaterTop button{display:grid;place-items:center}
+.stageContent{animation:stageEnter .32s var(--ease-out) both}
+@keyframes stageEnter{from{opacity:.55;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.heroDevice{animation:deviceFloat 7s ease-in-out infinite}
+@keyframes deviceFloat{0%,100%{transform:rotate(1.6deg) translateY(8px)}50%{transform:rotate(1deg) translateY(1px)}}
+.dashboardHero:after{content:"";position:absolute;width:1px;height:150%;top:-25%;left:72%;background:linear-gradient(transparent,rgba(255,255,255,.11),transparent);transform:rotate(18deg);opacity:.35;pointer-events:none}
+.siteCanvas{transition:background .35s ease,color .35s ease}
+.siteHero,.siteGallery img,.aboutImage img,.beforeGrid img{overflow:hidden}
+.siteGallery img,.aboutImage img,.beforeGrid img{transition:transform .55s var(--ease-out),filter .4s ease}
+.siteGallery img:hover,.aboutImage:hover img,.beforeGrid figure:hover img{transform:scale(1.018)}
+.projectCard,.nicheCard{transition:transform .28s var(--ease-out),border-color .25s ease,box-shadow .28s ease}
+.projectCard:hover,.nicheCard:hover{transform:translateY(-3px);border-color:#444a55;box-shadow:0 20px 50px rgba(0,0,0,.22)}
+
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+@media(max-width:760px){
+ .wizardTopActions .saveBtn{gap:0}.wizardTopActions .saveBtn .vitraIcon{display:none}
+ .wizardTopActions .ghostBtn span{display:none}.wizardTopActions .ghostBtn{width:40px;height:40px;padding:0;justify-content:center}
+ .nicheVector{width:50px;height:50px!important}
+ .nicheChoice>button{grid-template-columns:50px minmax(0,1fr) auto!important;gap:14px!important}
+ .nicheChoice>button .actionArrow{width:24px;height:24px}
+ .stageHeading h1{font-size:clamp(35px,10.5vw,43px)!important;line-height:.96!important;letter-spacing:-.045em!important}
+ .stageHeading p{font-size:12.5px!important;line-height:1.65!important}
+ .stepDots button span{width:28px!important;height:28px!important}
+ .stepDots button{grid-template-columns:28px!important}
+ .sectionManager>div{grid-template-columns:34px minmax(0,1fr) auto!important}
+ .sectionManager .orderActions,.sectionManager .gripIcon{display:none!important}
+ .visibilityBtn span{display:none}
+ .actionArrow{width:24px;height:24px}
+}
