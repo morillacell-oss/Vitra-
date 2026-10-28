@@ -80,4 +80,40 @@ patch(
   '      <div className="vxAccountStatus"><i/> Conta conectada • projetos na nuvem</div>\n      <GitHubConnection/>'
 );
 
+/* VITRA_THEME_PALETTE_MAP — common archetypes keep their structure, but each niche gets a more fitting color language. */
+patch(
+  'app/vitra-data.ts',
+  'VITRA_THEME_PALETTE_MAP',
+  `function directionSet(niche:Niche):Direction[]{\n if(specialDirections[niche]) return specialDirections[niche]!;\n const profile=nicheCatalog[niche];\n return commonDirections.map((d,i)=>({...d,slug:\`${'${niche}'}-${'${d.slug}'}\`,name:[\`${'${profile.label.split(\' / \')[0]}'} Noir\`,\`${'${profile.label.split(\' / \')[0]}'} Atelier\`,\`${'${profile.label.split(\' / \')[0]}'} Clean\`,\`${'${profile.label.split(\' / \')[0]}'} Impact\`,\`${'${profile.label.split(\' / \')[0]}'} Gallery\`][i]}));\n}`,
+  `// VITRA_THEME_PALETTE_MAP\nfunction directionSet(niche:Niche):Direction[]{\n if(specialDirections[niche]) return specialDirections[niche]!;\n const profile=nicheCatalog[niche];\n const paletteMap:Partial<Record<Niche,string[]>>={\n  dentist:['midnight','forest','ice','emerald','ivory'],petshop:['forest','sand','ivory','emerald','blush'],hair:['wine','obsidian','blush','midnight','ivory'],barber:['carbon','obsidian','ivory','carbon','ivory'],aesthetics:['forest','sand','ivory','wine','blush'],restaurant:['wine','obsidian','sand','carbon','ivory'],fitness:['carbon','midnight','ice','carbon','ivory'],tattoo:['carbon','obsidian','ivory','wine','ivory'],realtor:['midnight','sand','ice','forest','ivory'],mechanic:['carbon','obsidian','ice','midnight','ivory'],photographer:['carbon','obsidian','ivory','midnight','ivory'],lawyer:['midnight','obsidian','ivory','forest','ivory']\n };\n const nichePalettes=paletteMap[niche];\n return commonDirections.map((d,i)=>({...d,paletteId:nichePalettes?.[i]||d.paletteId,slug:\`${'${niche}'}-${'${d.slug}'}\`,name:[\`${'${profile.label.split(\' / \')[0]}'} Noir\`,\`${'${profile.label.split(\' / \')[0]}'} Atelier\`,\`${'${profile.label.split(\' / \')[0]}'} Clean\`,\`${'${profile.label.split(\' / \')[0]}'} Impact\`,\`${'${profile.label.split(\' / \')[0]}'} Gallery\`][i]}));\n}`
+);
+
+patch(
+  'app/vitra-data.ts',
+  'VITRA_THEME_FLOW',
+  "export function applyTemplate(project:Project,id:TemplateId):Project{const preset=templates.find(t=>t.id===id)||templates.find(t=>t.niche===project.niche)!;return {...project,templateId:preset.id,paletteId:preset.paletteId,fontId:preset.fontId,servicesVariant:preset.services,galleryVariant:preset.gallery,proofVariant:preset.proof};}",
+  `// VITRA_THEME_FLOW — a theme changes composition, never the client's content.\nexport function applyTemplate(project:Project,id:TemplateId):Project{\n const preset=templates.find(t=>t.id===id)||templates.find(t=>t.niche===project.niche)!;\n const flow:Record<TemplatePreset['hero'],SectionKey[]>={\n  full:['services','about','gallery','beforeAfter','proof','packages','hours','faq','contact','video'],\n  split:['about','services','gallery','proof','packages','faq','hours','contact','beforeAfter','video'],\n  offset:['services','proof','about','gallery','packages','hours','faq','contact','beforeAfter','video'],\n  poster:['gallery','services','beforeAfter','about','proof','packages','contact','faq','hours','video'],\n  center:['gallery','about','proof','services','packages','faq','contact','hours','beforeAfter','video']\n };\n const enabled=new Set(project.sections);\n const sections=flow[preset.hero].filter(key=>enabled.has(key));\n return {...project,templateId:preset.id,paletteId:preset.paletteId,fontId:preset.fontId,servicesVariant:preset.services,galleryVariant:preset.gallery,proofVariant:preset.proof,sections};\n}`
+);
+
+patch(
+  'app/studio-v4.tsx',
+  "next.status==='ready'?'delivery':'builder'",
+  "function edit(item:Project){setProject(upgradeProject(item));setStep(0);setView('builder');window.scrollTo(0,0)}",
+  "function edit(item:Project){const next=upgradeProject(item);setProject(next);setStep(0);setView(next.status==='ready'?'delivery':'builder');window.scrollTo(0,0)}"
+);
+
+patch(
+  'app/studio-v4.tsx',
+  'onTheme={(id)=>',
+  "if(view==='delivery')return <Delivery project={project} audit={audit} freeMode={freeMode} onDashboard={()=>setView('dashboard')} onEdit={()=>{setStep(0);setView('builder')}} onPreview={()=>setPreviewOpen(true)}/>;",
+  "if(view==='delivery')return <Delivery project={project} audit={audit} freeMode={freeMode} onDashboard={()=>setView('dashboard')} onEdit={()=>{setStep(0);setView('builder')}} onPreview={()=>setPreviewOpen(true)} onTheme={(id)=>{const next=applyTemplate(project,id);setProject(next);save(next,'Tema atualizado sem alterar seu conteúdo.')}}/>;"
+);
+
+patch(
+  'app/studio-v4.tsx',
+  'vxThemeLab',
+  "function Delivery({project,audit,freeMode,onDashboard,onEdit,onPreview}:{project:Project;audit:ReturnType<typeof auditProject>;freeMode:boolean;onDashboard:()=>void;onEdit:()=>void;onPreview:()=>void}){return <main className=\"vxDelivery\"><header><button onClick={onDashboard}><Icon name=\"home\" size={15}/> Menu</button><span>VITRA / ENTREGA</span></header><section><div className=\"vxDeliveryCopy\"><span>{freeMode?'ESTILO LIVRE':nicheNames[project.niche]} • PROJETO PRONTO</span><h1>{project.name||'Projeto sem nome'}</h1><p>Direção concluída com Quality Score <b>{audit.score}/100</b>.</p><div className=\"vxDeliveryActions\"><button className=\"vxPrimary\" onClick={onPreview}><Icon name=\"eye\" size={15}/> Visualizar site</button><button className=\"vxGhost\" onClick={onEdit}>Continuar editando</button></div></div><div className=\"vxDeliveryDevice\"><SitePreview project={project} freeMode={freeMode}/></div></section></main>}",
+  "function Delivery({project,audit,freeMode,onDashboard,onEdit,onPreview,onTheme}:{project:Project;audit:ReturnType<typeof auditProject>;freeMode:boolean;onDashboard:()=>void;onEdit:()=>void;onPreview:()=>void;onTheme:(id:TemplateId)=>void}){const themeOptions=freeMode?[]:templates.filter(t=>t.niche===project.niche);return <main className=\"vxDelivery\"><header><button onClick={onDashboard}><Icon name=\"home\" size={15}/> Menu</button><span>VITRA / ENTREGA</span></header><section><div className=\"vxDeliveryCopy\"><span>{freeMode?'ESTILO LIVRE':nicheNames[project.niche]} • PROJETO PRONTO</span><h1>{project.name||'Projeto sem nome'}</h1><p>Direção concluída com Quality Score <b>{audit.score}/100</b>.</p><div className=\"vxDeliveryActions\"><button className=\"vxPrimary\" onClick={onPreview}><Icon name=\"eye\" size={15}/> Visualizar site</button><button className=\"vxGhost\" onClick={onEdit}>Continuar editando</button></div>{themeOptions.length>0&&<div className=\"vxThemeLab\"><header><div><span>TEMA DO SITE</span><h3>Troque o visual sem perder nada.</h3></div><small>Fotos, vídeos, textos, serviços e contatos permanecem. Só a direção visual e a composição mudam.</small></header><div className=\"vxThemeLabGrid\">{themeOptions.map(t=><button key={t.id} className={project.templateId===t.id?'active':''} onClick={()=>onTheme(t.id)}><span>{t.label}</span><b>{t.name}</b><small>{t.mood}</small>{project.templateId===t.id&&<i><Icon name=\"check\" size={11}/></i>}</button>)}</div></div>}</div><div className=\"vxDeliveryDevice\"><SitePreview project={project} freeMode={freeMode}/></div></section></main>}"
+);
+
 console.log('VITRA preparation complete.');
