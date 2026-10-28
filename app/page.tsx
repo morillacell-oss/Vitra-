@@ -1,5 +1,5 @@
-import StudioV2 from './studio-v2';
+import StudioShell from './studio-shell';
 
 export default function Home(){
-  return <StudioV2/>;
+  return <StudioShell/>;
 }
