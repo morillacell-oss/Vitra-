@@ -1,0 +1,26 @@
+/* VITRA FINAL QA V5 — interaction, accessibility and edge-case hardening. */
+.clientSite a,.clientSite button,.clientSite summary{touch-action:manipulation}.clientSite a:focus-visible,.clientSite button:focus-visible,.clientSite summary:focus-visible,.clientSite input:focus-visible{outline:2px solid var(--cs-accent);outline-offset:3px}
+.clientSite img{display:block}.clientSite .csHeroMedia,.clientSite .csAboutImage,.clientSite .csGalleryGrid figure{overflow:hidden}.clientSite .csHeroMedia img,.clientSite .csAboutImage img,.clientSite .csGalleryGrid img{width:100%;height:100%;object-fit:cover}
+.clientSite .csHeader{min-width:0}.clientSite .csBrand{min-width:0}.clientSite .csBrand b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:26ch}.clientSite .csHeaderCta{white-space:nowrap}
+.clientSite .csService footer,.clientSite .csPackageGrid article{min-width:0}.clientSite .csService h3,.clientSite .csPackageGrid h3{overflow-wrap:anywhere}.clientSite .csFacts{flex-wrap:wrap}.clientSite .csTrust{scrollbar-width:none}.clientSite .csTrust::-webkit-scrollbar{display:none}
+.clientSite .csClosing h2{font-size:clamp(42px,6vw,92px);line-height:.94;letter-spacing:-.05em;max-width:13ch}.clientSite .csClosing>p{max-width:52ch;line-height:1.65}.clientSite .csClosing .csCta{width:max-content;max-width:100%}
+.clientSite .csFooter{display:flex;align-items:center;justify-content:space-between;gap:24px}.clientSite .csFooter>div{display:flex;flex-direction:column;gap:5px}.clientSite .csFooter small{opacity:.72}
+.clientSite details summary{cursor:pointer}.clientSite details summary::-webkit-details-marker{display:none}.clientSite details[open]{background:color-mix(in srgb,var(--cs-text) 2%,transparent)}
+
+/* Compact cards must look like faithful miniatures, not broken desktop pages. */
+.clientSite.compact{container-type:inline-size}.clientSite.compact .csHeader{min-height:48px}.clientSite.compact .csHeader nav{display:none}.clientSite.compact .csHero{min-height:360px!important}.clientSite.compact .csHeroCopy h1{font-size:clamp(28px,7cqw,54px)!important}.clientSite.compact .csHeroCopy>p{font-size:10px}.clientSite.compact .csHeroActions small{display:none}.clientSite.compact .csTrust{min-height:42px}.clientSite.compact>section:not(.csHero):not(.csVideo):not(.csClosing):not(.csAbout){padding-top:42px!important;padding-bottom:42px!important}.clientSite.compact .csSectionHead h2,.clientSite.compact .csAboutCopy h2,.clientSite.compact .csProofIntro h2,.clientSite.compact .csFaqIntro h2,.clientSite.compact .csLocation h2{font-size:clamp(24px,5cqw,38px)!important}.clientSite.compact .csService{min-height:150px!important}.clientSite.compact .csFooter{min-height:72px}
+
+@media(max-width:760px){
+ .clientSite .csHeader{min-height:66px}.clientSite .csBrand b{max-width:15ch}.clientSite .csHeaderCta{min-height:38px;padding-inline:12px;font-size:8px}
+ .clientSite .csHeroCopy{max-width:100%}.clientSite .csHeroActions{gap:12px}.clientSite .csCta{min-height:50px;padding-inline:18px}
+ .clientSite .csSectionHead{gap:16px}.clientSite .csSectionHead>p{max-width:38ch}
+ .clientSite .csAbout{grid-template-columns:1fr!important}.clientSite .csAboutImage{min-height:58vw}.clientSite .csAboutCopy{padding:54px 18px!important}
+ .clientSite .csBeforeGrid{grid-template-columns:1fr!important}.clientSite .csBeforeGrid figure{min-height:280px}
+ .clientSite .csFooter{align-items:flex-start;flex-direction:column;padding-top:28px;padding-bottom:28px}
+}
+@media(max-width:420px){
+ .clientSite .csBrand b{max-width:11ch}.clientSite .csHeaderCta{font-size:7px;padding-inline:9px}.clientSite .csCta{width:100%;justify-content:space-between}
+ .clientSite .csClosing{padding-left:16px!important;padding-right:16px!important}.clientSite .csClosing h2{font-size:clamp(40px,13vw,58px)}
+ .clientSite .csFacts{display:grid!important;grid-template-columns:1fr}.clientSite .csFacts span{width:100%}
+}
+@media(hover:none){.clientSite .csService:hover,.clientSite .csPackageGrid article:hover,.clientSite .csProofGrid blockquote:hover,.clientSite .csGalleryGrid figure:hover img{transform:none}}
