@@ -14,7 +14,6 @@ import './free-style.css';
 import './auth.css';
 import './integrations-motion.css';
 import './mobile-dashboard-polish.css';
-import './fixed-navigation.css';
 import './theme-dna.css';
 
 export const metadata: Metadata = {
