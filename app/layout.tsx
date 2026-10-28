@@ -5,6 +5,7 @@ import './refinement.css';
 import './runtime.css';
 import './cinema.css';
 import './experience.css';
+import './cinematic-polish.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Cinematic Site Studio',
