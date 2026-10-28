@@ -1,0 +1,109 @@
+/* VITRA AGENCY GRADE V2 — hard quality rails derived from the master audit.
+   Loaded last on purpose. This file fixes geometry, rhythm and responsive failure modes
+   without forcing one art direction onto all 70 directions. */
+
+/* ---------- GENERATED SITE: NON-NEGOTIABLE GEOMETRY ---------- */
+.clientSite{--site-gutter:clamp(20px,5.2vw,88px);--site-section:clamp(72px,8.5vw,138px);--site-section-tight:clamp(52px,6.2vw,96px);--site-max:1560px;min-width:0;overflow:clip}
+.clientSite *{box-sizing:border-box;min-width:0}
+.clientSite img,.clientSite video{max-width:100%}
+.clientSite>section:not(.csHero):not(.csVideo):not(.csClosing):not(.csAbout),.clientSite>.csProof,.clientSite>.csFaq,.clientSite>.csLocation{padding-left:max(var(--site-gutter),calc((100% - var(--site-max))/2));padding-right:max(var(--site-gutter),calc((100% - var(--site-max))/2))}
+.clientSite .csSectionHead,.clientSite .csProofIntro,.clientSite .csFaqIntro{max-width:var(--site-max);margin-left:auto;margin-right:auto}
+.clientSite h1,.clientSite h2,.clientSite h3,.clientSite p{overflow-wrap:normal;word-break:normal;hyphens:none}
+.clientSite .csHero h1{font-size:clamp(42px,6.4vw,108px);line-height:.91;max-width:12ch}
+.clientSite .csSectionHead h2,.clientSite .csAboutCopy h2,.clientSite .csProofIntro h2,.clientSite .csFaqIntro h2,.clientSite .csLocation h2{font-size:clamp(34px,4.6vw,72px);line-height:.98}
+.clientSite .csHeader{isolation:isolate}.clientSite .csHeader nav a{opacity:.92;text-shadow:0 1px 16px rgba(0,0,0,.35)}
+
+/* Sections never keep accidental empty height. */
+.clientSite .csServices,.clientSite .csGallery,.clientSite .csPackages,.clientSite .csProof,.clientSite .csLocation,.clientSite .csFaq,.clientSite .csBeforeAfter{min-height:0!important;padding-top:var(--site-section);padding-bottom:var(--site-section)}
+.clientSite .csSectionHead{margin-bottom:clamp(30px,4vw,62px)}
+.clientSite .csSectionHead>p{max-width:46ch}
+
+/* Location is one composition, not two islands at opposite edges. */
+.clientSite .csLocation{display:grid;grid-template-columns:minmax(0,.88fr) minmax(420px,1.12fr);gap:clamp(46px,7vw,120px);align-items:center;max-width:none}
+.clientSite .csLocation>div:first-child{max-width:620px}
+.clientSite .csHours{width:100%;max-width:760px;justify-self:end}
+.clientSite .csHours>div{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.clientSite .csHours>div span,.clientSite .csHours>div b{white-space:normal}
+
+/* FAQ has a deliberate editorial grid. */
+.clientSite .csFaq{display:grid;grid-template-columns:minmax(280px,.78fr) minmax(480px,1.22fr);gap:clamp(48px,8vw,140px);align-items:start}
+.clientSite .csFaqIntro{margin:0;position:sticky;top:110px}
+.clientSite .csFaq>div:last-child{width:100%}
+.clientSite .csFaq details,.clientSite .csFaq summary,.clientSite .csFaq details p{width:100%;max-width:none}
+
+/* Automotive closing: three intentional zones on wide screens; never a collapsing strip. */
+.niche-automotive .csAutoClosing{min-height:clamp(680px,78vh,900px);display:grid!important;grid-template-columns:minmax(420px,1.15fr) minmax(250px,.48fr) minmax(430px,.92fr)!important;align-items:stretch;padding:0!important}
+.niche-automotive .csAutoClosingMedia{grid-column:1/3!important;grid-row:1!important;min-height:clamp(680px,78vh,900px)!important}
+.niche-automotive .csAutoClosingCopy{position:relative!important;grid-column:1!important;grid-row:1!important;align-self:center!important;left:auto!important;bottom:auto!important;padding:var(--site-gutter)!important;max-width:680px!important;z-index:3}
+.niche-automotive .csAutoClosingCopy h2{font-size:clamp(48px,5.2vw,86px)!important;max-width:8ch!important}
+.niche-automotive .csAutoClosingCopy p{max-width:36ch!important}
+.niche-automotive .csAutoAssessment{grid-column:3!important;grid-row:1!important;align-self:center!important;width:min(560px,calc(100% - 48px))!important;margin:48px auto!important;padding:clamp(28px,3vw,48px)!important}
+.niche-automotive .csAutoAssessment h3{font-size:clamp(30px,2.8vw,46px)!important;max-width:12ch}
+.niche-automotive .csAutoAssessment fieldset>div{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+/* Automotive portfolio gets editorial rhythm instead of mechanical repetition. */
+.niche-automotive .csAutoProjectList{grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.niche-automotive .csAutoProject{grid-column:span 6;min-height:420px;grid-template-columns:minmax(0,1.18fr) minmax(220px,.82fr)}
+.niche-automotive .csAutoProject:nth-child(4n+1){grid-column:span 7}.niche-automotive .csAutoProject:nth-child(4n+2){grid-column:span 5;grid-template-columns:1fr;grid-template-rows:minmax(280px,1fr) auto}.niche-automotive .csAutoProject:nth-child(4n+3){grid-column:span 5;grid-template-columns:1fr;grid-template-rows:minmax(280px,1fr) auto}.niche-automotive .csAutoProject:nth-child(4n){grid-column:span 7}
+.niche-automotive .csAutoProjectMedia{min-height:320px}.niche-automotive .csAutoProjectCopy{padding:clamp(22px,2.4vw,38px)}
+
+/* ---------- BUILDER: WORKSPACE QUALITY ---------- */
+@media(min-width:1180px){
+ .vxBuilderGrid{grid-template-columns:86px minmax(480px,40%) minmax(0,60%)!important}
+ .vxStage{min-width:0!important}
+ .vxLive{min-width:0!important;overflow:hidden!important}
+ .vxStageInner{max-width:760px!important;margin-inline:auto!important}
+}
+.vxSteps button{transition:background .18s ease,color .18s ease,opacity .18s ease,border-color .18s ease}
+.vxSteps button.active{opacity:1!important}.vxSteps button.done:not(.active){opacity:.72}.vxSteps button:not(.done):not(.active){opacity:.5}
+.vxSteps button.active small{font-weight:760}
+
+/* Animation choices read like product controls, not compressed cards. */
+.vxMotionGrid,.vxAnimationGrid{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))!important;gap:12px!important}
+.vxMotionGrid>button,.vxAnimationGrid>button{min-height:154px!important;padding:18px!important;align-content:start!important}
+
+/* Quality check: normalize any legacy table-like cards into a dashboard grid. */
+.vxQualityGrid,.vxAuditGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;border:0!important}
+.vxQualityGrid>*,.vxAuditGrid>*{min-width:0!important;border:1px solid rgba(24,65,55,.12)!important;border-radius:16px!important;padding:16px!important;background:rgba(255,255,255,.72)!important;box-shadow:0 10px 30px rgba(31,67,58,.045)!important}
+.theme-dark .vxQualityGrid>*,.theme-dark .vxAuditGrid>*{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.09)!important}
+
+/* Image controls behave as one toolbar. */
+.vxUploadWrap .vxRemove{min-height:38px!important;border-radius:10px!important}
+.vxFocusControls,.vxImageToolbar{display:flex!important;align-items:center!important;gap:4px!important;padding:4px!important;width:max-content;max-width:100%;border:1px solid rgba(25,67,57,.12);border-radius:13px;background:rgba(255,255,255,.72)}
+.vxFocusControls button,.vxImageToolbar button{min-height:34px!important;border-radius:9px!important}
+
+/* ---------- RESPONSIVE: COMPOSITION, NOT SQUEEZING ---------- */
+@media(max-width:1180px){
+ .clientSite{--site-gutter:clamp(20px,4.5vw,54px);--site-section:clamp(64px,8vw,104px)}
+ .niche-automotive .csAutoClosing{grid-template-columns:minmax(0,1.1fr) minmax(390px,.9fr)!important}
+ .niche-automotive .csAutoClosingMedia{grid-column:1!important}.niche-automotive .csAutoClosingCopy{grid-column:1!important}.niche-automotive .csAutoAssessment{grid-column:2!important}
+ .niche-automotive .csAutoProject,.niche-automotive .csAutoProject:nth-child(n){grid-column:span 6;grid-template-columns:1fr;grid-template-rows:minmax(300px,1fr) auto}
+ .clientSite .csFaq{grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr);gap:50px}.clientSite .csFaqIntro{position:static}
+}
+@media(max-width:820px){
+ .clientSite{--site-gutter:18px;--site-section:64px;--site-section-tight:48px}
+ .clientSite>section:not(.csHero):not(.csVideo):not(.csClosing):not(.csAbout),.clientSite>.csProof,.clientSite>.csFaq,.clientSite>.csLocation{padding-left:var(--site-gutter)!important;padding-right:var(--site-gutter)!important}
+ .clientSite .csHero h1{font-size:clamp(42px,13.5vw,72px)!important;line-height:.91!important;max-width:10ch!important}
+ .clientSite .csSectionHead h2,.clientSite .csAboutCopy h2,.clientSite .csProofIntro h2,.clientSite .csFaqIntro h2,.clientSite .csLocation h2{font-size:clamp(34px,10.5vw,50px)!important}
+ .clientSite .csLocation,.clientSite .csFaq{grid-template-columns:1fr!important;gap:36px!important}
+ .clientSite .csHours{justify-self:stretch;max-width:none}
+ .clientSite .csFaqIntro{position:static!important}
+ .niche-automotive .csAutoClosing{display:grid!important;grid-template-columns:1fr!important;min-height:0!important}
+ .niche-automotive .csAutoClosingMedia{grid-column:1!important;grid-row:1!important;min-height:600px!important}
+ .niche-automotive .csAutoClosingCopy{grid-column:1!important;grid-row:1!important;align-self:end!important;padding:56px 18px!important}
+ .niche-automotive .csAutoClosingCopy h2{font-size:clamp(46px,14vw,68px)!important;max-width:8ch!important}
+ .niche-automotive .csAutoAssessment{grid-column:1!important;grid-row:2!important;width:calc(100% - 36px)!important;margin:28px 18px 54px!important;padding:24px!important}
+ .niche-automotive .csAutoProjectList{display:grid!important;grid-template-columns:1fr!important}.niche-automotive .csAutoProject,.niche-automotive .csAutoProject:nth-child(n){grid-column:auto!important;min-height:0!important;grid-template-columns:1fr!important;grid-template-rows:minmax(260px,58vw) auto!important}
+ .niche-automotive .csAutoProjectMedia{min-height:0!important}
+ .vxQualityGrid,.vxAuditGrid{grid-template-columns:1fr!important}
+}
+@media(max-width:479px){
+ .clientSite{--site-gutter:16px;--site-section:56px}
+ .clientSite .csHeader{padding-inline:14px!important}
+ .clientSite .csHero h1{font-size:clamp(40px,14vw,60px)!important}
+ .clientSite .csHours>div{gap:14px}.clientSite .csHours>div b{text-align:right}
+ .niche-automotive .csAutoAssessment fieldset>div{grid-template-columns:1fr!important}
+ .niche-automotive .csAutoClosingMedia{min-height:560px!important}
+}
+
+@media(prefers-reduced-motion:reduce){.clientSite *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
