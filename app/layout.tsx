@@ -3,19 +3,17 @@ import './globals.css';
 import './premium.css';
 import './refinement.css';
 import './runtime.css';
+import './cinema.css';
 
 export const metadata: Metadata = {
-  title: 'VITRA — Site Studio',
-  description: 'Crie sites premium para negócios locais em minutos.'
+  title: 'VITRA — Cinematic Site Studio',
+  description: 'Crie sites cinematográficos e premium para negócios locais em etapas simples.'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
-      <body>
-        {children}
-        <script src="/vitra-runtime.js" defer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
