@@ -1,4 +1,160 @@
 @keyframes vitraOverlayIn{from{opacity:0}to{opacity:1}}
-@keyframes vitraCardIn{from{opacity:.35;transform:translateY(16px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
-.vitraCompleteOverlay{animation:vitraOverlayIn .24s ease both}
-.vitraCompleteCard{animation:vitraCardIn .34s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vitraCardIn{from{opacity:.35;transform:translateY(18px) scale(.982)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes vitraSoftPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,104,68,0)}50%{box-shadow:0 0 0 7px rgba(255,104,68,.08)}}
+
+/* Completion experience */
+.vitraCompleteOverlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:22px;background:rgba(4,5,7,.78);backdrop-filter:blur(18px) saturate(.8);-webkit-backdrop-filter:blur(18px) saturate(.8);animation:vitraOverlayIn .24s ease both}
+.vitraCompleteCard{width:min(560px,100%);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:34px;background:linear-gradient(145deg,#181a20 0%,#0e1014 100%);color:#f5f1ea;box-shadow:0 36px 100px rgba(0,0,0,.58),inset 0 1px rgba(255,255,255,.035);animation:vitraCardIn .34s cubic-bezier(.2,.8,.2,1) both}
+.vitraCompleteMark{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;background:#f2eee6;color:#111318;margin-bottom:24px;box-shadow:0 16px 35px rgba(0,0,0,.22)}
+.vitraCompleteMark svg{width:29px;height:29px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.vitraCompleteEyebrow{display:block;color:#8d929c;font-size:9px;font-weight:850;letter-spacing:.19em;margin-bottom:12px}
+.vitraCompleteCard h2{font-family:Georgia,serif;font-size:clamp(38px,6vw,58px);line-height:.95;letter-spacing:-.045em;font-weight:400;margin:0 0 17px}
+.vitraCompleteCard p{margin:0;color:#969ba5;font-size:14px;line-height:1.68;max-width:470px}
+.vitraCompleteMeta{display:flex;flex-wrap:wrap;gap:8px;margin:25px 0 29px}
+.vitraCompleteMeta span{padding:8px 10px;border:1px solid #30343d;border-radius:999px;background:#ffffff05;color:#868c97;font-size:7px;font-weight:800;letter-spacing:.12em}
+.vitraCompleteActions{display:grid;grid-template-columns:1fr 1.25fr;gap:10px}
+.vitraCompleteActions button{min-height:50px;border-radius:12px;font-size:9px;letter-spacing:.12em;font-weight:850}
+.vitraCompleteSecondary{border:1px solid #353a44;background:#15171c;color:#aeb3bc}
+.vitraCompletePrimary{border:0;background:#dff2e4;color:#101713;box-shadow:0 12px 28px rgba(68,132,84,.14)}
+
+/* Universal builder field system */
+.stageControl,.controlStack,.repeater,.hoursEditor,.sectionManager,.reviewCard{min-width:0;width:100%;max-width:100%}
+.stageControl input:not([type="file"]):not([type="checkbox"]),.stageControl textarea,.stageControl select{box-sizing:border-box;width:100%;max-width:100%;min-width:0;appearance:none;-webkit-appearance:none;border:1px solid #303540!important;border-radius:13px!important;background:#17191f!important;color:#f3f0e9!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-size:15px!important;font-weight:480!important;line-height:1.4!important;padding:13px 14px!important;outline:0!important;box-shadow:inset 0 1px rgba(255,255,255,.025)!important;transition:border-color .18s ease,background .18s ease,box-shadow .18s ease!important}
+.stageControl textarea{resize:vertical;min-height:92px}
+.stageControl input::placeholder,.stageControl textarea::placeholder{color:#676d77!important;opacity:1}
+.stageControl input:focus,.stageControl textarea:focus,.stageControl select:focus{border-color:#5c626e!important;background:#1a1d23!important;box-shadow:0 0 0 3px rgba(255,255,255,.035),inset 0 1px rgba(255,255,255,.03)!important}
+.stageControl select{padding-right:40px!important;background-image:linear-gradient(45deg,transparent 50%,#8f949d 50%),linear-gradient(135deg,#8f949d 50%,transparent 50%)!important;background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%!important;background-size:5px 5px,5px 5px!important;background-repeat:no-repeat!important}
+
+.bigInput,.bigTextarea{display:grid;gap:9px;min-width:0;width:100%}
+.bigInput>span,.bigTextarea>span,.controlLabel{color:#858b96!important;font-size:8px!important;font-weight:850!important;letter-spacing:.17em!important;text-transform:uppercase}
+.bigInput input,.bigTextarea textarea{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-size:16px!important;letter-spacing:-.01em!important}
+.bigTextarea{position:relative}
+.bigTextarea>small{justify-self:end;margin-top:-4px;color:#656b75;font-size:8px;letter-spacing:.08em}
+
+/* Repeaters: services, packages, FAQ, testimonials */
+.repeater{display:grid;gap:13px}
+.repeaterCard{display:grid;gap:10px;min-width:0;padding:15px;border:1px solid #2d323c!important;border-radius:17px!important;background:linear-gradient(145deg,#17191f,#13151a)!important;box-shadow:inset 0 1px rgba(255,255,255,.025);transition:border-color .2s ease,transform .2s ease,background .2s ease}
+.repeaterCard:focus-within{border-color:#454c58!important;background:linear-gradient(145deg,#1a1d23,#15171c)!important}
+.repeaterCard.selectedCard{border-color:#655a47!important;background:linear-gradient(145deg,#1d1b18,#151515)!important;box-shadow:inset 0 0 0 1px rgba(200,155,91,.08)}
+.repeaterTop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:1px}
+.repeaterTop>span{color:#858b95;font-size:8px;font-weight:850;letter-spacing:.14em}
+.repeaterTop>button{width:34px;height:34px;border:1px solid #30353e;border-radius:10px;background:#111318;color:#838995;display:grid;place-items:center;transition:.18s}
+.repeaterTop>button:hover{color:#f0b7ac;border-color:#5a3935;background:#211513}
+.addRowBtn{min-height:48px;width:100%;border:1px dashed #3b414c!important;border-radius:13px!important;background:#121419!important;color:#9ca2ad!important;display:flex;align-items:center;justify-content:center;gap:9px;font-size:9px!important;font-weight:850!important;letter-spacing:.11em!important;text-transform:uppercase;transition:.18s!important}
+.addRowBtn:hover{background:#181a20!important;border-color:#59606c!important;color:#e7e3dc!important}
+
+.featureToggle{position:relative;display:flex;align-items:center;gap:8px;color:#aeb3bc;font-size:9px;font-weight:750;cursor:pointer}
+.featureToggle input{position:absolute!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important}
+.featureToggle i{width:30px;height:18px;border-radius:99px;background:#292d35;border:1px solid #3c424d;position:relative;transition:.2s}
+.featureToggle i:after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;top:2px;left:2px;background:#787e88;transition:.2s}
+.featureToggle input:checked+i{background:#ceb17e;border-color:#ceb17e}
+.featureToggle input:checked+i:after{left:14px;background:#18130c}
+.featureToggle b{font-size:9px;font-weight:750}
+
+.ratingRow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ratingRow .stars{display:flex;gap:4px;color:#d5a65d}
+.ratingRow .stars svg{fill:rgba(213,166,93,.22)}
+.ratingRow select{width:auto!important;min-width:120px!important;padding:10px 36px 10px 12px!important;font-size:12px!important}
+
+/* Location / hours */
+.hoursEditor{display:grid;gap:9px}
+.hoursEditor>div{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:9px;min-width:0}
+.hoursEditor input{min-width:0!important}
+
+/* Review */
+.reviewCard{padding:26px!important;border:1px solid #343944!important;border-radius:22px!important;background:radial-gradient(circle at 95% 5%,rgba(255,104,68,.055),transparent 32%),linear-gradient(150deg,#17191f,#111318)!important;box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.reviewSeal{width:58px!important;height:58px!important;border-radius:16px!important}
+.reviewCard>span{display:block;margin-top:24px;color:#858b96;font-size:9px;letter-spacing:.14em;font-weight:850}
+.reviewCard h3{font-size:25px!important;margin:9px 0 0!important}
+.reviewCard>p{font-size:16px!important;line-height:1.45!important;color:#d6d2ca!important}
+.reviewStats{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin:22px 0!important;padding:0!important;border:0!important;background:transparent!important}
+.reviewStats>div{min-width:0;display:grid!important;gap:6px!important;padding:13px 12px!important;border:1px solid #30353e!important;border-radius:13px!important;background:#121419!important}
+.reviewStats small{color:#747a85!important;font-size:7px!important;letter-spacing:.13em!important}
+.reviewStats b{font-family:Georgia,serif!important;color:#f2eee7!important;font-size:27px!important;font-weight:400!important;line-height:1!important}
+.reviewCard ul{display:grid;gap:12px!important;margin:0!important;padding:0!important;list-style:none}
+.reviewCard li{display:flex!important;align-items:center!important;gap:10px!important;color:#979da7!important;font-size:12px!important}
+.reviewCard li svg{color:#86b69a;flex:none}
+
+/* Buttons and mobile touch polish */
+.nextStep,.saveBtn,.ghostBtn,.backStep,.skipStep{touch-action:manipulation}
+.nextStep.finish{background:linear-gradient(135deg,#dff2e4,#cae9d2)!important;color:#101713!important;box-shadow:0 14px 34px rgba(87,145,102,.16)!important}
+.nextStep.finish:active{transform:translateY(1px) scale(.99)}
+
+@media (max-width:900px){
+  .wizardTopbar{height:82px!important;padding:0 20px!important;grid-template-columns:auto 1fr auto!important;gap:12px!important}
+  .wizardBrand b,.wizardProjectName small,.wizardTopActions .saveNotice{display:none!important}
+  .wizardBrand span{width:70px!important;height:70px!important;border-radius:14px!important;font-size:34px!important}
+  .wizardProjectName{min-width:0!important}
+  .wizardProjectName strong{font-size:13px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wizardTopActions{gap:8px!important}
+  .ghostBtn{width:76px!important;height:64px!important;padding:0!important;justify-content:center!important}
+  .ghostBtn span{display:none!important}
+  .saveBtn{height:56px!important;padding:0 20px!important;white-space:nowrap!important}
+  .saveBtn svg{display:none!important}
+  .wizardProgress{top:82px!important}
+  .wizardLayout{display:block!important;min-height:auto!important}
+  .stepRail{position:sticky!important;top:85px!important;z-index:70!important;width:100%!important;height:104px!important;padding:18px 30px 14px!important;overflow-x:auto!important;overflow-y:hidden!important;display:block!important;border-right:0!important;border-bottom:1px solid #2a2e36!important;background:rgba(10,11,14,.96)!important;backdrop-filter:blur(18px)!important}
+  .stepRailLabel{display:none!important}
+  .stepDots{display:flex!important;gap:18px!important;width:max-content!important}
+  .stepDots button{width:66px!important;min-width:66px!important;height:64px!important;min-height:64px!important;padding:0!important;display:grid!important;place-items:center!important;border-radius:14px!important}
+  .stepDots button span{width:46px!important;height:46px!important}
+  .stepDots button small{display:none!important}
+  .wizardStage{min-height:calc(100vh - 189px)!important}
+  .stageContent{min-height:calc(100vh - 189px)!important;padding:46px 30px 28px!important}
+  .stageHeading{max-width:100%!important;min-width:0!important}
+  .stageHeading h1{font-size:clamp(42px,11vw,61px)!important;line-height:.94!important;overflow-wrap:anywhere!important}
+  .stageHeading p{font-size:14px!important;line-height:1.7!important}
+  .stageControl{margin-top:32px!important}
+  .livePreviewPanel{display:none!important}
+  .stageFooter{padding-top:54px!important;gap:16px!important}
+  .stageFooter>div{margin-left:auto!important}
+  .stageFooter>div>span,.skipStep{display:none!important}
+  .nextStep{min-width:260px!important;min-height:62px!important;border-radius:14px!important;padding:0 26px!important}
+  .backStep{display:grid!important;justify-items:start!important;gap:4px!important;min-width:76px!important}
+  .controlStack{gap:17px!important}
+  .repeaterCard{padding:15px!important;border-radius:16px!important}
+  .repeaterCard input,.repeaterCard textarea{font-size:16px!important}
+  .beforeEditor{grid-template-columns:1fr!important}
+  .reviewCard{padding:24px!important}
+  .sectionManager>div{grid-template-columns:44px minmax(0,1fr) auto!important}
+  .orderActions,.gripIcon{display:none!important}
+}
+
+@media (max-width:560px){
+  .wizardTopbar{height:82px!important;padding:0 20px!important}
+  .wizardBrand span{width:70px!important;height:70px!important}
+  .wizardProjectName{display:block!important}
+  .wizardProjectName strong{font-size:13px!important}
+  .ghostBtn{width:76px!important;height:64px!important}
+  .saveBtn{height:56px!important;padding:0 20px!important;font-size:9px!important}
+  .stepRail{height:104px!important;padding-left:30px!important;padding-right:30px!important}
+  .stageContent{padding:42px 30px 28px!important}
+  .stageHeading h1{font-size:clamp(40px,10.7vw,56px)!important}
+  .stageControl input:not([type="file"]):not([type="checkbox"]),.stageControl textarea,.stageControl select{font-size:16px!important;padding:13px 14px!important}
+  .hoursEditor>div{grid-template-columns:minmax(0,1fr)!important;gap:7px!important;padding:10px;border:1px solid #2d323c;border-radius:15px;background:#14161b}
+  .ratingRow{align-items:flex-start!important;flex-direction:column!important}
+  .ratingRow select{width:100%!important}
+  .reviewStats{grid-template-columns:1fr 1fr 1fr!important}
+  .reviewStats>div{padding:12px 10px!important}
+  .reviewStats b{font-size:24px!important}
+  .stageFooter{align-items:flex-end!important}
+  .nextStep{min-width:260px!important}
+  .vitraCompleteOverlay{padding:15px!important}
+  .vitraCompleteCard{padding:27px 22px!important;border-radius:21px!important}
+  .vitraCompleteActions{grid-template-columns:1fr!important}
+  .vitraCompletePrimary{order:-1}
+}
+
+@media (max-width:390px){
+  .wizardTopbar{padding:0 14px!important}
+  .wizardBrand span{width:60px!important;height:60px!important;font-size:29px!important}
+  .ghostBtn{width:60px!important;height:56px!important}
+  .saveBtn{height:52px!important;padding:0 14px!important}
+  .stepRail{padding-left:20px!important;padding-right:20px!important}
+  .stageContent{padding-left:22px!important;padding-right:22px!important}
+  .nextStep{min-width:220px!important;padding:0 20px!important}
+  .reviewStats{gap:6px!important}
+  .reviewStats small{font-size:6px!important}
+}
+
+@media (prefers-reduced-motion:reduce){.vitraCompleteOverlay,.vitraCompleteCard{animation:none!important}}
