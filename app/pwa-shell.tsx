@@ -60,7 +60,7 @@ export default function PwaShell(){
   return <div className={`vitraAppShell ${standalone?'isStandalone':''} ${builder?'isBuilder':''}`}>
     <StudioV3/>
     {!standalone&&!builder&&<button className="vxInstallFab" onClick={install} aria-label="Instalar VITRA como aplicativo">
-      <span><Icon name="download" size={17}/></span>
+      <span><Icon name="globe" size={17}/></span>
       <div><small>WEB APP</small><b>Instalar VITRA</b></div>
       <Icon name="chevronDown" size={14}/>
     </button>}
