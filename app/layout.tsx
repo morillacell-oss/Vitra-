@@ -9,6 +9,7 @@ import './cinematic-polish.css';
 import './automotive-cinema.css';
 import './verticals.css';
 import './app-shell.css';
+import './light-shell.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Cinematic Site Studio',
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   applicationName:'VITRA',
   manifest:'/manifest.webmanifest',
   icons:{icon:'/vitra-mark.svg',apple:'/vitra-mark.svg'},
-  appleWebApp:{capable:true,statusBarStyle:'black-translucent',title:'VITRA'},
+  appleWebApp:{capable:true,statusBarStyle:'default',title:'VITRA'},
   formatDetection:{telephone:false}
 };
 
@@ -24,8 +25,8 @@ export const viewport: Viewport = {
   width:'device-width',
   initialScale:1,
   viewportFit:'cover',
-  themeColor:'#090A0D',
-  colorScheme:'dark'
+  themeColor:'#F5F8F7',
+  colorScheme:'light dark'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
