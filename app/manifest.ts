@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description:'Crie sites cinematográficos para negócios locais em um fluxo simples e guiado.',
     start_url:'/',
     display:'standalone',
-    background_color:'#090A0D',
-    theme_color:'#090A0D',
+    background_color:'#F5F8F7',
+    theme_color:'#F5F8F7',
     orientation:'portrait-primary',
     categories:['business','productivity','design'],
     icons:[
