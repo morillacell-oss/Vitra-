@@ -1,0 +1,109 @@
+/* VITRA Art Direction Curation v7
+   Curated typography + color behavior for the 70 directions.
+   Goal: every preset keeps a professional pairing instead of behaving like a generic font/color picker. */
+
+/* ---------- TYPE SYSTEM: display + body + microcopy ---------- */
+.clientSite{
+  --font-body:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-display:var(--font-body);
+  --type-weight:700;
+  --type-track:-.035em;
+  --type-leading:.98;
+  --micro-track:.14em;
+  font-family:var(--font-body);
+  font-kerning:normal;
+  text-rendering:optimizeLegibility;
+}
+.clientSite h1,.clientSite h2,.clientSite h3{font-family:var(--font-display);font-weight:var(--type-weight);letter-spacing:var(--type-track);text-wrap:balance}
+.clientSite p,.clientSite li,.clientSite summary,.clientSite input,.clientSite button,.clientSite a{font-family:var(--font-body)}
+.clientSite .csEyebrow,.clientSite .csHeroIndex,.clientSite .csSectionHead span,.clientSite .csBrand b,.clientSite .csHeader nav,.clientSite .csFooter span{letter-spacing:var(--micro-track)}
+
+/* Editorial — cultured serif display, neutral body */
+.clientSite.font-editorial{--font-display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;--font-body:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--type-weight:500;--type-track:-.038em;--type-leading:.98;--micro-track:.15em}
+/* Modern — precise grotesk */
+.clientSite.font-modern{--font-display:"Helvetica Neue",Helvetica,Arial,ui-sans-serif,sans-serif;--font-body:Inter,"Helvetica Neue",Arial,ui-sans-serif,sans-serif;--type-weight:650;--type-track:-.048em;--type-leading:.94;--micro-track:.13em}
+/* Minimal — restrained Swiss */
+.clientSite.font-minimal{--font-display:Inter,"Helvetica Neue",Arial,ui-sans-serif,sans-serif;--font-body:Inter,"Helvetica Neue",Arial,ui-sans-serif,sans-serif;--type-weight:500;--type-track:-.04em;--type-leading:1;--micro-track:.16em}
+/* Bold — campaign / performance */
+.clientSite.font-bold{--font-display:Impact,"Arial Narrow Bold","Helvetica Neue",Arial,sans-serif;--font-body:Inter,"Helvetica Neue",Arial,sans-serif;--type-weight:900;--type-track:-.055em;--type-leading:.86;--micro-track:.12em}
+/* Luxury — high contrast serif display without italicizing all headings */
+.clientSite.font-luxury{--font-display:Didot,"Bodoni MT","Times New Roman",Georgia,serif;--font-body:"Helvetica Neue",Inter,Arial,sans-serif;--type-weight:400;--type-track:-.045em;--type-leading:.96;--micro-track:.18em}
+/* Tech — engineered, compact */
+.clientSite.font-tech{--font-display:"Arial Narrow","Roboto Condensed","Helvetica Neue",Arial,sans-serif;--font-body:Inter,"Segoe UI",Arial,sans-serif;--type-weight:750;--type-track:-.035em;--type-leading:.94;--micro-track:.17em}
+
+.clientSite .csHeroCopy h1{line-height:var(--type-leading)}
+.clientSite.font-luxury .csHeroCopy h1,.clientSite.font-luxury .csSectionHead h2{font-style:normal}
+.clientSite.font-bold .csHeroCopy h1,.clientSite.font-bold .csSectionHead h2{text-transform:uppercase}
+.clientSite.font-tech .csEyebrow,.clientSite.font-tech .csSectionHead span{font-variant-numeric:tabular-nums}
+
+/* ---------- CURATED ARCHETYPE PAIRINGS ----------
+   The five art-direction families receive their own typographic discipline.
+   Individual project content remains editable; the design system protects the result. */
+.clientSite.hero-full:not(.niche-free){--type-leading:.9;--type-track:-.052em;--micro-track:.17em}
+.clientSite.hero-split:not(.niche-free){--font-display:Didot,"Bodoni MT","Iowan Old Style",Georgia,serif;--font-body:"Helvetica Neue",Inter,Arial,sans-serif;--type-weight:400;--type-track:-.042em;--type-leading:.96;--micro-track:.2em}
+.clientSite.hero-offset:not(.niche-free){--font-display:Inter,"Helvetica Neue",Arial,sans-serif;--font-body:Inter,"Segoe UI",Arial,sans-serif;--type-weight:560;--type-track:-.045em;--type-leading:.98;--micro-track:.16em}
+.clientSite.hero-poster:not(.niche-free){--font-display:Impact,"Arial Narrow Bold","Helvetica Neue",Arial,sans-serif;--font-body:Inter,"Helvetica Neue",Arial,sans-serif;--type-weight:900;--type-track:-.06em;--type-leading:.82;--micro-track:.13em}
+.clientSite.hero-center:not(.niche-free){--font-display:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--font-body:"Helvetica Neue",Inter,Arial,sans-serif;--type-weight:400;--type-track:-.044em;--type-leading:.96;--micro-track:.19em}
+
+/* ---------- NICHE CURATION ---------- */
+/* Clinical: calm, legible, trustworthy */
+.clientSite.niche-dentist,.clientSite.niche-aesthetics{--font-body:Inter,"Segoe UI",Arial,sans-serif}
+.clientSite.niche-dentist .csHeroCopy p,.clientSite.niche-aesthetics .csHeroCopy p{max-width:58ch;line-height:1.7}
+/* Beauty: elegant but never fragile */
+.clientSite.niche-manicure.hero-split,.clientSite.niche-hair.hero-split{--font-display:Didot,"Bodoni MT",Georgia,serif;--micro-track:.21em}
+/* Hospitality: editorial warmth */
+.clientSite.niche-restaurant:not(.hero-poster){--font-display:"Iowan Old Style",Palatino,Georgia,serif;--font-body:"Helvetica Neue",Inter,Arial,sans-serif}
+/* Professional services: authority without old-fashioned heaviness */
+.clientSite.niche-lawyer{--font-body:"Helvetica Neue",Inter,Arial,sans-serif;--micro-track:.16em}
+.clientSite.niche-lawyer:not(.hero-poster) h1,.clientSite.niche-lawyer:not(.hero-poster) h2{max-width:16ch}
+/* Architecture / property: clean editorial */
+.clientSite.niche-realtor{--font-body:Inter,"Helvetica Neue",Arial,sans-serif}
+/* Performance verticals: tighter rhythm */
+.clientSite.niche-automotive,.clientSite.niche-fitness,.clientSite.niche-mechanic{--micro-track:.15em}
+/* Portfolio verticals: image-first typography */
+.clientSite.niche-photographer:not(.hero-poster),.clientSite.niche-tattoo:not(.hero-poster){--font-display:"Iowan Old Style",Palatino,Georgia,serif}
+
+/* ---------- PALETTE DISCIPLINE ----------
+   Preserve palette identity while guaranteeing readable controls and calm surfaces. */
+.clientSite{--hairline:color-mix(in srgb,var(--cs-text) 14%,transparent);--accent-soft:color-mix(in srgb,var(--cs-accent) 12%,var(--cs-bg));--accent-ink:var(--cs-bg)}
+.clientSite.mode-light{--hairline:color-mix(in srgb,var(--cs-text) 12%,transparent)}
+.clientSite.mode-dark{--hairline:color-mix(in srgb,var(--cs-text) 17%,transparent)}
+.clientSite .csService,.clientSite .csPackageGrid article,.clientSite .csProofGrid blockquote,.clientSite .csFaq details{border-color:var(--hairline)}
+.clientSite .csCta,.clientSite .csHeaderCta{font-weight:750;letter-spacing:.08em}
+.clientSite.mode-light .csCta{box-shadow:0 10px 30px color-mix(in srgb,var(--cs-accent) 13%,transparent)}
+.clientSite.mode-dark .csCta{box-shadow:0 12px 34px color-mix(in srgb,var(--cs-accent) 18%,transparent)}
+
+/* Palette-specific finish: no generic recolor feeling */
+.clientSite[style*="#090B0E"]{--micro-track:.16em}
+.clientSite[style*="#0C0B09"] .csSectionHead span,.clientSite[style*="#0C0B09"] .csEyebrow{color:#D7B47B}
+.clientSite[style*="#F5F2EA"]{--hairline:rgba(21,21,21,.14)}
+.clientSite[style*="#F2EBE1"] .csCta{border-radius:999px}
+.clientSite[style*="#F1F5F9"] .csService{box-shadow:none}
+.clientSite[style*="#FAF3F4"] .csService,.clientSite[style*="#FAF3F4"] .csPackageGrid article{border-radius:18px}
+.clientSite[style*="#F1F6F3"] .csCta{border-radius:10px}
+.clientSite[style*="#11090C"] .csEyebrow,.clientSite[style*="#11090C"] .csSectionHead span{color:#E2A2AC}
+
+/* ---------- STUDIO: make typography selection feel like art direction ---------- */
+.vxFontGrid button{min-height:104px!important;padding:14px!important;align-content:center!important;gap:7px!important;overflow:hidden}
+.vxFontGrid button span{font-size:32px!important;line-height:1!important;letter-spacing:-.05em}
+.vxFontGrid button b{font-size:10px!important;letter-spacing:.1em!important;text-transform:uppercase}
+.vxFontGrid .sample-editorial span{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:500}
+.vxFontGrid .sample-modern span{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:650}
+.vxFontGrid .sample-minimal span{font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-weight:400}
+.vxFontGrid .sample-bold span{font-family:Impact,"Arial Narrow Bold",Arial,sans-serif;font-weight:900}
+.vxFontGrid .sample-luxury span{font-family:Didot,"Bodoni MT",Georgia,serif;font-weight:400}
+.vxFontGrid .sample-tech span{font-family:"Arial Narrow","Roboto Condensed",Arial,sans-serif;font-weight:700;letter-spacing:-.02em}
+.vxPaletteGrid button{transition:transform .18s ease,border-color .18s ease,background .18s ease}
+@media(hover:hover){.vxPaletteGrid button:hover,.vxFontGrid button:hover{transform:translateY(-2px)}}
+
+/* Mobile typography: preserve hierarchy, never simply shrink desktop */
+@media(max-width:767px){
+ .clientSite{--micro-track:.12em}
+ .clientSite .csHeroCopy h1{font-size:clamp(40px,12vw,64px)!important;line-height:max(var(--type-leading),.88)}
+ .clientSite.hero-poster:not(.niche-free) .csHeroCopy h1{font-size:clamp(48px,14vw,74px)!important;line-height:.82}
+ .clientSite.hero-split:not(.niche-free) .csHeroCopy h1,.clientSite.hero-center:not(.niche-free) .csHeroCopy h1{font-size:clamp(42px,12vw,62px)!important;line-height:.94}
+ .clientSite .csSectionHead h2,.clientSite .csAboutCopy h2,.clientSite .csProofIntro h2,.clientSite .csFaqIntro h2,.clientSite .csClosing h2{font-size:clamp(34px,9vw,50px);line-height:.96}
+ .vxFontGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+
+@media(prefers-reduced-motion:reduce){.vxPaletteGrid button,.vxFontGrid button{transition:none!important}}
