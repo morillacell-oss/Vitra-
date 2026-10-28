@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './premium.css';
+import './refinement.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Site Studio',
@@ -10,7 +11,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        {children}
+        <script src="/vitra-runtime.js" defer />
+      </body>
     </html>
   );
 }
