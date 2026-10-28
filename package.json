@@ -3,12 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/prepare-vitra.mjs && node scripts/preview-polish.mjs && node scripts/app-navigation-polish.mjs && node scripts/quality-pass.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/prepare-vitra.mjs && node scripts/preview-polish.mjs && node scripts/app-navigation-polish.mjs && node scripts/quality-pass.mjs",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.118.0",
