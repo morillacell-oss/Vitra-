@@ -19,6 +19,7 @@ import './theme-dna.css';
 import './app-navigation-v3.css';
 import './quality-pass.css';
 import './agency-grade-v2.css';
+import './template-master-v3.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Cinematic Site Studio',
