@@ -1,0 +1,176 @@
+/* VITRA refinement layer — form system, mobile discipline and final polish */
+:root{--control-bg:#15181e;--control-bg-2:#191c22;--control-border:#343943;--control-border-active:#626975;--control-text:#f3f1eb;--control-muted:#858b96;--control-radius:14px;--control-shadow:0 14px 38px rgba(0,0,0,.16)}
+
+/* Keep every editor surface inside its column */
+.wizardStage,.stageContent,.stageControl,.controlStack,.repeater,.repeaterCard,.hoursEditor,.reviewCard{min-width:0}
+.stageControl{width:100%}
+
+/* Unified form language — no native browser-looking white controls */
+.repeater{display:grid;gap:14px}
+.repeaterCard{width:100%;padding:18px;border:1px solid var(--control-border);border-radius:16px;background:linear-gradient(180deg,#17191f,#13151a);box-shadow:inset 0 1px rgba(255,255,255,.018);overflow:hidden}
+.repeaterCard.selectedCard{border-color:#6c6250;background:linear-gradient(180deg,#1d1b18,#151515);box-shadow:inset 0 0 0 1px rgba(200,155,91,.12),0 16px 38px rgba(0,0,0,.14)}
+.repeaterTop{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+.repeaterTop>span{font-size:8px;letter-spacing:.18em;font-weight:850;color:#747a85}
+.repeaterTop>button{width:34px;height:34px;border:1px solid #353a44;border-radius:10px;background:#101217;color:#777e8a}
+.repeaterTop>button:hover{color:#f0d0c8;border-color:#704b47;background:#1b1515}
+.repeaterCard>input,.repeaterCard>textarea,.repeaterCard select,.hoursEditor input{display:block;width:100%;max-width:100%;min-width:0;appearance:none;-webkit-appearance:none;border:1px solid #343a44;border-radius:11px;background:#101217;color:#f2f0ea;padding:13px 14px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px;line-height:1.45;box-shadow:inset 0 1px rgba(255,255,255,.018);transition:border-color .2s ease,background .2s ease,box-shadow .2s ease}
+.repeaterCard>textarea{resize:vertical;min-height:88px}
+.repeaterCard>input+textarea,.repeaterCard>textarea+input,.repeaterCard>input+input{margin-top:9px}
+.repeaterCard input::placeholder,.repeaterCard textarea::placeholder,.hoursEditor input::placeholder{color:#666c77}
+.repeaterCard>input:focus,.repeaterCard>textarea:focus,.repeaterCard select:focus,.hoursEditor input:focus{border-color:#606875;background:#12151a;box-shadow:0 0 0 3px rgba(255,104,68,.06)}
+.repeaterCard select{width:auto;min-width:128px;padding-right:36px;background-color:#101217;background-image:linear-gradient(45deg,transparent 50%,#8e949e 50%),linear-gradient(135deg,#8e949e 50%,transparent 50%);background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;color:#dedbd4}
+
+.addRowBtn{width:100%;min-height:48px;border:1px dashed #414751;border-radius:12px;background:#0f1115;color:#a5aab3;font-size:9px;letter-spacing:.1em;font-weight:800;text-transform:uppercase}
+.addRowBtn:hover{border-color:#626a76;background:#15181d;color:#f1efe9;transform:translateY(-1px)}
+
+/* Custom package highlight switch */
+.featureToggle{display:flex;align-items:center;gap:8px;cursor:pointer;color:#9298a2;user-select:none}
+.featureToggle input{position:absolute;opacity:0;pointer-events:none}
+.featureToggle i{width:35px;height:20px;border:1px solid #414752;border-radius:999px;background:#0f1115;position:relative;transition:.2s}
+.featureToggle i:after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;left:2px;top:2px;background:#737984;transition:.22s cubic-bezier(.2,.8,.2,1)}
+.featureToggle input:checked+i{border-color:#8e7553;background:rgba(200,155,91,.16)}
+.featureToggle input:checked+i:after{transform:translateX(15px);background:#d7ae74}
+.featureToggle b{font-size:8px;letter-spacing:.1em;text-transform:uppercase;font-weight:850}
+
+/* Testimonials editor */
+.ratingRow{padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid #292d35}
+.ratingRow .stars{gap:5px;color:#d3a15d}
+.ratingRow .stars .vitraIcon{width:15px;height:15px}
+
+/* Address / opening hours */
+.hoursEditor{display:grid;gap:9px}
+.hoursEditor>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.55fr);gap:9px;min-width:0}
+.hoursEditor input{height:52px;font-size:12px}
+
+/* Big fields become premium editable cards rather than oversized raw text */
+.bigInput,.bigTextarea{display:grid;gap:10px;min-width:0;padding:16px 17px;border:1px solid #343943;border-radius:15px;background:linear-gradient(180deg,#16191f,#121419);box-shadow:inset 0 1px rgba(255,255,255,.018)}
+.bigInput>span,.bigTextarea>span{font-size:8px;letter-spacing:.18em;font-weight:850;color:#7c828d}
+.bigInput input,.bigTextarea textarea{width:100%;max-width:100%;min-width:0;border:0!important;border-radius:0!important;background:transparent!important;color:#f2f0ea!important;padding:0!important;box-shadow:none!important;outline:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-weight:540;letter-spacing:-.018em;line-height:1.25}
+.bigInput input{font-size:clamp(18px,2.2vw,25px)!important;height:auto!important}
+.bigTextarea textarea{font-size:clamp(17px,2vw,23px)!important;resize:vertical;min-height:104px}
+.bigInput input::placeholder,.bigTextarea textarea::placeholder{color:#5f6570}
+.bigInput:focus-within,.bigTextarea:focus-within{border-color:#606875;background:#181b21;box-shadow:0 0 0 3px rgba(255,104,68,.05),var(--control-shadow)}
+.bigTextarea small{justify-self:end;color:#626873;font-size:8px;letter-spacing:.08em}
+
+/* Review card */
+.reviewCard{padding:28px;border:1px solid #3a3f49;border-radius:20px;background:radial-gradient(circle at 100% 0,rgba(255,104,68,.06),transparent 28%),linear-gradient(160deg,#17191f,#101216);box-shadow:0 24px 70px rgba(0,0,0,.2)}
+.reviewSeal{width:50px;height:50px;border-radius:14px;background:#f1eee7;color:#121318;margin-bottom:24px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.reviewCard>span{font-size:8px;letter-spacing:.18em;color:#777d88;font-weight:850}
+.reviewCard h3{font-family:Georgia,serif;font-weight:400;font-size:36px;letter-spacing:-.04em;margin:13px 0 8px;color:#f3f0e9}
+.reviewCard>p{margin:0;color:#a3a7af;font-size:14px;line-height:1.55}
+.reviewStats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:24px;padding:9px;border:1px solid #313641;border-radius:14px;background:#0d0f13}
+.reviewStats>div{min-width:0;padding:11px 10px;border-right:1px solid #292e36;display:grid;gap:4px}
+.reviewStats>div:last-child{border-right:0}
+.reviewStats small{font-size:7px;letter-spacing:.13em;color:#696f7a}
+.reviewStats b{font-family:Georgia,serif;font-weight:400;font-size:28px;line-height:1;color:#ece9e2}
+.reviewCard ul{padding-top:18px;border-top:1px solid #292e36}
+.reviewCard li{font-size:11px!important;color:#959aa4!important}
+
+/* Footer actions */
+.stageFooter{border-top:1px solid rgba(255,255,255,.045);margin-top:46px;padding-top:22px}
+.backStep,.skipStep{display:inline-flex;align-items:center;gap:8px;min-height:42px}
+.nextStep{min-height:50px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.18)}
+.nextStep.finish{background:linear-gradient(135deg,#d9f0df,#c9e9d2);box-shadow:0 14px 34px rgba(106,174,125,.14)}
+
+/* Stage rhythm */
+.stageHeading{position:relative;z-index:1}
+.stageHeading h1{max-width:590px;text-wrap:balance}
+.stageHeading p{text-wrap:pretty}
+
+/* Generated-site micro polish */
+.siteCanvas{isolation:isolate}
+.siteHeader{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.siteService,.packageCard,.testimonialGrid blockquote,.faqList details{transition:transform .28s cubic-bezier(.2,.8,.2,1),border-color .25s ease,background .25s ease,box-shadow .28s ease}
+.siteService:hover,.packageCard:hover,.testimonialGrid blockquote:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(0,0,0,.12)}
+.galleryGrid img{border-radius:2px}
+.sitePrimary,.siteClosing button,.packageCard button{box-shadow:0 12px 30px rgba(0,0,0,.12)}
+
+/* Completion overlay injected by the runtime bridge */
+.vitraCompleteOverlay{position:fixed;z-index:9999;inset:0;background:rgba(5,6,8,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:grid;place-items:center;padding:24px;animation:vitraOverlayIn .28s cubic-bezier(.2,.8,.2,1)}
+.vitraCompleteCard{width:min(520px,100%);border:1px solid #3a404a;border-radius:24px;background:radial-gradient(circle at 90% 5%,rgba(111,188,133,.12),transparent 30%),linear-gradient(160deg,#181b21,#0e1014);box-shadow:0 40px 120px rgba(0,0,0,.55);padding:34px;position:relative;overflow:hidden}
+.vitraCompleteMark{width:58px;height:58px;border-radius:17px;background:#d9f0df;color:#142019;display:grid;place-items:center;margin-bottom:28px;box-shadow:0 16px 40px rgba(90,170,115,.16)}
+.vitraCompleteMark svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vitraCompleteEyebrow{display:block;font-size:8px;letter-spacing:.19em;font-weight:850;color:#7e8490;margin-bottom:12px}
+.vitraCompleteCard h2{font-family:Georgia,serif;font-size:clamp(38px,7vw,58px);font-weight:400;line-height:.93;letter-spacing:-.05em;margin:0 0 16px;color:#f4f1eb}
+.vitraCompleteCard p{margin:0;color:#9ca1ab;font-size:13px;line-height:1.65;max-width:420px}
+.vitraCompleteMeta{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 30px}
+.vitraCompleteMeta span{padding:8px 10px;border:1px solid #333842;border-radius:999px;color:#8d939e;font-size:8px;letter-spacing:.08em;background:#ffffff05}
+.vitraCompleteActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vitraCompleteActions button{min-height:52px;border-radius:12px;font-size:9px;letter-spacing:.11em;font-weight:850;text-transform:uppercase}
+.vitraCompletePrimary{border:0;background:#f1eee7;color:#111318}
+.vitraCompleteSecondary{border:1px solid #3a404a;background:#121419;color:#aeb3bc}
+@keyframes vitraOverlayIn{from{opacity:0}.vitraCompleteCard{transform:translateY(14px) scale(.985)}to{opacity:1}.vitraCompleteCard{transform:none}}
+
+@media(max-width:1100px){
+ .wizardLayout{grid-template-columns:104px minmax(0,1fr)}
+ .livePreviewPanel{display:none}
+}
+
+@media(max-width:760px){
+ .wizardTopbar{height:72px;padding:0 20px;grid-template-columns:auto minmax(0,1fr) auto;gap:14px}
+ .wizardBrand b{display:none}
+ .wizardBrand span{width:48px;height:48px;border-radius:14px;font-size:28px}
+ .wizardProjectName{min-width:0}
+ .wizardProjectName small{display:none}
+ .wizardProjectName strong{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .wizardTopActions{gap:8px}
+ .saveBtn{height:48px;border-radius:14px;padding:0 18px;font-size:8px}
+ .ghostBtn{height:48px!important;width:48px!important;border-radius:14px!important}
+ .saveNotice{display:none}
+ .wizardProgress{top:72px;height:4px}
+ .wizardLayout{display:block;min-height:auto}
+ .stepRail{height:106px;position:sticky;top:76px;z-index:72;padding:18px 20px 14px;background:rgba(10,12,15,.96);backdrop-filter:blur(16px);border-right:0;border-bottom:1px solid #292d35;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+ .stepRail::-webkit-scrollbar{display:none}
+ .stepRailLabel{display:none}
+ .stepDots{display:flex;gap:14px;width:max-content}
+ .stepDots button{display:grid!important;grid-template-columns:42px!important;place-items:center;min-width:42px!important;width:42px!important;height:56px!important;min-height:56px!important;padding:5px!important;background:transparent!important}
+ .stepDots button span{width:42px!important;height:42px!important}
+ .stepDots button small{display:none}
+ .stepDots button.active span{border-color:var(--accent);color:#ff9b83;background:#211614;box-shadow:0 0 0 4px rgba(255,104,68,.06)}
+ .wizardStage{min-height:auto;overflow:hidden}
+ .stageContent{min-height:calc(100vh - 182px);padding:38px 30px 24px}
+ .stageHeading h1{font-size:clamp(36px,10.8vw,52px)!important;line-height:.96!important;margin-top:13px!important;max-width:100%;text-wrap:balance}
+ .stageHeading p{font-size:13px!important;line-height:1.62!important}
+ .stageControl{margin-top:31px;max-width:none}
+ .repeater{gap:12px}
+ .repeaterCard{padding:15px;border-radius:15px}
+ .repeaterCard>input,.repeaterCard>textarea,.repeaterCard select{font-size:16px;/* prevents iOS/Android auto-zoom */}
+ .repeaterCard>textarea{min-height:96px}
+ .repeaterTop{margin-bottom:12px}
+ .ratingRow{align-items:center;gap:10px;flex-wrap:wrap}
+ .ratingRow select{min-width:132px;font-size:14px!important}
+ .featureToggle b{font-size:7px}
+ .hoursEditor>div{grid-template-columns:minmax(0,1fr) 136px}
+ .hoursEditor input{font-size:14px;height:50px;padding:11px 12px}
+ .bigInput,.bigTextarea{padding:15px;border-radius:14px}
+ .bigInput input{font-size:18px!important;line-height:1.3!important}
+ .bigTextarea textarea{font-size:17px!important;line-height:1.45!important;min-height:112px}
+ .reviewCard{padding:22px;border-radius:18px}
+ .reviewCard h3{font-size:32px}
+ .reviewStats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:7px}
+ .reviewStats>div{padding:10px 8px}
+ .reviewStats b{font-size:24px}
+ .reviewStats small{font-size:6px}
+ .stageFooter{position:relative;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:end;padding-top:24px;margin-top:38px}
+ .stageFooter>div{justify-self:end;gap:8px}
+ .stageFooter>div>span{display:none}
+ .skipStep{display:none}
+ .backStep{font-size:8px}
+ .nextStep{min-width:0;width:188px;height:58px;padding:0 18px;border-radius:14px;font-size:8px}
+ .addRowBtn{min-height:50px;font-size:8px}
+ .beforeEditor{grid-template-columns:1fr!important}
+ .sectionManager>div{min-width:0}
+ .vitraCompleteCard{padding:27px 24px;border-radius:21px}
+ .vitraCompleteActions{grid-template-columns:1fr}
+}
+
+@media(max-width:420px){
+ .stageContent{padding-left:22px;padding-right:22px}
+ .wizardTopbar{padding-left:14px;padding-right:14px}
+ .saveBtn{padding:0 14px}
+ .hoursEditor>div{grid-template-columns:1fr}
+ .nextStep{width:172px}
+ .reviewStats{grid-template-columns:1fr 1fr}
+ .reviewStats>div:nth-child(2){border-right:0}
+ .reviewStats>div:last-child{grid-column:1/-1;border-top:1px solid #292e36;border-right:0}
+}
