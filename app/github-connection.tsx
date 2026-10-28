@@ -55,10 +55,7 @@ export default function GitHubConnection(){
   },[supabase]);
 
   async function connect(){
-    if(!appSlug){
-      setMessage('A integração está preparada. Falta ativar a GitHub App oficial do VITRA uma única vez.');
-      return;
-    }
+    if(!appSlug)return;
     const state=crypto.randomUUID();
     sessionStorage.setItem('vitra-github-state',state);
     window.location.href=`https://github.com/apps/${encodeURIComponent(appSlug)}/installations/new?state=${encodeURIComponent(state)}`;
@@ -73,16 +70,17 @@ export default function GitHubConnection(){
 
   const connected=connection?.status==='connected';
   const pending=connection?.status==='pending';
-  return <section className={`vxGithubConnect ${connected?'connected':pending?'pending':''}`}>
+  const available=Boolean(appSlug);
+  return <section className={`vxGithubConnect ${connected?'connected':pending?'pending':!available?'unavailable':''}`}>
     <div className="vxGithubIcon"><GitBranchMark/></div>
     <div className="vxGithubCopy">
       <small>INTEGRAÇÃO / GITHUB</small>
-      <b>{connected?(connection?.github_login?`@${connection.github_login}`:'GitHub conectado'):pending?'Conexão em validação':'Publique sem baixar ZIP'}</b>
-      <p>{connected?'Novos sites e atualizações podem ser enviados ao repositório vinculado.':pending?'Recebemos a instalação. O VITRA valida a permissão antes de publicar.':'Conecte sua conta para o VITRA criar e atualizar os repositórios dos seus sites.'}</p>
+      <b>{connected?(connection?.github_login?`@${connection.github_login}`:'GitHub conectado'):pending?'Conexão em validação':available?'Publique sem baixar ZIP':'Publicação automática em preparação'}</b>
+      <p>{connected?'Novos sites e atualizações podem ser enviados ao repositório vinculado.':pending?'Recebemos a instalação. O VITRA valida a permissão antes de publicar.':available?'Conecte sua conta para o VITRA criar e atualizar os repositórios dos seus sites.':'A estrutura já está pronta, mas a GitHub App oficial ainda precisa ser ativada. Até lá, o botão não aparece como uma ação quebrada.'}</p>
       {message&&<span className="vxGithubMessage">{message}</span>}
     </div>
     <div className="vxGithubActions">
-      {loading?<span className="vxGithubLoading"/>:connection?<button onClick={unlink} className="secondary">Desconectar</button>:<button onClick={connect}>Conectar <Icon name="arrowRight" size={14}/></button>}
+      {loading?<span className="vxGithubLoading"/>:connection?<button onClick={unlink} className="secondary">Desconectar</button>:available?<button onClick={connect}>Conectar <Icon name="arrowRight" size={14}/></button>:<span className="vxGithubUnavailable"><i/> Em configuração</span>}
     </div>
   </section>;
 }
