@@ -1,7 +1,7 @@
 'use client';
 
-import StudioV3 from './studio-v3';
+import PwaShell from './pwa-shell';
 
 export default function StudioShell(){
-  return <StudioV3/>;
+  return <PwaShell/>;
 }
