@@ -8,14 +8,21 @@ type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{outcome:'accepted'|'dismissed';platform:string}>;
 };
+type ThemeMode='light'|'dark';
 
 export default function PwaShell(){
   const [promptEvent,setPromptEvent]=useState<InstallPromptEvent|null>(null);
   const [standalone,setStandalone]=useState(false);
   const [builder,setBuilder]=useState(false);
   const [showInstallHint,setShowInstallHint]=useState(false);
+  const [theme,setTheme]=useState<ThemeMode>('light');
 
   useEffect(()=>{
+    try{
+      const saved=localStorage.getItem('vitra-ui-theme') as ThemeMode|null;
+      if(saved==='dark'||saved==='light')setTheme(saved);
+    }catch{}
+
     const media=window.matchMedia('(display-mode: standalone)');
     const iosStandalone=Boolean((window.navigator as Navigator & {standalone?:boolean}).standalone);
     const updateStandalone=()=>setStandalone(media.matches||iosStandalone);
@@ -46,6 +53,14 @@ export default function PwaShell(){
     };
   },[]);
 
+  useEffect(()=>{
+    document.documentElement.dataset.vitraTheme=theme;
+    document.documentElement.style.colorScheme=theme;
+    const themeMeta=document.querySelector('meta[name="theme-color"]');
+    themeMeta?.setAttribute('content',theme==='light'?'#F5F8F7':'#090A0D');
+    try{localStorage.setItem('vitra-ui-theme',theme)}catch{}
+  },[theme]);
+
   async function install(){
     if(promptEvent){
       await promptEvent.prompt();
@@ -57,8 +72,13 @@ export default function PwaShell(){
     setShowInstallHint(v=>!v);
   }
 
-  return <div className={`vitraAppShell ${standalone?'isStandalone':''} ${builder?'isBuilder':''}`}>
+  function toggleTheme(){setTheme(v=>v==='light'?'dark':'light')}
+
+  return <div className={`vitraAppShell theme-${theme} ${standalone?'isStandalone':''} ${builder?'isBuilder':''}`}>
     <StudioV3/>
+    {!builder&&<button className="vxThemeSwitch" onClick={toggleTheme} aria-label={theme==='light'?'Ativar tema escuro':'Ativar tema claro'} title={theme==='light'?'Tema claro — mudar para escuro':'Tema escuro — mudar para claro'}>
+      <Icon name="palette" size={16}/><span>{theme==='light'?'Claro':'Escuro'}</span><i aria-hidden="true"/>
+    </button>}
     {!standalone&&!builder&&<button className="vxInstallFab" onClick={install} aria-label="Instalar VITRA como aplicativo">
       <span><Icon name="globe" size={17}/></span>
       <div><small>WEB APP</small><b>Instalar VITRA</b></div>
