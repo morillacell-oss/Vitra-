@@ -1,0 +1,128 @@
+/* VITRA Light Premium — the product UI is a refined creative application, not a marketing site */
+html[data-vitra-theme='light']{background:#f5f8f7!important;color-scheme:light}
+html[data-vitra-theme='light'] body{background:#f5f8f7!important;color:#17221f}
+
+.theme-light{
+ --app-bg:#f5f8f7;
+ --app-panel:#ffffff;
+ --app-panel-2:#f0f5f3;
+ --app-line:#dfe8e4;
+ --app-text:#17221f;
+ --app-muted:#6e7a76;
+ --app-accent:#137e73;
+ --app-blue:#376fda;
+ --app-soft:#e8f4f0;
+ --app-radius:22px;
+ color:#17221f!important;
+ background:#f5f8f7!important;
+}
+.theme-light .vxIcon{stroke:currentColor}
+.theme-light button{color:inherit}
+
+/* Theme control */
+.vxThemeSwitch{position:fixed;right:92px;top:22px;z-index:116;height:42px;min-width:92px;padding:0 12px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(18,20,25,.9);color:#f3efe7;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 12px 34px rgba(0,0,0,.18);backdrop-filter:blur(18px);font-size:11px;font-weight:750;letter-spacing:.02em;cursor:pointer}
+.vxThemeSwitch i{width:7px;height:7px;border-radius:50%;background:#7e8792;box-shadow:0 0 0 4px rgba(255,255,255,.04)}
+.theme-light .vxThemeSwitch{background:rgba(255,255,255,.92);color:#24403a;border-color:#dce7e3;box-shadow:0 10px 30px rgba(33,63,54,.1)}
+.theme-light .vxThemeSwitch i{background:#27a08e;box-shadow:0 0 0 4px rgba(39,160,142,.1)}
+
+/* Install controls */
+.theme-light .vxInstallFab{border-color:#dce6e2;background:rgba(255,255,255,.94);color:#20312c;box-shadow:0 18px 48px rgba(40,73,63,.13)}
+.theme-light .vxInstallFab>span{background:#e8f4f0;color:#126f65}.theme-light .vxInstallFab small{color:#7a8984}
+.theme-light .vxInstallSheet{border-color:#dce7e3;background:rgba(255,255,255,.98);color:#1c2a26;box-shadow:0 30px 80px rgba(37,70,60,.17)}
+.theme-light .vxInstallClose{color:#7a8883}.theme-light .vxInstallMark{background:#e9f4f1;color:#146f66}.theme-light .vxInstallSheet small{color:#167e72}.theme-light .vxInstallSheet p{color:#6f7d78}.theme-light .vxInstallPrimary{background:#123c37;color:#fff}
+.theme-light .vxStandaloneBadge{background:rgba(255,255,255,.9);border-color:#dde8e4;color:#62736d;box-shadow:0 8px 25px rgba(38,74,63,.08)}
+
+/* Dashboard shell */
+.theme-light .vxApp{background:#f5f8f7!important;color:#17221f!important}
+.theme-light .vxRail{background:#f9fbfa!important;border-color:#e1e9e6!important}
+.theme-light .vxRail nav button{color:#7b8883!important}
+.theme-light .vxRail nav button.active{color:#126f65!important;background:#eaf4f1!important}
+.theme-light .vxRail .vxLogo{background:#143f39!important;color:#fff!important;border-color:#143f39!important}
+.theme-light .vxDash{background:transparent!important}
+.theme-light .vxDashTop{background:rgba(249,251,250,.88)!important;border-color:#e2e9e6!important;color:#182722!important}
+.theme-light .vxDashTop span{color:#7c8984!important}.theme-light .vxDashTop b{color:#1b2a26!important}
+.theme-light .vxGhost{background:#fff!important;border-color:#dce6e2!important;color:#40514b!important}
+.theme-light .vxPrimary{background:#143f39!important;color:#fff!important;border-color:#143f39!important;box-shadow:0 10px 24px rgba(20,63,57,.13)!important}
+
+/* Hero = quiet, bright, sophisticated */
+.theme-light .vxHeroDash{background:radial-gradient(circle at 88% 6%,rgba(70,131,220,.12),transparent 28%),radial-gradient(circle at 12% 100%,rgba(44,164,142,.12),transparent 32%),linear-gradient(150deg,#ffffff 0%,#f8fbfa 52%,#f2f7f5 100%)!important;border-color:#dfe8e4!important;box-shadow:0 18px 50px rgba(45,77,67,.07)!important}
+.theme-light .vxHeroNoise{opacity:.035!important;mix-blend-mode:multiply}
+.theme-light .vxHeroWords>span{color:#137e73!important}
+.theme-light .vxHeroWords h1{color:#17231f!important;text-shadow:none!important}
+.theme-light .vxHeroWords h1 em{color:#147c72!important}
+.theme-light .vxHeroWords p{color:#67756f!important}
+.theme-light .vxHeroCta{background:#143f39!important;color:#fff!important;border-color:#143f39!important;box-shadow:0 12px 28px rgba(20,63,57,.12)!important}
+.theme-light .vxHeroCta .vxArrow{background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.18)!important;color:#fff!important}
+.theme-light .vxTextBtn{color:#36504a!important}
+.theme-light .vxProofLine span{color:#65756f!important}.theme-light .vxProofLine svg{color:#148377!important}
+.theme-light .vxHeroScreen{background:#fff!important;border-color:#dae5e1!important;box-shadow:0 20px 55px rgba(35,67,58,.11)!important}
+.theme-light .vxBrowserBar{background:#f2f6f4!important;border-color:#e2eae7!important;color:#7c8984!important}
+
+/* Content sections */
+.theme-light .vxVerticalIntro span,.theme-light .vxSectionTitle span{color:#118073!important}
+.theme-light .vxVerticalIntro h2,.theme-light .vxSectionTitle h2{color:#17231f!important}
+.theme-light .vxVerticalIntro p,.theme-light .vxSectionTitle b{color:#6e7b76!important}
+.theme-light .vxNicheShelf>button{background:#fff!important;border-color:#dde7e3!important;color:#1a2925!important;box-shadow:0 10px 28px rgba(39,73,63,.045)!important}
+.theme-light .vxNicheShelf>button:hover{border-color:#bcd8d1!important;box-shadow:0 14px 34px rgba(34,91,76,.09)!important;transform:translateY(-1px)}
+.theme-light .vxNicheShelf>button>span:first-child{background:#edf6f3!important;color:#11776c!important;border-color:#d7ebe5!important}
+.theme-light .vxNicheShelf b{color:#1b2b26!important}.theme-light .vxNicheShelf small{color:#2f7c71!important}.theme-light .vxNicheShelf p{color:#76837e!important}.theme-light .vxNicheShelf .vxArrow{border-color:#dce7e3!important;color:#527069!important;background:#fbfcfc!important}
+.theme-light .vxProjects{color:#17231f!important}.theme-light .vxProjectGrid>button{background:#fff!important;border-color:#dde6e3!important;box-shadow:0 10px 30px rgba(39,72,62,.055)!important}.theme-light .vxProjectGrid footer{background:#fff!important;border-color:#e2eae7!important;color:#64736d!important}
+.theme-light .vxEmpty{background:#fff!important;border-color:#dce6e2!important;color:#1a2925!important;box-shadow:0 12px 32px rgba(39,73,63,.05)!important}.theme-light .vxEmpty>span{background:#eaf5f1!important;color:#157b70!important}.theme-light .vxEmpty p{color:#70807a!important}.theme-light .vxEmpty button{background:#143f39!important;color:#fff!important}
+
+/* Builder */
+.theme-light .vxBuilder{background:#f5f8f7!important;color:#182722!important}
+.theme-light .vxBuilderTop{background:rgba(250,252,251,.92)!important;border-color:#dfe8e4!important;color:#17231f!important;box-shadow:0 6px 20px rgba(45,76,66,.04)!important}
+.theme-light .vxBuilderBrand{color:#18302a!important}.theme-light .vxBuilderBrand>span{background:#143f39!important;color:#fff!important;border-color:#143f39!important}.theme-light .vxBuilderBrand small,.theme-light .vxProjectTitle small,.theme-light .vxProjectTitle span{color:#74817c!important}.theme-light .vxProjectTitle b{color:#1a2925!important}
+.theme-light .vxIconBtn{background:#fff!important;border-color:#dce6e2!important;color:#4d625b!important}.theme-light .vxSave{background:#143f39!important;border-color:#143f39!important;color:#fff!important}.theme-light .vxProgress{background:#e3ebe8!important}.theme-light .vxProgress i{background:linear-gradient(90deg,#148174,#3b78db)!important}
+.theme-light .vxBuilderGrid{background:#f5f8f7!important}
+.theme-light .vxSteps{background:#f9fbfa!important;border-color:#dfe8e4!important}.theme-light .vxSteps>div span,.theme-light .vxSteps>div b{color:#6f7e78!important}.theme-light .vxSteps button{color:#78857f!important;background:transparent!important;border-color:transparent!important}.theme-light .vxSteps button>span{background:#eef3f1!important;border-color:#dde7e3!important;color:#75837d!important}.theme-light .vxSteps button.active{background:#eaf4f1!important;color:#175f57!important}.theme-light .vxSteps button.active>span{background:#157c71!important;border-color:#157c71!important;color:#fff!important}.theme-light .vxSteps button.done>span{background:#e5f3ef!important;color:#14776d!important;border-color:#cfe7e0!important}
+.theme-light .vxStage{background:linear-gradient(180deg,#f8fbfa,#f4f8f6)!important;color:#1a2925!important}
+.theme-light .vxLive{background:#eef3f1!important;border-color:#dce6e2!important;color:#1d2b27!important}.theme-light .vxLive>header{background:#f7faf9!important;border-color:#dce5e2!important;color:#687771!important}.theme-light .vxLive>header button{background:#fff!important;border-color:#d7e3df!important;color:#50655e!important}.theme-light .vxLiveViewport{background:#e4ebe8!important}.theme-light .vxOpenPreview{background:#fff!important;border-color:#d8e3df!important;color:#29453e!important}
+
+/* Smart director */
+.theme-light .vxSmartInline{background:linear-gradient(135deg,#eaf6f2,#edf4fb)!important;border-color:#d3e7e1!important;color:#18312b!important;box-shadow:none!important}.theme-light .vxSmartInline span{color:#157b70!important}.theme-light .vxSmartInline b{color:#17332c!important}.theme-light .vxSmartInline p{color:#687b74!important}.theme-light .vxSmartInline button{background:#143f39!important;color:#fff!important;border-color:#143f39!important;box-shadow:0 8px 18px rgba(20,63,57,.1)!important}
+.theme-light .vxStepHead>span{color:#147d71!important}.theme-light .vxStepHead h1{color:#17231f!important}.theme-light .vxStepHead p{color:#66756f!important}.theme-light .vxStepHead small{color:#7a8883!important}
+
+/* Inputs and editable cards */
+.theme-light .vxField>span,.theme-light .vxArea>span{color:#50625c!important}
+.theme-light .vxField input,.theme-light .vxField textarea,.theme-light .vxField select,.theme-light .vxArea textarea,
+.theme-light input:not(.clientSite input),.theme-light textarea:not(.clientSite textarea),.theme-light select:not(.clientSite select){background:#fff!important;color:#1a2925!important;border-color:#d8e3df!important;box-shadow:none!important}
+.theme-light .vxField input::placeholder,.theme-light .vxField textarea::placeholder,.theme-light input::placeholder,.theme-light textarea::placeholder{color:#9aa6a2!important}
+.theme-light .vxField input:focus,.theme-light .vxField textarea:focus,.theme-light .vxField select:focus{border-color:#65a99e!important;box-shadow:0 0 0 3px rgba(26,132,116,.09)!important;outline:none!important}
+.theme-light .vxUpload{background:#fff!important;border-color:#d6e2de!important;color:#355049!important}.theme-light .vxUpload>span{background:#eaf5f1!important;color:#147d72!important}.theme-light .vxUpload small{color:#7d8b86!important}.theme-light .vxRemove{background:#fff!important;border-color:#dce5e2!important;color:#6c7974!important}
+.theme-light .vxChoiceGrid>button,.theme-light .vxGoalGrid>button,.theme-light .vxTemplateGrid>button,.theme-light .vxPaletteGrid>button,.theme-light .vxFontGrid>button{background:#fff!important;border-color:#dce6e2!important;color:#1a2925!important;box-shadow:0 8px 24px rgba(40,72,63,.045)!important}.theme-light .vxChoiceGrid>button.active,.theme-light .vxGoalGrid>button.active,.theme-light .vxTemplateGrid>button.active,.theme-light .vxPaletteGrid>button.active,.theme-light .vxFontGrid>button.active{border-color:#6aa99f!important;box-shadow:0 0 0 3px rgba(25,132,116,.08)!important;background:#f5fbf9!important}
+.theme-light .vxStageFooter{background:rgba(248,251,250,.94)!important;border-color:#dfe8e4!important;box-shadow:0 -8px 24px rgba(41,71,62,.04)!important}.theme-light .vxStageFooter>button{color:#667770!important}.theme-light .vxStageFooter span{color:#74827d!important}.theme-light .vxNext{background:#143f39!important;color:#fff!important;border-color:#143f39!important}.theme-light .vxNext.ready{background:#0f756a!important}
+
+/* Common editor cards that were dark by default */
+.theme-light .vxServiceCard,.theme-light .vxPackageCard,.theme-light .vxFaqCard,.theme-light .vxProofCard,.theme-light .vxReviewCard,.theme-light .vxMediaCard,.theme-light .vxSectionCard,.theme-light .vxQualityCard{background:#fff!important;border-color:#dce6e2!important;color:#1a2925!important;box-shadow:0 8px 26px rgba(40,72,63,.04)!important}
+
+/* Modal / preview chrome stays light while actual generated site keeps its own palette */
+.theme-light .vxPreviewModal,.theme-light .vxPreviewShell{background:#f1f5f3!important;color:#17231f!important}.theme-light .vxPreviewTop{background:rgba(255,255,255,.93)!important;border-color:#dce6e2!important;color:#243b35!important}.theme-light .vxPreviewTop button{background:#fff!important;border-color:#d6e2de!important;color:#415a53!important}.theme-light .vxPreviewStage{background:#e6ece9!important}
+
+/* Keep actual customer site preview isolated from the VITRA app theme */
+.theme-light .clientSite{color:var(--cs-text)!important;background:var(--cs-bg)!important}
+.theme-light .clientSite input,.theme-light .clientSite textarea,.theme-light .clientSite select{color:inherit}
+
+@media (min-width:821px){
+ .theme-light .vxApp{background:radial-gradient(circle at 78% -12%,rgba(57,119,216,.065),transparent 30%),radial-gradient(circle at 15% 110%,rgba(36,153,132,.06),transparent 28%),#f5f8f7!important}
+ .theme-light .vxRail{background:#f8fbfa!important}
+ .theme-light .vxDashTop{background:rgba(248,251,250,.84)!important}
+ .theme-light .vxHeroDash{background:radial-gradient(circle at 80% 0,rgba(56,119,219,.1),transparent 28%),linear-gradient(145deg,#ffffff,#f4f9f7)!important}
+ .theme-light .vxBuilder{background:#f5f8f7!important}.theme-light .vxBuilderTop{background:rgba(249,252,251,.9)!important}.theme-light .vxStage{background:linear-gradient(180deg,#fbfcfc,#f5f8f7)!important}.theme-light .vxLive{background:#eef3f1!important}
+}
+
+@media (max-width:820px){
+ html[data-vitra-theme='light'] body{background:#f5f8f7!important}
+ .vxThemeSwitch{top:calc(17px + env(safe-area-inset-top));right:72px;height:42px;min-width:78px;padding:0 10px;border-radius:14px;font-size:10px;box-shadow:0 8px 22px rgba(35,65,56,.08)}
+ .theme-light .vxApp{background:#f5f8f7!important}
+ .theme-light .vxRail{background:rgba(255,255,255,.94)!important;border-color:#dce6e2!important;box-shadow:0 18px 45px rgba(37,70,60,.14)!important}.theme-light .vxRail nav button{color:#7a8883!important}.theme-light .vxRail nav button.active{color:#126f65!important;background:#eaf4f1!important}.theme-light .vxRail nav button.active:after{background:#167f73!important}
+ .theme-light .vxDashTop{background:rgba(248,251,250,.93)!important;border-color:#dfe7e4!important}.theme-light .vxDashTop>div:first-child b:after{color:#19312b!important}.theme-light .vxDashTop .vxPrimary{background:#143f39!important;color:#fff!important}
+ .theme-light .vxHeroDash{background:radial-gradient(circle at 90% 0,rgba(55,111,218,.11),transparent 34%),radial-gradient(circle at 0 100%,rgba(28,149,129,.1),transparent 38%),linear-gradient(155deg,#ffffff,#f5f9f7)!important;border-color:#dde7e3!important;box-shadow:0 16px 42px rgba(38,72,62,.07)!important}
+ .theme-light .vxHeroWords>span{color:#157e72!important}.theme-light .vxHeroWords h1{color:#17231f!important}.theme-light .vxHeroWords p{color:#65746e!important}.theme-light .vxHeroCta{background:#143f39!important;color:#fff!important}.theme-light .vxTextBtn{color:#46615a!important}.theme-light .vxProofLine span{color:#687770!important}
+ .theme-light .vxNicheShelf>button{background:#fff!important;border-color:#dce6e2!important;box-shadow:0 7px 22px rgba(38,70,61,.045)!important}.theme-light .vxNicheShelf>button>span:first-child{background:#edf6f3!important;color:#147d72!important}
+ .theme-light .vxBuilder{background:#f5f8f7!important}.theme-light .vxBuilderTop{background:rgba(250,252,251,.96)!important;border-color:#dfe8e4!important}.theme-light .vxSteps{background:rgba(247,250,249,.96)!important;border-color:#dfe8e4!important}.theme-light .vxSteps button.active{background:#e9f3f0!important}.theme-light .vxStage{background:#f7faf9!important}.theme-light .vxSmartInline{background:linear-gradient(135deg,#eaf6f2,#edf4fb)!important}.theme-light .vxStageFooter{background:rgba(249,252,251,.97)!important}
+ .theme-light .vxInstallFab{right:14px;bottom:calc(94px + env(safe-area-inset-bottom));background:#fff!important}
+ .theme-light .vxInstallSheet{right:16px;bottom:calc(158px + env(safe-area-inset-bottom));background:#fff!important}
+}
+
+@media (max-width:380px){.vxThemeSwitch span{display:none}.vxThemeSwitch{min-width:42px;width:42px;padding:0}.vxThemeSwitch i{display:none}}
