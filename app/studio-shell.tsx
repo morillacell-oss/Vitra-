@@ -106,11 +106,11 @@ export default function StudioShell(){
     {builder&&actionsTarget&&createPortal(<button className="vxExitBuilder" onClick={saveAndExit} aria-label="Salvar e voltar ao menu"><Icon name="home" size={14}/><span>Menu</span></button>,actionsTarget)}
     {builder&&<div className={`vxSmartDock ${smartOpen?'open':''}`}>
       {smartOpen&&<aside className="vxSmartPanel">
-        <header><div><span>VITRA SMART</span><b>{hint.signal}</b></div><button onClick={()=>setSmartOpen(false)} aria-label="Fechar"><Icon name="x" size={14}/></button></header>
+        <header><div><span>VITRA SMART</span><b>{hint.signal}</b></div><button className="vxSmartClose" onClick={()=>setSmartOpen(false)} aria-label="Fechar"><Icon name="plus" size={14}/></button></header>
         <div className="vxSmartBody"><small>{stageLabel||'ETAPA ATUAL'}</small><h3>{hint.title}</h3><p>{hint.text}</p>{stageTitle&&<div className="vxSmartStage"><span>AGORA</span><b>{stageTitle}</b></div>}<div className="vxSmartSignals"><span><i/>Auto-save ativo</span><span><i/>Layout adaptativo</span><span><i/>Mobile protegido</span></div></div>
         <footer><div><span>{emptyCount>0?`${emptyCount} item${emptyCount===1?'':'s'} sem conteúdo`:'Etapa preenchida'}</span><small>Revisão local da etapa</small></div><button onClick={reviewStage}>Revisar <Icon name="arrowRight" size={14}/></button></footer>
       </aside>}
-      <button className="vxSmartTrigger" onClick={()=>setSmartOpen(v=>!v)} aria-expanded={smartOpen}><span><Icon name="magic" size={16}/></span><div><small>VITRA SMART</small><b>{smartOpen?'Fechar direção':'Direção da etapa'}</b></div><Icon name="chevronUp" size={14}/></button>
+      <button className="vxSmartTrigger" onClick={()=>setSmartOpen(v=>!v)} aria-expanded={smartOpen}><span><Icon name="magic" size={16}/></span><div><small>VITRA SMART</small><b>{smartOpen?'Fechar direção':'Direção da etapa'}</b></div><Icon className="vxSmartChevron" name="chevronDown" size={14}/></button>
     </div>}
   </>;
 }
