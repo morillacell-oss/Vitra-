@@ -35,13 +35,37 @@ type Project = {
   updated_at?: string;
 };
 
+type MediaKind = 'hero' | 'logo' | 'gallery' | 'video';
+
+type WizardStep = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  optional?: boolean;
+};
+
 const automotiveServices = ['Lavagem detalhada', 'Polimento técnico', 'Vitrificação', 'Higienização interna'];
 const manicureServices = ['Manicure', 'Pedicure', 'Alongamento em gel', 'Nail art'];
 
 const fallbackImages: Record<Niche, string> = {
-  automotive: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=1600&q=85',
-  manicure: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1600&q=85'
+  automotive: 'https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=1800&q=88',
+  manicure: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1800&q=88'
 };
+
+const wizardSteps: WizardStep[] = [
+  { id: 'logo', eyebrow: '01 / IDENTIDADE', title: 'Comece pelo logotipo.', description: 'Envie a marca do cliente. PNG ou WebP com fundo transparente funciona melhor.', optional: true },
+  { id: 'name', eyebrow: '02 / MARCA', title: 'Qual é o nome do negócio?', description: 'Esse nome aparece no cabeçalho, rodapé e título visual do site.' },
+  { id: 'headline', eyebrow: '03 / PRIMEIRA IMPRESSÃO', title: 'Escreva a frase principal.', description: 'Uma frase curta, forte e clara para explicar por que esse negócio merece atenção.' },
+  { id: 'subheadline', eyebrow: '04 / POSICIONAMENTO', title: 'Agora o subtítulo.', description: 'Explique em uma ou duas frases o que a empresa entrega e para quem.' },
+  { id: 'style', eyebrow: '05 / DIREÇÃO VISUAL', title: 'Escolha a personalidade.', description: 'O VITRA aplica cores, contraste e estilo visual sem você mexer em código.' },
+  { id: 'hero', eyebrow: '06 / CAPA', title: 'Escolha a imagem principal.', description: 'A imagem é recortada automaticamente para desktop e celular sem deformar.' },
+  { id: 'gallery', eyebrow: '07 / PORTFÓLIO', title: 'Mostre o trabalho.', description: 'Adicione fotos de resultado, ambiente, antes e depois ou detalhes.', optional: true },
+  { id: 'video', eyebrow: '08 / MOVIMENTO', title: 'Tem um vídeo?', description: 'Adicione um vídeo curto de apresentação. O site dimensiona e encaixa automaticamente.', optional: true },
+  { id: 'services', eyebrow: '09 / OFERTA', title: 'O que esse negócio vende?', description: 'Liste os principais serviços. A ordem daqui será a ordem no site.' },
+  { id: 'contact', eyebrow: '10 / CONVERSÃO', title: 'Como o cliente entra em contato?', description: 'WhatsApp, Instagram, endereço e o texto do botão principal.' },
+  { id: 'review', eyebrow: '11 / REVISÃO', title: 'Está com cara de site caro.', description: 'Revise tudo no preview e salve o projeto antes da publicação.' }
+];
 
 function slugify(value: string) {
   return value
@@ -56,21 +80,19 @@ function slugify(value: string) {
 function freshProject(niche: Niche): Project {
   const automotive = niche === 'automotive';
   return {
-    name: automotive ? 'Apex Detail' : 'Maison Nails',
-    slug: automotive ? 'apex-detail' : 'maison-nails',
+    name: '',
+    slug: '',
     niche,
     template: 'signature',
     status: 'draft',
     theme: automotive ? 'dark' : 'light',
-    accent: automotive ? '#ff5a36' : '#9a7659',
+    accent: automotive ? '#ff6542' : '#b27979',
     font_style: 'editorial',
     whatsapp: '',
     instagram: '',
     address: '',
-    headline: automotive ? 'Seu carro, em outro nível.' : 'Detalhes que transformam o seu momento.',
-    subheadline: automotive
-      ? 'Estética automotiva premium com acabamento impecável, proteção e cuidado em cada detalhe.'
-      : 'Manicure, alongamento e nail art em uma experiência leve, elegante e feita para você.',
+    headline: '',
+    subheadline: '',
     cta_label: automotive ? 'Solicitar orçamento' : 'Agendar horário',
     hero_image: '',
     logo_url: '',
@@ -80,38 +102,51 @@ function freshProject(niche: Niche): Project {
   };
 }
 
-function Icon({ children }: { children: React.ReactNode }) {
-  return <span className="iconBox">{children}</span>;
+function getVideoUrl(project: Project) {
+  return typeof project.settings?.video_url === 'string' ? project.settings.video_url : '';
 }
 
-function SitePreview({ project }: { project: Project }) {
+function displayName(project: Project) {
+  return project.name.trim() || (project.niche === 'automotive' ? 'Sua Estética' : 'Seu Studio');
+}
+
+function displayHeadline(project: Project) {
+  if (project.headline.trim()) return project.headline;
+  return project.niche === 'automotive' ? 'Seu carro, em outro nível.' : 'Detalhes que transformam o seu momento.';
+}
+
+function displaySubheadline(project: Project) {
+  if (project.subheadline.trim()) return project.subheadline;
+  return project.niche === 'automotive'
+    ? 'Estética automotiva premium com acabamento impecável, proteção e cuidado em cada detalhe.'
+    : 'Manicure, alongamento e nail art em uma experiência leve, elegante e feita para você.';
+}
+
+function SitePreview({ project, compact = false }: { project: Project; compact?: boolean }) {
   const hero = project.hero_image || fallbackImages[project.niche];
+  const videoUrl = getVideoUrl(project);
   const style = { '--accent': project.accent } as CSSProperties;
   const isAuto = project.niche === 'automotive';
 
   return (
-    <div className={`siteCanvas ${project.theme} ${project.niche} template-${project.template}`} style={style}>
-      <div className="siteNoise" />
+    <div className={`siteCanvas ${project.theme} ${project.niche} template-${project.template} ${compact ? 'compact' : ''}`} style={style}>
       <header className="siteHeader">
         <div className="siteBrand">
-          {project.logo_url ? <img src={project.logo_url} alt="Logo" /> : <span className="brandMark">V</span>}
-          <strong>{project.name}</strong>
+          {project.logo_url ? <img src={project.logo_url} alt="Logo" /> : <span className="brandMark">{displayName(project).slice(0, 1)}</span>}
+          <strong>{displayName(project)}</strong>
         </div>
-        <div className="siteNav">
-          <span>Serviços</span><span>Sobre</span><span>Contato</span>
-        </div>
-        <button>WhatsApp ↗</button>
+        <nav className="siteNav"><span>Serviços</span><span>Sobre</span><span>Contato</span></nav>
+        <button className="siteWhatsapp">WhatsApp ↗</button>
       </header>
 
       <section className="previewHero" style={{ backgroundImage: `url(${hero})` }}>
         <div className="heroShade" />
-        <div className="heroGrid" />
         <div className="previewHeroContent">
           <span className="eyebrow">{isAuto ? 'DETAILING • CUIDADO AUTOMOTIVO' : 'BEAUTY STUDIO • NAIL DESIGN'}</span>
-          <h1>{project.headline}</h1>
-          <p>{project.subheadline}</p>
+          <h1>{displayHeadline(project)}</h1>
+          <p>{displaySubheadline(project)}</p>
           <div className="previewActions">
-            <button className="primarySiteBtn">{project.cta_label} <b>↗</b></button>
+            <button className="primarySiteBtn">{project.cta_label || 'Falar no WhatsApp'} <b>↗</b></button>
             <span className="microcopy">Atendimento com hora marcada</span>
           </div>
         </div>
@@ -123,6 +158,19 @@ function SitePreview({ project }: { project: Project }) {
         <h2>{isAuto ? 'Não é só limpeza. É presença.' : 'Não é só unha. É como você se sente.'}</h2>
         <p>{isAuto ? 'Processos precisos, produtos de alto padrão e acabamento pensado para quem percebe os detalhes.' : 'Técnica, delicadeza e um atendimento feito para transformar cuidado em ritual.'}</p>
       </section>
+
+      {project.gallery.length > 0 && (
+        <section className="previewGallery">
+          {project.gallery.slice(0, 4).map((url, index) => <img src={url} alt={`Trabalho ${index + 1}`} key={`${url}-${index}`} />)}
+        </section>
+      )}
+
+      {videoUrl && (
+        <section className="previewVideo">
+          <video src={videoUrl} autoPlay muted loop playsInline controls={false} />
+          <div><span>EM MOVIMENTO</span><h2>Uma experiência que dá para sentir.</h2></div>
+        </section>
+      )}
 
       <section className="previewServices">
         <div className="sectionTop"><span>02 / SERVIÇOS</span><small>O que fazemos</small></div>
@@ -137,8 +185,8 @@ function SitePreview({ project }: { project: Project }) {
 
       <section className="previewClosing">
         <span>{isAuto ? 'SEU CARRO MERECE MAIS.' : 'SEU MOMENTO COMEÇA AQUI.'}</span>
-        <h2>{project.name}</h2>
-        <button className="primarySiteBtn">{project.cta_label} <b>↗</b></button>
+        <h2>{displayName(project)}</h2>
+        <button className="primarySiteBtn">{project.cta_label || 'Falar agora'} <b>↗</b></button>
       </section>
     </div>
   );
@@ -170,30 +218,35 @@ function AuthScreen({ onSession }: { onSession: (session: Session | null) => voi
 
   return (
     <main className="authShell">
-      <div className="authGlow" />
-      <section className="authStory">
-        <div className="vitraLogo"><span>V</span> VITRA</div>
-        <div>
-          <span className="kicker">SITE STUDIO / 01</span>
-          <h1>Sites que parecem caros.<br />Criados em minutos.</h1>
-          <p>Uma fábrica visual para transformar negócios locais em marcas digitais que vendem.</p>
+      <section className="authVisual">
+        <div className="authAurora authAuroraOne" /><div className="authAurora authAuroraTwo" />
+        <header className="authBrand"><span className="vitraMonogram">V</span><div><strong>VITRA</strong><small>SITE STUDIO</small></div></header>
+        <div className="authHeroCopy">
+          <span className="authPill">SEU ESTÚDIO DIGITAL</span>
+          <h1>Crie sites que<br /><em>parecem caros.</em></h1>
+          <p>Uma experiência guiada para transformar negócios locais em marcas digitais prontas para vender.</p>
+          <div className="authBenefits"><span>01&nbsp; Sem código</span><span>02&nbsp; Preview ao vivo</span><span>03&nbsp; Publicação rápida</span></div>
         </div>
-        <div className="authFoot"><span>ESTÉTICA AUTOMOTIVA</span><span>MANICURE</span><span>+ NOVOS NICHOS</span></div>
+        <div className="authMockup">
+          <div className="mockupTop"><i /><i /><i /><span>preview.vitra</span></div>
+          <div className="mockupHero"><small>APEX DETAIL</small><h3>Presença<br />em cada detalhe.</h3><button>ORÇAMENTO ↗</button></div>
+        </div>
+        <footer className="authFooter"><span>ESTÉTICA AUTOMOTIVA</span><span>MANICURE & NAILS</span><span>+ NOVOS NICHOS</span></footer>
       </section>
+
       <section className="authPanel">
         <div className="authCard">
+          <div className="authMobileBrand"><span className="vitraMonogram">V</span><strong>VITRA</strong></div>
           <span className="tinyLabel">ACESSO AO ESTÚDIO</span>
-          <h2>{mode === 'login' ? 'Bem-vindo de volta.' : 'Crie seu acesso.'}</h2>
-          <p>{mode === 'login' ? 'Entre para continuar criando.' : 'Seu painel Vitra começa aqui.'}</p>
+          <h2>{mode === 'login' ? 'Bem-vindo.' : 'Crie sua conta.'}</h2>
+          <p>{mode === 'login' ? 'Entre para continuar seus projetos.' : 'Comece a criar sites premium em minutos.'}</p>
           <form onSubmit={submit}>
-            <label>E-MAIL<input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="voce@email.com" required /></label>
-            <label>SENHA<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required /></label>
+            <label><span>E-MAIL</span><input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="voce@email.com" required /></label>
+            <label><span>SENHA</span><input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required /></label>
             {message && <div className="formMessage">{message}</div>}
-            <button className="solidBtn" disabled={busy}>{busy ? 'CARREGANDO...' : mode === 'login' ? 'ENTRAR NO VITRA ↗' : 'CRIAR CONTA ↗'}</button>
+            <button className="solidBtn" disabled={busy}>{busy ? 'CARREGANDO...' : mode === 'login' ? 'ENTRAR NO VITRA' : 'CRIAR CONTA'} <b>↗</b></button>
           </form>
-          <button className="textBtn" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>
-            {mode === 'login' ? 'Ainda não tenho conta' : 'Já tenho uma conta'}
-          </button>
+          <div className="authSwitch"><span>{mode === 'login' ? 'Ainda não tem uma conta?' : 'Já tem uma conta?'}</span><button onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>{mode === 'login' ? 'Criar agora' : 'Entrar'}</button></div>
         </div>
       </section>
     </main>
@@ -207,9 +260,10 @@ export default function Home() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [view, setView] = useState<'dashboard' | 'builder'>('dashboard');
   const [project, setProject] = useState<Project>(freshProject('automotive'));
+  const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [notice, setNotice] = useState('');
-  const [activePanel, setActivePanel] = useState<'brand' | 'content' | 'services' | 'media' | 'publish'>('brand');
 
   useEffect(() => {
     if (!supabase) { setLoading(false); return; }
@@ -224,7 +278,7 @@ export default function Home() {
   useEffect(() => {
     if (!session?.user || !supabase) return;
     void loadProjects();
-  }, [session?.user.id]);
+  }, [session?.user.id, supabase]);
 
   async function loadProjects() {
     if (!supabase) return;
@@ -234,14 +288,14 @@ export default function Home() {
 
   function startProject(niche: Niche) {
     setProject(freshProject(niche));
-    setActivePanel('brand');
+    setStep(0);
     setNotice('');
     setView('builder');
   }
 
   function editProject(item: Project) {
-    setProject({ ...item, services: item.services || [], gallery: item.gallery || [] });
-    setActivePanel('brand');
+    setProject({ ...item, services: item.services || [], gallery: item.gallery || [], settings: item.settings || {} });
+    setStep(0);
     setNotice('');
     setView('builder');
   }
@@ -250,62 +304,93 @@ export default function Home() {
     setProject(prev => ({ ...prev, [key]: value }));
   }
 
-  async function saveProject() {
-    if (!supabase || !session?.user) return;
+  function setSetting(key: string, value: unknown) {
+    setProject(prev => ({ ...prev, settings: { ...(prev.settings || {}), [key]: value } }));
+  }
+
+  async function saveProject(overrides: Partial<Project> = {}) {
+    if (!supabase || !session?.user) return false;
     setSaving(true);
     setNotice('');
+    const current = { ...project, ...overrides };
     const payload = {
       user_id: session.user.id,
-      name: project.name,
-      slug: project.slug || slugify(project.name),
-      niche: project.niche,
-      template: project.template,
-      status: project.status,
-      theme: project.theme,
-      accent: project.accent,
-      font_style: project.font_style,
-      whatsapp: project.whatsapp,
-      instagram: project.instagram,
-      address: project.address,
-      headline: project.headline,
-      subheadline: project.subheadline,
-      cta_label: project.cta_label,
-      hero_image: project.hero_image,
-      logo_url: project.logo_url,
-      services: project.services,
-      gallery: project.gallery,
-      settings: project.settings,
-      custom_domain: project.custom_domain || null,
-      vercel_url: project.vercel_url || null
+      name: current.name.trim() || displayName(current),
+      slug: current.slug || slugify(current.name || displayName(current)),
+      niche: current.niche,
+      template: current.template,
+      status: current.status,
+      theme: current.theme,
+      accent: current.accent,
+      font_style: current.font_style,
+      whatsapp: current.whatsapp,
+      instagram: current.instagram,
+      address: current.address,
+      headline: current.headline,
+      subheadline: current.subheadline,
+      cta_label: current.cta_label,
+      hero_image: current.hero_image,
+      logo_url: current.logo_url,
+      services: current.services,
+      gallery: current.gallery,
+      settings: current.settings,
+      custom_domain: current.custom_domain || null,
+      vercel_url: current.vercel_url || null
     };
 
-    const query = project.id
-      ? supabase.from('projects').update(payload).eq('id', project.id).select().single()
+    const query = current.id
+      ? supabase.from('projects').update(payload).eq('id', current.id).select().single()
       : supabase.from('projects').insert(payload).select().single();
     const { data, error } = await query;
 
-    if (error) setNotice(error.message);
-    else {
-      setProject(data as Project);
-      setNotice('Projeto salvo no Vitra.');
-      await loadProjects();
+    if (error) {
+      setNotice(error.message);
+      setSaving(false);
+      return false;
     }
+
+    setProject(data as Project);
+    setNotice('Projeto salvo.');
+    await loadProjects();
     setSaving(false);
+    return true;
   }
 
-  async function uploadAsset(event: ChangeEvent<HTMLInputElement>, kind: 'hero' | 'logo' | 'gallery') {
+  async function uploadAsset(event: ChangeEvent<HTMLInputElement>, kind: MediaKind) {
     if (!supabase || !session?.user || !event.target.files?.[0]) return;
     const file = event.target.files[0];
+    setUploading(true);
     setNotice('Enviando mídia...');
     const safe = file.name.toLowerCase().replace(/[^a-z0-9.]+/g, '-');
     const path = `${session.user.id}/${crypto.randomUUID()}-${safe}`;
-    const { error } = await supabase.storage.from('vitra-assets').upload(path, file, { upsert: false });
-    if (error) { setNotice(error.message); return; }
+    const { error } = await supabase.storage.from('vitra-assets').upload(path, file, { upsert: false, contentType: file.type });
+    if (error) {
+      setNotice(error.message);
+      setUploading(false);
+      return;
+    }
     const { data } = supabase.storage.from('vitra-assets').getPublicUrl(path);
     if (kind === 'hero') setField('hero_image', data.publicUrl);
     if (kind === 'logo') setField('logo_url', data.publicUrl);
     if (kind === 'gallery') setField('gallery', [...project.gallery, data.publicUrl]);
-    setNotice('Mídia adicionada. Salve o projeto para confirmar.');
+    if (kind === 'video') setSetting('video_url', data.publicUrl);
+    setNotice('Mídia adicionada.');
+    setUploading(false);
+    event.target.value = '';
+  }
+
+  function removeGallery(index: number) {
+    setField('gallery', project.gallery.filter((_, i) => i !== index));
+  }
+
+  function nextStep() {
+    setStep(value => Math.min(value + 1, wizardSteps.length - 1));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function previousStep() {
+    setStep(value => Math.max(value - 1, 0));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async function logout() {
@@ -320,149 +405,157 @@ export default function Home() {
 
   const published = projects.filter(p => p.status === 'published').length;
   const drafts = projects.filter(p => p.status !== 'published').length;
+  const activeStep = wizardSteps[step];
+  const progress = ((step + 1) / wizardSteps.length) * 100;
 
   return (
     <main className="studioShell">
-      <aside className="rail">
-        <button className="railLogo" onClick={() => setView('dashboard')}>V</button>
-        <div className="railNav">
-          <button className={view === 'dashboard' ? 'active' : ''} onClick={() => setView('dashboard')}><Icon>⌂</Icon><span>Início</span></button>
-          <button className={view === 'builder' ? 'active' : ''} onClick={() => startProject('automotive')}><Icon>＋</Icon><span>Criar</span></button>
-          <button><Icon>◇</Icon><span>Modelos</span></button>
-        </div>
-        <button className="railUser" onClick={logout} title="Sair">{session.user.email?.slice(0, 1).toUpperCase()}</button>
-      </aside>
-
       {view === 'dashboard' ? (
-        <section className="dashboard">
-          <header className="topbar">
-            <div><span className="tinyLabel">VITRA / SITE STUDIO</span><h1>Seu estúdio digital.</h1></div>
-            <button className="newProjectBtn" onClick={() => startProject('automotive')}>＋ NOVO SITE</button>
-          </header>
+        <>
+          <aside className="rail">
+            <button className="railLogo" onClick={() => setView('dashboard')}>V</button>
+            <nav className="railNav"><button className="active"><span>⌂</span><small>Início</small></button><button onClick={() => startProject('automotive')}><span>＋</span><small>Criar</small></button></nav>
+            <button className="railUser" onClick={logout} title="Sair">{session.user.email?.slice(0, 1).toUpperCase()}</button>
+          </aside>
 
-          <section className="dashboardHero">
-            <div className="heroOrb orbOne" /><div className="heroOrb orbTwo" />
-            <div className="dashHeroCopy">
-              <span className="kicker">CRIAR • PERSONALIZAR • PUBLICAR</span>
-              <h2>Um site com cara de<br /><em>agência.</em> Sem agência.</h2>
-              <p>Escolha o nicho, coloque a identidade do cliente e transforme um modelo premium em uma entrega pronta para vender.</p>
-              <div className="dashActions"><button onClick={() => startProject('automotive')}>CRIAR AGORA ↗</button><span>01 — dois nichos prontos</span></div>
-            </div>
-            <div className="floatingPreview">
-              <div className="floatTop"><i /><i /><i /><span>vitra preview</span></div>
-              <div className="floatSite">
-                <small>APEX / DETAIL</small><h3>Seu carro,<br />em outro nível.</h3><div className="floatLine" /><b>ORÇAMENTO ↗</b>
+          <section className="dashboard">
+            <header className="topbar">
+              <div className="topbarBrand"><span className="tinyLabel">VITRA / SITE STUDIO</span><h1>Seu estúdio digital.</h1></div>
+              <button className="newProjectBtn" onClick={() => startProject('automotive')}>＋ NOVO SITE</button>
+            </header>
+
+            <section className="dashboardHero">
+              <div className="dashHeroCopy">
+                <span className="kicker">CRIAR • PERSONALIZAR • PUBLICAR</span>
+                <h2>Um site com cara de<br /><em>agência.</em> Sem agência.</h2>
+                <p>O VITRA conduz você etapa por etapa. Você coloca a identidade do cliente e o sistema cuida da composição, proporções e experiência.</p>
+                <button className="heroCreateBtn" onClick={() => startProject('automotive')}>COMEÇAR UM PROJETO <b>↗</b></button>
               </div>
-            </div>
-          </section>
+              <div className="floatingPreview"><div className="floatBrowser"><i /><i /><i /><span>vitra.preview</span></div><div className="floatImage"><small>APEX DETAIL</small><h3>Seu carro,<br />em outro nível.</h3><button>ORÇAMENTO ↗</button></div></div>
+            </section>
 
-          <section className="metricStrip">
-            <div><span>PROJETOS</span><strong>{String(projects.length).padStart(2, '0')}</strong></div>
-            <div><span>PUBLICADOS</span><strong>{String(published).padStart(2, '0')}</strong></div>
-            <div><span>EM CRIAÇÃO</span><strong>{String(drafts).padStart(2, '0')}</strong></div>
-            <div><span>NICHOS ATIVOS</span><strong>02</strong></div>
-          </section>
+            <section className="metricStrip">
+              <div><span>PROJETOS</span><strong>{String(projects.length).padStart(2, '0')}</strong></div>
+              <div><span>PUBLICADOS</span><strong>{String(published).padStart(2, '0')}</strong></div>
+              <div><span>EM CRIAÇÃO</span><strong>{String(drafts).padStart(2, '0')}</strong></div>
+              <div><span>NICHOS</span><strong>02</strong></div>
+            </section>
 
-          <section className="sectionBlock">
-            <div className="blockTitle"><div><span className="tinyLabel">COMECE POR AQUI</span><h3>Escolha um universo.</h3></div><span className="indexTag">01 / NICHOS</span></div>
-            <div className="nicheGrid">
-              <button className="nicheCard autoCard" onClick={() => startProject('automotive')}>
-                <div className="cardImage"><span>ESTÉTICA<br />AUTOMOTIVA</span></div>
-                <div className="nicheMeta"><span>PREMIUM / HIGH CONTRAST</span><b>CRIAR SITE ↗</b></div>
-              </button>
-              <button className="nicheCard nailsCard" onClick={() => startProject('manicure')}>
-                <div className="cardImage"><span>MANICURE<br />& NAILS</span></div>
-                <div className="nicheMeta"><span>EDITORIAL / SOFT LUXURY</span><b>CRIAR SITE ↗</b></div>
-              </button>
-            </div>
-          </section>
-
-          <section className="sectionBlock projectsBlock">
-            <div className="blockTitle"><div><span className="tinyLabel">SEUS TRABALHOS</span><h3>Projetos recentes.</h3></div><span className="indexTag">02 / SITES</span></div>
-            {projects.length === 0 ? (
-              <div className="emptyProjects"><span>V</span><h4>Nenhum site ainda.</h4><p>Seu primeiro projeto começa com um clique.</p><button onClick={() => startProject('automotive')}>CRIAR PRIMEIRO SITE ↗</button></div>
-            ) : (
-              <div className="projectGrid">
-                {projects.map(item => (
-                  <button className="projectCard" key={item.id} onClick={() => editProject(item)}>
-                    <div className={`projectThumb ${item.niche}`} style={{ backgroundImage: `linear-gradient(180deg, transparent, rgba(0,0,0,.72)), url(${item.hero_image || fallbackImages[item.niche]})` }}>
-                      <span className={`statusDot ${item.status}`} />
-                      <strong>{item.name}</strong>
-                    </div>
-                    <div className="projectInfo"><div><span>{item.niche === 'automotive' ? 'ESTÉTICA' : 'MANICURE'}</span><b>{item.status === 'published' ? 'PUBLICADO' : 'RASCUNHO'}</b></div><i>↗</i></div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </section>
-        </section>
-      ) : (
-        <section className="builder">
-          <header className="builderTopbar">
-            <div className="builderCrumbs"><button onClick={() => setView('dashboard')}>VITRA</button><span>/</span><strong>{project.name || 'Novo site'}</strong><span className={`saveDot ${saving ? 'saving' : ''}`} /></div>
-            <div className="builderActions"><span>{notice}</span><button className="ghostBtn" onClick={() => setView('dashboard')}>SAIR</button><button className="saveBtn" onClick={saveProject} disabled={saving}>{saving ? 'SALVANDO...' : 'SALVAR PROJETO'}</button></div>
-          </header>
-
-          <div className="builderBody">
-            <aside className="builderTools">
-              {[
-                ['brand', 'Aa', 'Marca'], ['content', '✎', 'Conteúdo'], ['services', '≡', 'Serviços'], ['media', '▧', 'Mídia'], ['publish', '↗', 'Publicar']
-              ].map(([id, icon, label]) => (
-                <button key={id} className={activePanel === id ? 'active' : ''} onClick={() => setActivePanel(id as typeof activePanel)}><span>{icon}</span><small>{label}</small></button>
-              ))}
-            </aside>
-
-            <aside className="editorPanel">
-              <div className="panelHeading"><span className="tinyLabel">EDITOR VISUAL</span><h2>{activePanel === 'brand' ? 'Identidade' : activePanel === 'content' ? 'Conteúdo' : activePanel === 'services' ? 'Serviços' : activePanel === 'media' ? 'Mídia' : 'Publicação'}</h2></div>
-
-              {activePanel === 'brand' && <>
-                <label className="fieldLabel">NOME DA MARCA<input value={project.name} onChange={e => setProject(prev => ({ ...prev, name: e.target.value, slug: prev.id ? prev.slug : slugify(e.target.value) }))} /></label>
-                <label className="fieldLabel">NICHO<select value={project.niche} onChange={e => setProject(freshProject(e.target.value as Niche))}><option value="automotive">Estética Automotiva</option><option value="manicure">Manicure & Nails</option></select></label>
-                <div className="fieldLabel">TEMA<div className="segmented"><button className={project.theme === 'dark' ? 'active' : ''} onClick={() => setField('theme', 'dark')}>ESCURO</button><button className={project.theme === 'light' ? 'active' : ''} onClick={() => setField('theme', 'light')}>CLARO</button></div></div>
-                <div className="fieldLabel">COR DE DESTAQUE<div className="colorField"><input type="color" value={project.accent} onChange={e => setField('accent', e.target.value)} /><input value={project.accent} onChange={e => setField('accent', e.target.value)} /></div></div>
-                <div className="fieldLabel">ESTILO<div className="templateList">{['signature','editorial','minimal'].map(t => <button key={t} className={project.template === t ? 'active' : ''} onClick={() => setField('template', t)}><span className={`templateMini ${t}`} /><b>{t}</b></button>)}</div></div>
-              </>}
-
-              {activePanel === 'content' && <>
-                <label className="fieldLabel">TÍTULO PRINCIPAL<textarea rows={3} value={project.headline} onChange={e => setField('headline', e.target.value)} /></label>
-                <label className="fieldLabel">SUBTÍTULO<textarea rows={4} value={project.subheadline} onChange={e => setField('subheadline', e.target.value)} /></label>
-                <label className="fieldLabel">TEXTO DO BOTÃO<input value={project.cta_label} onChange={e => setField('cta_label', e.target.value)} /></label>
-                <label className="fieldLabel">WHATSAPP<input value={project.whatsapp} onChange={e => setField('whatsapp', e.target.value)} placeholder="5511999999999" /></label>
-                <label className="fieldLabel">INSTAGRAM<input value={project.instagram} onChange={e => setField('instagram', e.target.value)} placeholder="@seuperfil" /></label>
-                <label className="fieldLabel">ENDEREÇO<input value={project.address} onChange={e => setField('address', e.target.value)} placeholder="Cidade, bairro..." /></label>
-              </>}
-
-              {activePanel === 'services' && <>
-                <p className="panelHint">Edite os serviços. Eles entram automaticamente no site na ordem abaixo.</p>
-                <div className="servicesEditor">
-                  {project.services.map((service, index) => <div className="serviceInput" key={index}><span>0{index + 1}</span><input value={service} onChange={e => { const next = [...project.services]; next[index] = e.target.value; setField('services', next); }} /><button onClick={() => setField('services', project.services.filter((_, i) => i !== index))}>×</button></div>)}
-                </div>
-                <button className="addRowBtn" onClick={() => setField('services', [...project.services, 'Novo serviço'])}>＋ ADICIONAR SERVIÇO</button>
-              </>}
-
-              {activePanel === 'media' && <>
-                <div className="uploadBlock"><div><span>CAPA PRINCIPAL</span><p>Imagem grande do topo do site.</p></div><label className="uploadBtn">ENVIAR<input type="file" accept="image/*" onChange={e => uploadAsset(e, 'hero')} /></label>{project.hero_image && <img src={project.hero_image} alt="Capa" />}</div>
-                <div className="uploadBlock"><div><span>LOGOTIPO</span><p>PNG ou WebP com fundo transparente.</p></div><label className="uploadBtn">ENVIAR<input type="file" accept="image/*" onChange={e => uploadAsset(e, 'logo')} /></label>{project.logo_url && <img className="logoPreview" src={project.logo_url} alt="Logo" />}</div>
-                <div className="uploadBlock"><div><span>GALERIA</span><p>Fotos de trabalhos, antes/depois e ambiente.</p></div><label className="uploadBtn">ADICIONAR<input type="file" accept="image/*" onChange={e => uploadAsset(e, 'gallery')} /></label><div className="galleryMini">{project.gallery.map((url, i) => <img src={url} alt="Galeria" key={i} />)}</div></div>
-              </>}
-
-              {activePanel === 'publish' && <>
-                <div className="publishCard"><span className="publishIcon">↗</span><h3>Pronto para vender.</h3><p>Salve o projeto agora. A etapa de publicação vai transformar esta configuração em um site estático separado na Vercel.</p></div>
-                <label className="fieldLabel">SLUG DO PROJETO<input value={project.slug} onChange={e => setField('slug', slugify(e.target.value))} /></label>
-                <label className="fieldLabel">DOMÍNIO DO CLIENTE<input value={project.custom_domain || ''} onChange={e => setField('custom_domain', e.target.value)} placeholder="cliente.com.br" /></label>
-                <div className="publishStatus"><div><span>STATUS</span><strong>{project.status === 'published' ? 'PUBLICADO' : 'RASCUNHO'}</strong></div><div><span>URL</span><strong>{project.vercel_url || 'Será criada na publicação'}</strong></div></div>
-                <button className="publishBtn" onClick={async () => { setField('status','ready'); setNotice('Projeto marcado como pronto. Salve para confirmar.'); }}>MARCAR COMO PRONTO ↗</button>
-                <small className="publishNote">A automação de deploy será conectada na próxima etapa sem colocar banco de dados nos sites finais.</small>
-              </>}
-            </aside>
-
-            <section className="previewStage">
-              <div className="previewToolbar"><div><span className="liveDot" /> PREVIEW AO VIVO</div><div className="deviceToggle"><button className="active">DESKTOP</button><button>MOBILE</button></div><span>{project.slug}.vercel.app</span></div>
-              <div className="browserFrame">
-                <div className="browserBar"><div><i/><i/><i/></div><span>https://{project.slug || 'seu-site'}.vercel.app</span><b>↗</b></div>
-                <div className="browserViewport"><SitePreview project={project} /></div>
+            <section className="sectionBlock">
+              <div className="blockTitle"><div><span className="tinyLabel">COMECE POR AQUI</span><h3>Escolha o tipo de negócio.</h3></div><span className="indexTag">01 / NICHO</span></div>
+              <div className="nicheGrid">
+                <button className="nicheCard autoCard" onClick={() => startProject('automotive')}><div className="cardImage"><span>ESTÉTICA<br />AUTOMOTIVA</span></div><div className="nicheMeta"><span>PREMIUM / HIGH CONTRAST</span><b>CRIAR SITE ↗</b></div></button>
+                <button className="nicheCard nailsCard" onClick={() => startProject('manicure')}><div className="cardImage"><span>MANICURE<br />& NAILS</span></div><div className="nicheMeta"><span>EDITORIAL / SOFT LUXURY</span><b>CRIAR SITE ↗</b></div></button>
               </div>
             </section>
+
+            <section className="sectionBlock projectsBlock">
+              <div className="blockTitle"><div><span className="tinyLabel">SEUS TRABALHOS</span><h3>Projetos recentes.</h3></div><span className="indexTag">02 / SITES</span></div>
+              {projects.length === 0 ? (
+                <div className="emptyProjects"><span>V</span><h4>Nenhum projeto ainda.</h4><p>Crie o primeiro site seguindo as etapas do VITRA.</p><button onClick={() => startProject('automotive')}>CRIAR PRIMEIRO SITE ↗</button></div>
+              ) : (
+                <div className="projectGrid">
+                  {projects.map(item => (
+                    <button className="projectCard" key={item.id} onClick={() => editProject(item)}>
+                      <div className="projectThumb" style={{ backgroundImage: `linear-gradient(180deg, transparent, rgba(0,0,0,.76)), url(${item.hero_image || fallbackImages[item.niche]})` }}><span className={`statusDot ${item.status}`} /><strong>{item.name}</strong></div>
+                      <div className="projectInfo"><div><span>{item.niche === 'automotive' ? 'ESTÉTICA' : 'MANICURE'}</span><b>{item.status === 'published' ? 'PUBLICADO' : 'RASCUNHO'}</b></div><i>↗</i></div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </section>
+          </section>
+        </>
+      ) : (
+        <section className="wizardShell">
+          <header className="wizardTopbar">
+            <button className="wizardBrand" onClick={() => setView('dashboard')}><span>V</span><b>VITRA</b></button>
+            <div className="wizardProjectName"><small>PROJETO</small><strong>{displayName(project)}</strong></div>
+            <div className="wizardTopActions"><span className="saveNotice">{notice}</span><button className="ghostBtn" onClick={() => setView('dashboard')}>SAIR</button><button className="saveBtn" disabled={saving} onClick={() => void saveProject()}>{saving ? 'SALVANDO...' : 'SALVAR'}</button></div>
+          </header>
+
+          <div className="wizardProgress"><i style={{ width: `${progress}%` }} /></div>
+
+          <div className="wizardLayout">
+            <aside className="stepRail">
+              <span className="stepRailLabel">ETAPAS</span>
+              <div className="stepDots">
+                {wizardSteps.map((item, index) => (
+                  <button key={item.id} className={`${index === step ? 'active' : ''} ${index < step ? 'done' : ''}`} onClick={() => setStep(index)} title={item.title}><span>{index < step ? '✓' : String(index + 1).padStart(2, '0')}</span><small>{item.id === 'subheadline' ? 'Subtítulo' : item.id === 'headline' ? 'Título' : item.id === 'hero' ? 'Capa' : item.id === 'gallery' ? 'Galeria' : item.id === 'contact' ? 'Contato' : item.id === 'services' ? 'Serviços' : item.id === 'review' ? 'Revisão' : item.id.charAt(0).toUpperCase() + item.id.slice(1)}</small></button>
+                ))}
+              </div>
+            </aside>
+
+            <main className="wizardStage">
+              <div className="stageContent">
+                <div className="stageHeading"><span>{activeStep.eyebrow}</span><h1>{activeStep.title}</h1><p>{activeStep.description}</p>{activeStep.optional && <small>OPCIONAL — você pode pular esta etapa.</small>}</div>
+
+                <div className="stageControl">
+                  {activeStep.id === 'logo' && (
+                    <div className="uploadHeroControl">
+                      <label className={`dropZone logoDrop ${project.logo_url ? 'hasMedia' : ''}`}>
+                        <input type="file" accept="image/png,image/jpeg,image/webp,image/avif" onChange={e => void uploadAsset(e, 'logo')} />
+                        {project.logo_url ? <img src={project.logo_url} alt="Logo enviado" /> : <><span className="uploadIcon">＋</span><strong>Enviar logotipo</strong><small>PNG, JPG, WebP ou AVIF</small></>}
+                      </label>
+                      {project.logo_url && <button className="removeMedia" onClick={() => setField('logo_url', '')}>REMOVER LOGO</button>}
+                    </div>
+                  )}
+
+                  {activeStep.id === 'name' && (
+                    <label className="bigInput"><span>NOME DA MARCA</span><input autoFocus value={project.name} onChange={e => setProject(prev => ({ ...prev, name: e.target.value, slug: prev.id ? prev.slug : slugify(e.target.value) }))} placeholder={project.niche === 'automotive' ? 'Ex.: Apex Detail' : 'Ex.: Maison Nails'} /></label>
+                  )}
+
+                  {activeStep.id === 'headline' && (
+                    <label className="bigTextarea"><span>TÍTULO PRINCIPAL</span><textarea autoFocus rows={3} value={project.headline} onChange={e => setField('headline', e.target.value)} placeholder={displayHeadline(project)} maxLength={90} /><small>{project.headline.length}/90</small></label>
+                  )}
+
+                  {activeStep.id === 'subheadline' && (
+                    <label className="bigTextarea"><span>SUBTÍTULO</span><textarea autoFocus rows={4} value={project.subheadline} onChange={e => setField('subheadline', e.target.value)} placeholder={displaySubheadline(project)} maxLength={220} /><small>{project.subheadline.length}/220</small></label>
+                  )}
+
+                  {activeStep.id === 'style' && (
+                    <div className="styleControls">
+                      <div><span className="controlLabel">ESTILO DO SITE</span><div className="styleCards">{['signature','editorial','minimal'].map(item => <button key={item} className={project.template === item ? 'active' : ''} onClick={() => setField('template', item)}><span className={`styleSample ${item}`}><i /><i /><i /></span><strong>{item === 'signature' ? 'Signature' : item === 'editorial' ? 'Editorial' : 'Minimal'}</strong></button>)}</div></div>
+                      <div className="splitControls"><div><span className="controlLabel">TEMA</span><div className="segmented"><button className={project.theme === 'dark' ? 'active' : ''} onClick={() => setField('theme', 'dark')}>ESCURO</button><button className={project.theme === 'light' ? 'active' : ''} onClick={() => setField('theme', 'light')}>CLARO</button></div></div><div><span className="controlLabel">COR DE DESTAQUE</span><div className="colorPicker"><input type="color" value={project.accent} onChange={e => setField('accent', e.target.value)} /><b>{project.accent.toUpperCase()}</b></div></div></div>
+                    </div>
+                  )}
+
+                  {activeStep.id === 'hero' && (
+                    <div className="uploadHeroControl"><label className={`dropZone heroDrop ${project.hero_image ? 'hasMedia' : ''}`}><input type="file" accept="image/png,image/jpeg,image/webp,image/avif" onChange={e => void uploadAsset(e, 'hero')} />{project.hero_image ? <img src={project.hero_image} alt="Capa" /> : <><span className="uploadIcon">▧</span><strong>Enviar imagem de capa</strong><small>O VITRA recorta automaticamente em 16:9 e mobile</small></>}</label>{project.hero_image && <button className="removeMedia" onClick={() => setField('hero_image', '')}>TROCAR / REMOVER CAPA</button>}</div>
+                  )}
+
+                  {activeStep.id === 'gallery' && (
+                    <div className="galleryEditor"><label className="addMediaCard"><input type="file" accept="image/png,image/jpeg,image/webp,image/avif" onChange={e => void uploadAsset(e, 'gallery')} /><span>＋</span><strong>Adicionar foto</strong><small>até 4 aparecem no preview</small></label>{project.gallery.map((url, index) => <div className="galleryItem" key={`${url}-${index}`}><img src={url} alt={`Galeria ${index + 1}`} /><button onClick={() => removeGallery(index)}>×</button></div>)}</div>
+                  )}
+
+                  {activeStep.id === 'video' && (
+                    <div className="uploadHeroControl"><label className={`dropZone videoDrop ${getVideoUrl(project) ? 'hasMedia' : ''}`}><input type="file" accept="video/mp4,video/webm,video/quicktime" onChange={e => void uploadAsset(e, 'video')} />{getVideoUrl(project) ? <video src={getVideoUrl(project)} muted loop autoPlay playsInline /> : <><span className="uploadIcon">▶</span><strong>Enviar vídeo</strong><small>MP4, WebM ou MOV • até 50 MB</small></>}</label>{getVideoUrl(project) && <button className="removeMedia" onClick={() => setSetting('video_url', '')}>REMOVER VÍDEO</button>}</div>
+                  )}
+
+                  {activeStep.id === 'services' && (
+                    <div className="servicesEditor"><div className="servicesList">{project.services.map((service, index) => <div className="serviceInput" key={index}><span>{String(index + 1).padStart(2, '0')}</span><input value={service} onChange={e => { const next = [...project.services]; next[index] = e.target.value; setField('services', next); }} /><button onClick={() => setField('services', project.services.filter((_, i) => i !== index))}>×</button></div>)}</div><button className="addServiceBtn" onClick={() => setField('services', [...project.services, 'Novo serviço'])}>＋ ADICIONAR SERVIÇO</button></div>
+                  )}
+
+                  {activeStep.id === 'contact' && (
+                    <div className="contactGrid"><label><span>WHATSAPP</span><input value={project.whatsapp} onChange={e => setField('whatsapp', e.target.value)} placeholder="5511999999999" /></label><label><span>INSTAGRAM</span><input value={project.instagram} onChange={e => setField('instagram', e.target.value)} placeholder="@seuperfil" /></label><label className="wide"><span>ENDEREÇO</span><input value={project.address} onChange={e => setField('address', e.target.value)} placeholder="Rua, bairro, cidade" /></label><label className="wide"><span>TEXTO DO BOTÃO</span><input value={project.cta_label} onChange={e => setField('cta_label', e.target.value)} placeholder="Solicitar orçamento" /></label></div>
+                  )}
+
+                  {activeStep.id === 'review' && (
+                    <div className="reviewCard"><div className="reviewSeal">V</div><div><span>PROJETO COMPLETO</span><h3>{displayName(project)}</h3><p>Logo, textos, mídia, serviços e contatos estão prontos para virar um site independente.</p></div><div className="reviewStats"><span><b>{project.gallery.length}</b> fotos</span><span><b>{project.services.filter(Boolean).length}</b> serviços</span><span><b>{getVideoUrl(project) ? '1' : '0'}</b> vídeo</span></div><button className="readyBtn" onClick={() => void saveProject({ status: 'ready' })}>SALVAR E MARCAR COMO PRONTO ↗</button></div>
+                  )}
+                </div>
+
+                <div className="stageFooter">
+                  <button className="backStep" onClick={previousStep} disabled={step === 0}>← VOLTAR</button>
+                  <div><span>{uploading ? 'ENVIANDO MÍDIA...' : `${step + 1} DE ${wizardSteps.length}`}</span>{step < wizardSteps.length - 1 && <button className="nextStep" onClick={nextStep} disabled={uploading}>CONTINUAR <b>→</b></button>}</div>
+                </div>
+              </div>
+            </main>
+
+            <aside className="livePreviewPanel">
+              <div className="previewPanelTop"><div><i /><i /><i /></div><span>PREVIEW AO VIVO</span><b>{project.niche === 'automotive' ? 'DESKTOP' : 'RESPONSIVO'}</b></div>
+              <div className="previewViewport"><SitePreview project={project} /></div>
+            </aside>
           </div>
         </section>
       )}
