@@ -12,6 +12,7 @@ import './app-shell.css';
 import './light-shell.css';
 import './free-style.css';
 import './auth.css';
+import './integrations-motion.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Cinematic Site Studio',
