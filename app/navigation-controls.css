@@ -1,0 +1,96 @@
+/* VITRA navigation controls — fixed app chrome, independent from scrolling content */
+.vxFloatingUi{position:relative;z-index:2147482000}
+.vxThemeSwitch{
+  position:fixed!important;
+  top:calc(14px + env(safe-area-inset-top))!important;
+  right:16px!important;
+  left:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+  width:76px!important;
+  min-width:76px!important;
+  height:40px!important;
+  padding:4px!important;
+  border-radius:14px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:2px!important;
+  z-index:2147482001!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+  transition:background .2s ease,border-color .2s ease,box-shadow .2s ease!important;
+}
+.vxFloatingUi.theme-light .vxThemeSwitch{background:rgba(255,255,255,.95)!important;border:1px solid #dce7e3!important;color:#536660!important;box-shadow:0 10px 28px rgba(36,70,60,.12)!important}
+.vxFloatingUi.theme-dark .vxThemeSwitch{background:rgba(18,21,25,.95)!important;border:1px solid rgba(255,255,255,.10)!important;color:#9ca5aa!important;box-shadow:0 12px 30px rgba(0,0,0,.28)!important}
+.vxThemeGlyphs{display:grid!important;grid-template-columns:1fr 1fr!important;width:100%!important;height:100%!important;gap:2px!important}
+.vxThemeGlyph{display:flex!important;align-items:center!important;justify-content:center!important;width:30px!important;height:30px!important;border-radius:10px!important;transition:all .2s ease!important}
+.vxThemeGlyph svg{width:17px;height:17px;display:block}
+.vxFloatingUi.theme-light .vxThemeGlyph.sun.active{background:#eef6f2!important;color:#137d71!important;box-shadow:inset 0 0 0 1px #d8ebe5!important}
+.vxFloatingUi.theme-light .vxThemeGlyph.moon{color:#94a09c!important}
+.vxFloatingUi.theme-dark .vxThemeGlyph.moon.active{background:#28313a!important;color:#e8edf0!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)!important}
+.vxFloatingUi.theme-dark .vxThemeGlyph.sun{color:#737d83!important}
+
+.vxCatalogMobileNav{display:none}
+
+@media (max-width:820px){
+  .vxThemeSwitch{
+    top:calc(10px + env(safe-area-inset-top))!important;
+    right:12px!important;
+    width:72px!important;
+    min-width:72px!important;
+    height:38px!important;
+    border-radius:13px!important;
+  }
+  .vxThemeGlyph{width:29px!important;height:29px!important;border-radius:9px!important}
+  .vxThemeGlyph svg{width:16px;height:16px}
+
+  .vxCatalog{padding-bottom:calc(110px + env(safe-area-inset-bottom))!important}
+  .vxCatalog>header>button{display:none!important}
+
+  .vxCatalogMobileNav{
+    position:fixed;
+    left:50%;
+    bottom:calc(12px + env(safe-area-inset-bottom));
+    transform:translateX(-50%);
+    z-index:2147482002;
+    width:min(330px,calc(100vw - 28px));
+    height:66px;
+    padding:6px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:4px;
+    border-radius:22px;
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+  }
+  .vxFloatingUi.theme-light .vxCatalogMobileNav{background:rgba(255,255,255,.96);border:1px solid #dce7e3;box-shadow:0 18px 46px rgba(33,67,57,.16)}
+  .vxFloatingUi.theme-dark .vxCatalogMobileNav{background:rgba(15,17,21,.95);border:1px solid rgba(255,255,255,.09);box-shadow:0 18px 46px rgba(0,0,0,.34)}
+  .vxCatalogMobileNav button{
+    appearance:none;
+    border:0;
+    background:transparent;
+    border-radius:17px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.01em;
+    cursor:pointer;
+    transition:background .18s ease,color .18s ease,transform .18s ease;
+  }
+  .vxCatalogMobileNav button:active{transform:scale(.96)}
+  .vxFloatingUi.theme-light .vxCatalogMobileNav button{color:#74827d}
+  .vxFloatingUi.theme-dark .vxCatalogMobileNav button{color:#8e989e}
+  .vxFloatingUi.theme-light .vxCatalogMobileNav button.active{background:#eaf4f1;color:#126f65}
+  .vxFloatingUi.theme-dark .vxCatalogMobileNav button.active{background:#252d32;color:#f0f4f2}
+  .vxCatalogMobileNav .vxIcon{stroke:currentColor}
+}
+
+@media (max-width:380px){
+  .vxThemeSwitch{width:68px!important;min-width:68px!important}
+  .vxCatalogMobileNav{width:calc(100vw - 20px)}
+}
