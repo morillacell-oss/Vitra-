@@ -10,6 +10,7 @@ import './automotive-cinema.css';
 import './verticals.css';
 import './app-shell.css';
 import './light-shell.css';
+import './free-style.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Cinematic Site Studio',
