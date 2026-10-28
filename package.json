@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/prepare-vitra.mjs && node scripts/preview-polish.mjs",
+    "predev": "node scripts/prepare-vitra.mjs && node scripts/preview-polish.mjs && node scripts/app-navigation-polish.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/prepare-vitra.mjs && node scripts/preview-polish.mjs",
+    "prebuild": "node scripts/prepare-vitra.mjs && node scripts/preview-polish.mjs && node scripts/app-navigation-polish.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
