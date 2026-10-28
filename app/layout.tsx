@@ -14,6 +14,7 @@ import './free-style.css';
 import './auth.css';
 import './integrations-motion.css';
 import './mobile-dashboard-polish.css';
+import './navigation-controls.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Cinematic Site Studio',
