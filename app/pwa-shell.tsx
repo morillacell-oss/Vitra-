@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import StudioV4 from './studio-v4';
+import AuthGate from './auth-gate';
 import { Icon } from './vitra-icons';
 
 type InstallPromptEvent = Event & {
@@ -75,21 +76,23 @@ export default function PwaShell(){
   function toggleTheme(){setTheme(v=>v==='light'?'dark':'light')}
 
   return <div className={`vitraAppShell theme-${theme} ${standalone?'isStandalone':''} ${builder?'isBuilder':''}`}>
-    <StudioV4/>
-    {!builder&&<button className="vxThemeSwitch" onClick={toggleTheme} aria-label={theme==='light'?'Ativar tema escuro':'Ativar tema claro'} title={theme==='light'?'Tema claro — mudar para escuro':'Tema escuro — mudar para claro'}>
-      <Icon name="palette" size={16}/><span>{theme==='light'?'Claro':'Escuro'}</span><i aria-hidden="true"/>
-    </button>}
-    {!standalone&&!builder&&<button className="vxInstallFab" onClick={install} aria-label="Instalar VITRA como aplicativo">
-      <span><Icon name="globe" size={17}/></span>
-      <div><small>WEB APP</small><b>Instalar VITRA</b></div>
-      <Icon name="chevronDown" size={14}/>
-    </button>}
-    {!standalone&&!builder&&showInstallHint&&<aside className="vxInstallSheet" role="status">
-      <button className="vxInstallClose" onClick={()=>setShowInstallHint(false)} aria-label="Fechar"><Icon name="plus" size={15}/></button>
-      <span className="vxInstallMark">V</span>
-      <div><small>VITRA / APP</small><h3>Leve o estúdio para a tela inicial.</h3><p>{promptEvent?'Instale o VITRA e abra como um aplicativo, sem a moldura do navegador.':'No iPhone, use Compartilhar → Adicionar à Tela de Início. No Android, abra o menu do navegador → Instalar aplicativo.'}</p></div>
-      {promptEvent&&<button className="vxInstallPrimary" onClick={install}>Instalar agora <Icon name="arrowRight" size={15}/></button>}
-    </aside>}
-    {standalone&&!builder&&<div className="vxStandaloneBadge"><i/> APP INSTALADO</div>}
+    <AuthGate>
+      <StudioV4/>
+      {!builder&&<button className="vxThemeSwitch" onClick={toggleTheme} aria-label={theme==='light'?'Ativar tema escuro':'Ativar tema claro'} title={theme==='light'?'Tema claro — mudar para escuro':'Tema escuro — mudar para claro'}>
+        <Icon name="palette" size={16}/><span>{theme==='light'?'Claro':'Escuro'}</span><i aria-hidden="true"/>
+      </button>}
+      {!standalone&&!builder&&<button className="vxInstallFab" onClick={install} aria-label="Instalar VITRA como aplicativo">
+        <span><Icon name="globe" size={17}/></span>
+        <div><small>WEB APP</small><b>Instalar VITRA</b></div>
+        <Icon name="chevronDown" size={14}/>
+      </button>}
+      {!standalone&&!builder&&showInstallHint&&<aside className="vxInstallSheet" role="status">
+        <button className="vxInstallClose" onClick={()=>setShowInstallHint(false)} aria-label="Fechar"><Icon name="plus" size={15}/></button>
+        <span className="vxInstallMark">V</span>
+        <div><small>VITRA / APP</small><h3>Leve o estúdio para a tela inicial.</h3><p>{promptEvent?'Instale o VITRA e abra como um aplicativo, sem a moldura do navegador.':'No iPhone, use Compartilhar → Adicionar à Tela de Início. No Android, abra o menu do navegador → Instalar aplicativo.'}</p></div>
+        {promptEvent&&<button className="vxInstallPrimary" onClick={install}>Instalar agora <Icon name="arrowRight" size={15}/></button>}
+      </aside>}
+      {standalone&&!builder&&<div className="vxStandaloneBadge"><i/> APP INSTALADO</div>}
+    </AuthGate>
   </div>;
 }
