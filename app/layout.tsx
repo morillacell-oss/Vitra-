@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './premium.css';
 import './refinement.css';
+import './runtime.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Site Studio',
