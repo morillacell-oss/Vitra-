@@ -22,6 +22,7 @@ import './agency-grade-v2.css';
 import './template-master-v3.css';
 import './niche-art-direction-v4.css';
 import './final-qa-v5.css';
+import './automotive-five-v6.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Cinematic Site Studio',
