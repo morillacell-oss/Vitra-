@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import StudioV3 from './studio-v3';
+import StudioV4 from './studio-v4';
 import { Icon } from './vitra-icons';
 
 type InstallPromptEvent = Event & {
@@ -75,7 +75,7 @@ export default function PwaShell(){
   function toggleTheme(){setTheme(v=>v==='light'?'dark':'light')}
 
   return <div className={`vitraAppShell theme-${theme} ${standalone?'isStandalone':''} ${builder?'isBuilder':''}`}>
-    <StudioV3/>
+    <StudioV4/>
     {!builder&&<button className="vxThemeSwitch" onClick={toggleTheme} aria-label={theme==='light'?'Ativar tema escuro':'Ativar tema claro'} title={theme==='light'?'Tema claro — mudar para escuro':'Tema escuro — mudar para claro'}>
       <Icon name="palette" size={16}/><span>{theme==='light'?'Claro':'Escuro'}</span><i aria-hidden="true"/>
     </button>}
