@@ -11,28 +11,19 @@ type InstallPromptEvent = Event & {
   userChoice: Promise<{outcome:'accepted'|'dismissed';platform:string}>;
 };
 type ThemeMode='light'|'dark';
+type AppTab='home'|'projects'|'models';
 
-function ThemeGlyphs({theme}:{theme:ThemeMode}){
-  return <span className="vxThemeGlyphs" aria-hidden="true">
-    <span className={`vxThemeGlyph sun ${theme==='light'?'active':''}`}>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <circle cx="12" cy="12" r="3.5"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2 12h2.2M19.8 12H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/>
-      </svg>
-    </span>
-    <span className={`vxThemeGlyph moon ${theme==='dark'?'active':''}`}>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z"/>
-      </svg>
-    </span>
-  </span>;
+function ThemeIcon({theme}:{theme:ThemeMode}){
+  if(theme==='light')return <svg className="vxThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z"/></svg>;
+  return <svg className="vxThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2 12h2.2M19.8 12H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/></svg>;
 }
 
 export default function PwaShell(){
   const [promptEvent,setPromptEvent]=useState<InstallPromptEvent|null>(null);
   const [standalone,setStandalone]=useState(false);
   const [builder,setBuilder]=useState(false);
-  const [catalog,setCatalog]=useState(false);
   const [workspace,setWorkspace]=useState(false);
+  const [activeTab,setActiveTab]=useState<AppTab>('home');
   const [mounted,setMounted]=useState(false);
   const [showInstallHint,setShowInstallHint]=useState(false);
   const [theme,setTheme]=useState<ThemeMode>('light');
@@ -63,11 +54,14 @@ export default function PwaShell(){
 
     const syncView=()=>{
       const inBuilder=Boolean(document.querySelector('.vxBuilder'));
+      const inProjects=Boolean(document.querySelector('.vxProjectsPage,.vxDelivery'));
       const inCatalog=Boolean(document.querySelector('.vxCatalog'));
-      const inWorkspace=Boolean(document.querySelector('.vxApp,.vxCatalog,.vxDelivery,.vxBuilder'));
+      const inHome=Boolean(document.querySelector('.vxApp'));
       setBuilder(inBuilder);
-      setCatalog(inCatalog);
-      setWorkspace(inWorkspace);
+      setWorkspace(Boolean(inBuilder||inProjects||inCatalog||inHome));
+      if(inProjects)setActiveTab('projects');
+      else if(inCatalog)setActiveTab('models');
+      else if(inHome)setActiveTab('home');
     };
     syncView();
     const observer=new MutationObserver(syncView);
@@ -101,22 +95,21 @@ export default function PwaShell(){
   }
 
   function toggleTheme(){setTheme(v=>v==='light'?'dark':'light')}
-  function catalogHome(){document.querySelector<HTMLButtonElement>('.vxCatalog>header>button')?.click()}
-  function catalogCreate(){
-    catalogHome();
-    window.setTimeout(()=>document.querySelector<HTMLButtonElement>('.vxRail nav button:nth-child(2)')?.click(),80);
+  function navigate(target:'home'|'projects'|'create'|'models'){
+    window.dispatchEvent(new CustomEvent('vitra:navigate',{detail:target}));
   }
 
   const floating=mounted&&workspace&&!builder?createPortal(
     <div className={`vxFloatingUi theme-${theme}`}>
       <button className="vxThemeSwitch" onClick={toggleTheme} aria-label={theme==='light'?'Ativar tema escuro':'Ativar tema claro'} title={theme==='light'?'Mudar para tema escuro':'Mudar para tema claro'}>
-        <ThemeGlyphs theme={theme}/>
+        <ThemeIcon theme={theme}/>
       </button>
-      {catalog&&<nav className="vxCatalogMobileNav" aria-label="Navegação principal">
-        <button onClick={catalogHome}><Icon name="home" size={20}/><span>Início</span></button>
-        <button onClick={catalogCreate}><Icon name="plus" size={21}/><span>Criar</span></button>
-        <button className="active" aria-current="page"><Icon name="layers" size={20}/><span>Modelos</span></button>
-      </nav>}
+      <nav className="vxGlobalMobileNav" aria-label="Navegação principal">
+        <button className={activeTab==='home'?'active':''} onClick={()=>navigate('home')} aria-current={activeTab==='home'?'page':undefined}><Icon name="home" size={20}/><span>Início</span></button>
+        <button className={activeTab==='projects'?'active':''} onClick={()=>navigate('projects')} aria-current={activeTab==='projects'?'page':undefined}><Icon name="briefcase" size={20}/><span>Projetos</span></button>
+        <button className="create" onClick={()=>navigate('create')}><span><Icon name="plus" size={21}/></span><b>Criar</b></button>
+        <button className={activeTab==='models'?'active':''} onClick={()=>navigate('models')} aria-current={activeTab==='models'?'page':undefined}><Icon name="layers" size={20}/><span>Modelos</span></button>
+      </nav>
     </div>,document.body
   ):null;
 
