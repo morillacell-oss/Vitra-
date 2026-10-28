@@ -1,0 +1,41 @@
+/* Stronger hierarchy for the animation controls in VITRA. */
+.vxControlLabel:has(+ .vxMotionGrid){
+  display:flex!important;align-items:center;gap:9px;margin:28px 0 12px!important;
+  color:var(--app-text,#17211e)!important;font-size:11px!important;font-weight:900!important;
+  letter-spacing:.16em!important;opacity:1!important;
+}
+.vxControlLabel:has(+ .vxMotionGrid):before{content:"";width:8px;height:8px;border-radius:999px;background:#1f8a67;box-shadow:0 0 0 5px rgba(31,138,103,.11)}
+.vxMotionGrid{gap:12px!important;margin:0 0 10px!important}
+.vxMotionGrid>button{
+  min-height:118px!important;border:1px solid #cbd9d4!important;
+  background:linear-gradient(145deg,#ffffff 0%,#f8fbfa 100%)!important;
+  border-radius:20px!important;padding:17px!important;grid-template-columns:44px 1fr auto!important;gap:13px!important;
+  box-shadow:0 8px 24px rgba(29,57,48,.045)!important;
+}
+.vxMotionGrid>button>span{width:44px!important;height:44px!important;border-radius:14px!important;background:#e9f5f1!important;color:#177455!important}
+.vxMotionGrid>button>span svg{width:20px!important;height:20px!important}
+.vxMotionGrid small{font-size:10px!important;font-weight:800!important;letter-spacing:.14em!important;color:#52655e!important}
+.vxMotionGrid b{font-size:15px!important;line-height:1.2!important;color:#13231e!important;margin:3px 0 7px!important}
+.vxMotionGrid p{font-size:12px!important;line-height:1.5!important;color:#536760!important}
+.vxMotionGrid>button.active{
+  border-color:#1d8c68!important;background:linear-gradient(145deg,#f8fffc 0%,#edf8f4 100%)!important;
+  box-shadow:0 0 0 2px rgba(29,140,104,.14),0 14px 32px rgba(24,102,77,.10)!important;
+}
+.vxMotionGrid>button.active>span{background:#dff3eb!important;color:#12684c!important}
+.vxMotionGrid>button>i{width:25px!important;height:25px!important;background:#1f8a67!important;box-shadow:0 5px 13px rgba(31,138,103,.22)!important}
+.vxMotionNote{margin-top:12px!important;padding:11px 13px!important;border-radius:12px!important;background:#eef5f2!important;color:#52655e!important;font-size:11px!important;line-height:1.5!important;border:1px solid #dbe8e3!important}
+
+.theme-dark .vxControlLabel:has(+ .vxMotionGrid){color:#f1f5f3!important}
+.theme-dark .vxMotionGrid>button{border-color:#31413b!important;background:linear-gradient(145deg,#18201d,#121815)!important;box-shadow:none!important}
+.theme-dark .vxMotionGrid small,.theme-dark .vxMotionGrid p{color:#a8b7b1!important}
+.theme-dark .vxMotionGrid b{color:#f3f6f5!important}
+.theme-dark .vxMotionGrid>button>span{background:#203a31!important;color:#79c8aa!important}
+.theme-dark .vxMotionGrid>button.active{border-color:#56b996!important;background:linear-gradient(145deg,#173128,#13251f)!important;box-shadow:0 0 0 2px rgba(86,185,150,.14)!important}
+.theme-dark .vxMotionNote{background:#17231f!important;border-color:#2c3c36!important;color:#aab8b3!important}
+
+@media(max-width:700px){
+  .vxControlLabel:has(+ .vxMotionGrid){margin-top:24px!important;font-size:11px!important}
+  .vxMotionGrid>button{min-height:0!important;padding:16px!important;grid-template-columns:46px 1fr auto!important}
+  .vxMotionGrid b{font-size:16px!important}
+  .vxMotionGrid p{font-size:12.5px!important}
+}
