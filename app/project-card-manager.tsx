@@ -8,9 +8,11 @@ import { Icon } from './vitra-icons';
 type Selected={project:Project;freeMode:boolean};
 const PROJECTS_KEY='vitra-projects-cinema-v1';
 const FREE_KEY='vitra-free-project-ids';
+const THEME_KEY='vitra-ui-theme';
 
 function readProjects(){try{const raw=JSON.parse(localStorage.getItem(PROJECTS_KEY)||'[]') as Project[];return raw.map(upgradeProject)}catch{return []}}
 function readFreeIds(){try{return JSON.parse(localStorage.getItem(FREE_KEY)||'[]') as string[]}catch{return []}}
+function readTheme(): 'light'|'dark'{try{const saved=localStorage.getItem(THEME_KEY);if(saved==='dark'||saved==='light')return saved}catch{}const shell=document.querySelector('.vitraAppShell');return document.documentElement.dataset.vitraTheme==='dark'||document.documentElement.classList.contains('theme-dark')||document.body.classList.contains('theme-dark')||shell?.classList.contains('theme-dark')?'dark':'light'}
 function crc32(bytes:Uint8Array){let c=0xffffffff;for(const b of bytes){c^=b;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0)}return (c^0xffffffff)>>>0}
 function u16(n:number){return [n&255,(n>>>8)&255]}
 function u32(n:number){return [n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255]}
@@ -22,16 +24,17 @@ export default function ProjectCardManager(){
  const [selected,setSelected]=useState<Selected|null>(null);
  const [theme,setTheme]=useState<'light'|'dark'>('light');
  useEffect(()=>{
-  const syncTheme=()=>setTheme(document.documentElement.dataset.vitraTheme==='dark'||document.querySelector('.vitraAppShell')?.classList.contains('theme-dark')?'dark':'light');
+  const syncTheme=()=>setTheme(readTheme());
   syncTheme();
-  const themeObserver=new MutationObserver(syncTheme);themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-vitra-theme']});
+  const themeObserver=new MutationObserver(syncTheme);themeObserver.observe(document.documentElement,{attributes:true,subtree:true,attributeFilter:['data-vitra-theme','class']});themeObserver.observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
+  const onStorage=(e:StorageEvent)=>{if(e.key===THEME_KEY)syncTheme()};window.addEventListener('storage',onStorage);
   const tagCards=()=>{const projects=readProjects();document.querySelectorAll<HTMLButtonElement>('.vxProjectGrid > button').forEach((card,index)=>{const p=projects[index];if(p){card.dataset.vitraProjectId=p.id;card.setAttribute('aria-label',`Abrir projeto ${p.name||'sem nome'}`)}})};
   tagCards();
   const observer=new MutationObserver(tagCards);observer.observe(document.body,{childList:true,subtree:true});
-  const handler=(e:MouseEvent)=>{const card=(e.target as Element)?.closest<HTMLButtonElement>('.vxProjectGrid > button');if(!card||card.dataset.vitraPass==='1')return;tagCards();const id=card.dataset.vitraProjectId;if(!id)return;const p=readProjects().find(item=>item.id===id);if(!p)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();setSelected({project:p,freeMode:readFreeIds().includes(p.id)})};
+  const handler=(e:MouseEvent)=>{const card=(e.target as Element)?.closest<HTMLButtonElement>('.vxProjectGrid > button');if(!card||card.dataset.vitraPass==='1')return;tagCards();const id=card.dataset.vitraProjectId;if(!id)return;const p=readProjects().find(item=>item.id===id);if(!p)return;e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();syncTheme();setSelected({project:p,freeMode:readFreeIds().includes(p.id)})};
   const key=(e:KeyboardEvent)=>{if(e.key==='Escape')setSelected(null)};
   document.addEventListener('click',handler,true);window.addEventListener('keydown',key);
-  return()=>{themeObserver.disconnect();observer.disconnect();document.removeEventListener('click',handler,true);window.removeEventListener('keydown',key)};
+  return()=>{themeObserver.disconnect();observer.disconnect();window.removeEventListener('storage',onStorage);document.removeEventListener('click',handler,true);window.removeEventListener('keydown',key)};
  },[]);
  useEffect(()=>{if(!selected)return;const old=document.body.style.overflow;document.body.style.overflow='hidden';return()=>{document.body.style.overflow=old}},[selected]);
  if(!selected||typeof document==='undefined')return null;
@@ -39,5 +42,5 @@ export default function ProjectCardManager(){
  function edit(){const card=Array.from(document.querySelectorAll<HTMLButtonElement>('.vxProjectGrid > button')).find(el=>el.dataset.vitraProjectId===p.id);setSelected(null);if(card){card.dataset.vitraPass='1';card.click();window.setTimeout(()=>delete card.dataset.vitraPass,0)}}
  function preview(){const win=window.open('/preview',`vitra-preview-${p.id}`);if(!win)return;let sent=false;const send=()=>{if(sent)return;sent=true;win.postMessage({type:'VITRA_PREVIEW_DATA',payload:{project:p,freeMode}},window.location.origin)};const ready=(event:MessageEvent)=>{if(event.origin!==window.location.origin||event.source!==win||event.data?.type!=='VITRA_PREVIEW_READY')return;send();window.removeEventListener('message',ready)};window.addEventListener('message',ready);window.setTimeout(()=>{if(!win.closed)send();window.removeEventListener('message',ready)},900)}
  function download(){const readme=`VITRA — ${p.name||'Projeto'}\n\nEste pacote contém o site estático em index.html e o backup completo do projeto em project.json.\n`;const blob=makeZip([{name:'index.html',data:staticHtml(p)},{name:'project.json',data:JSON.stringify(p,null,2)},{name:'README.txt',data:readme}]);const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`${(p.name||'vitra-projeto').toLowerCase().replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'')}.zip`;document.body.appendChild(a);a.click();a.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1500)}
- return createPortal(<div className={`vxProjectManagerBackdrop theme-${theme}`} onMouseDown={e=>{if(e.target===e.currentTarget)setSelected(null)}}><section className="vxProjectManager" role="dialog" aria-modal="true" aria-labelledby="vx-project-title"><button className="vxPmClose" onClick={()=>setSelected(null)} aria-label="Fechar">×</button><div className="vxPmHero" style={{backgroundImage:`linear-gradient(180deg,transparent,rgba(0,0,0,.82)),url(${p.heroImage||fallback[p.niche].hero})`}}><span>{p.status==='ready'?'PROJETO PRONTO':'RASCUNHO'}</span><h2 id="vx-project-title">{p.name||'Projeto sem nome'}</h2></div><div className="vxPmBody"><small>SEU PROJETO</small><h3>{nicheNames[p.niche]} · {freeMode?'Estilo Livre':template?.name||'Direção VITRA'}</h3><p>Este é exatamente o projeto selecionado. Escolha uma ação sem reiniciar a criação.</p><div className="vxPmActions"><button className="primary" onClick={edit}><Icon name="wand" size={17}/> Editar projeto</button><button onClick={preview}><Icon name="eye" size={17}/> Visualizar</button><button onClick={download}><Icon name="save" size={17}/> Baixar ZIP</button></div></div></section></div>,document.body)
+ return createPortal(<div className={`vxProjectManagerBackdrop vxProjectManagerTheme-${theme}`} data-vitra-modal-theme={theme} onMouseDown={e=>{if(e.target===e.currentTarget)setSelected(null)}}><section className="vxProjectManager" role="dialog" aria-modal="true" aria-labelledby="vx-project-title"><button className="vxPmClose" onClick={()=>setSelected(null)} aria-label="Fechar">×</button><div className="vxPmHero" style={{backgroundImage:`linear-gradient(180deg,transparent,rgba(0,0,0,.82)),url(${p.heroImage||fallback[p.niche].hero})`}}><span>{p.status==='ready'?'PROJETO PRONTO':'RASCUNHO'}</span><h2 id="vx-project-title">{p.name||'Projeto sem nome'}</h2></div><div className="vxPmBody"><small>SEU PROJETO</small><h3>{nicheNames[p.niche]} · {freeMode?'Estilo Livre':template?.name||'Direção VITRA'}</h3><p>Este é exatamente o projeto selecionado. Escolha uma ação sem reiniciar a criação.</p><div className="vxPmActions"><button className="primary" onClick={edit}><Icon name="wand" size={17}/> Editar projeto</button><button onClick={preview}><Icon name="eye" size={17}/> Visualizar</button><button onClick={download}><Icon name="save" size={17}/> Baixar ZIP</button></div></div></section></div>,document.body)
 }
