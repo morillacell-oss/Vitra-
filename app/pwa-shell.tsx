@@ -12,6 +12,7 @@ type InstallPromptEvent = Event & {
 };
 type ThemeMode='light'|'dark';
 type AppTab='home'|'projects'|'models';
+type NavTarget='home'|'projects'|'create'|'models';
 
 function ThemeIcon({theme}:{theme:ThemeMode}){
   if(theme==='light')return <svg className="vxThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z"/></svg>;
@@ -61,7 +62,7 @@ export default function PwaShell(){
       setWorkspace(Boolean(inBuilder||inProjects||inCatalog||inHome));
       if(inProjects)setActiveTab('projects');
       else if(inCatalog)setActiveTab('models');
-      else if(inHome)setActiveTab('home');
+      else if(inHome&&!document.querySelector('.vxProjects:target'))setActiveTab(v=>v==='projects'?v:'home');
     };
     syncView();
     const observer=new MutationObserver(syncView);
@@ -95,8 +96,54 @@ export default function PwaShell(){
   }
 
   function toggleTheme(){setTheme(v=>v==='light'?'dark':'light')}
-  function navigate(target:'home'|'projects'|'create'|'models'){
-    window.dispatchEvent(new CustomEvent('vitra:navigate',{detail:target}));
+
+  function click(selector:string){
+    const element=document.querySelector<HTMLButtonElement>(selector);
+    if(!element)return false;
+    element.click();
+    return true;
+  }
+
+  function returnHome(){
+    if(document.querySelector('.vxApp'))return true;
+    if(click('.vxCatalog > header > button'))return true;
+    if(click('.vxDelivery > header > button'))return true;
+    if(click('.vxBuilderBrand'))return true;
+    return false;
+  }
+
+  function afterHome(action:()=>void){
+    if(document.querySelector('.vxApp')){action();return;}
+    returnHome();
+    window.setTimeout(action,80);
+  }
+
+  function navigate(target:NavTarget){
+    if(target==='home'){
+      setActiveTab('home');
+      if(document.querySelector('.vxApp'))window.scrollTo({top:0,behavior:'smooth'});
+      else returnHome();
+      return;
+    }
+    if(target==='projects'){
+      setActiveTab('projects');
+      afterHome(()=>{
+        const projects=document.querySelector<HTMLElement>('.vxProjects');
+        if(projects)projects.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      return;
+    }
+    if(target==='create'){
+      afterHome(()=>{
+        if(!click('.vxDashTop .vxPrimary'))click('.vxHeroCta');
+      });
+      return;
+    }
+    setActiveTab('models');
+    if(document.querySelector('.vxCatalog'))return;
+    afterHome(()=>{
+      if(!click('.vxDashTop .vxGhost'))click('.vxTextBtn');
+    });
   }
 
   const floating=mounted&&workspace&&!builder?createPortal(
@@ -107,7 +154,7 @@ export default function PwaShell(){
       <nav className="vxGlobalMobileNav" aria-label="Navegação principal">
         <button className={activeTab==='home'?'active':''} onClick={()=>navigate('home')} aria-current={activeTab==='home'?'page':undefined}><Icon name="home" size={20}/><span>Início</span></button>
         <button className={activeTab==='projects'?'active':''} onClick={()=>navigate('projects')} aria-current={activeTab==='projects'?'page':undefined}><Icon name="briefcase" size={20}/><span>Projetos</span></button>
-        <button className="create" onClick={()=>navigate('create')}><span><Icon name="plus" size={21}/></span><b>Criar</b></button>
+        <button className="create" onClick={()=>navigate('create')} aria-label="Criar novo site"><span><Icon name="plus" size={21}/></span><b>Criar</b></button>
         <button className={activeTab==='models'?'active':''} onClick={()=>navigate('models')} aria-current={activeTab==='models'?'page':undefined}><Icon name="layers" size={20}/><span>Modelos</span></button>
       </nav>
     </div>,document.body
