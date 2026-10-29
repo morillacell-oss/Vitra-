@@ -1,5 +1,8 @@
 /* VITRA V10 — project management + truly fixed theme control */
-.vxFloatingUi{position:fixed!important;inset:0!important;pointer-events:none!important;z-index:205!important}
+.vxFloatingUi{position:fixed!important;inset:0!important;pointer-events:none!important;z-index:205!important;background:transparent!important}
+/* The floating shell also receives theme-light/theme-dark. It must never inherit
+   the app theme background because it covers the whole viewport above the app. */
+.vxFloatingUi.theme-light,.vxFloatingUi.theme-dark{background:transparent!important;color:inherit!important}
 .vxFloatingUi .vxThemeSwitch,.vxFloatingUi .vxGlobalMobileNav{pointer-events:auto!important}
 .vxFloatingUi .vxThemeSwitch{position:fixed!important;top:max(14px,calc(env(safe-area-inset-top) + 10px))!important;transform:none!important;margin:0!important}
 .vxProjectManagerBackdrop{position:fixed!important;z-index:2147483000!important;inset:0!important;padding:18px;display:grid!important;place-items:center!important;background:rgba(8,17,15,.46)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow-y:auto!important;overscroll-behavior:contain;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
