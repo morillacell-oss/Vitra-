@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import ProjectCardManager from './project-card-manager';
 import './globals.css';
 import './premium.css';
 import './refinement.css';
@@ -26,6 +27,7 @@ import './automotive-five-v6.css';
 import './art-direction-curation-v7.css';
 import './max-quality-v8.css';
 import './mobile-shell-v9.css';
+import './project-manager-v10.css';
 
 export const metadata: Metadata = {
   title: 'VITRA — Cinematic Site Studio',
@@ -37,4 +39,4 @@ export const metadata: Metadata = {
   formatDetection:{telephone:false}
 };
 export const viewport: Viewport = {width:'device-width',initialScale:1,viewportFit:'cover',themeColor:'#F5F8F7',colorScheme:'light dark'};
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {return <html lang="pt-BR"><body>{children}</body></html>}
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {return <html lang="pt-BR"><body>{children}<ProjectCardManager/></body></html>}
