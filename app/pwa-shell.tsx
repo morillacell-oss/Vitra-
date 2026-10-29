@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import StudioV4 from './studio-v4';
 import AuthGate from './auth-gate';
+import './vitra-media-fixes';
 import { Icon } from './vitra-icons';
 
 type InstallPromptEvent = Event & {
@@ -12,7 +13,7 @@ type InstallPromptEvent = Event & {
 };
 type ThemeMode='light'|'dark';
 type AppTab='home'|'projects'|'models';
-type NavTarget='home'|'projects'|'create'|'models';
+type NavTarget='home'|'projects'|'create'|'models'|'account';
 
 function ThemeIcon({theme}:{theme:ThemeMode}){
   if(theme==='light')return <svg className="vxThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z"/></svg>;
@@ -119,6 +120,10 @@ export default function PwaShell(){
   }
 
   function navigate(target:NavTarget){
+    if(target==='account'){
+      click('.vxAccountButton');
+      return;
+    }
     if(target==='home'){
       setActiveTab('home');
       if(document.querySelector('.vxApp'))window.scrollTo({top:0,behavior:'smooth'});
@@ -154,8 +159,9 @@ export default function PwaShell(){
       <nav className="vxGlobalMobileNav" aria-label="Navegação principal">
         <button className={activeTab==='home'?'active':''} onClick={()=>navigate('home')} aria-current={activeTab==='home'?'page':undefined}><Icon name="home" size={20}/><span>Início</span></button>
         <button className={activeTab==='projects'?'active':''} onClick={()=>navigate('projects')} aria-current={activeTab==='projects'?'page':undefined}><Icon name="briefcase" size={20}/><span>Projetos</span></button>
-        <button className="create" onClick={()=>navigate('create')} aria-label="Criar novo site"><span><Icon name="plus" size={21}/></span><b>Criar</b></button>
+        <button className="create" onClick={()=>navigate('create')} aria-label="Criar novo site"><span><Icon name="plus" size={22}/></span><b>Criar</b></button>
         <button className={activeTab==='models'?'active':''} onClick={()=>navigate('models')} aria-current={activeTab==='models'?'page':undefined}><Icon name="layers" size={20}/><span>Modelos</span></button>
+        <button className="account" onClick={()=>navigate('account')} aria-label="Abrir minha conta"><Icon name="shield" size={20}/><span>Conta</span></button>
       </nav>
     </div>,document.body
   ):null;
