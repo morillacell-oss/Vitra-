@@ -177,7 +177,7 @@ export default function PwaShell(){
   }
 
   const floating=mounted&&workspace&&!builder?createPortal(
-    <div className={`vxFloatingUi theme-${theme}`}>
+    <div className="vxFloatingUi">
       <button className="vxThemeSwitch" onClick={toggleTheme} aria-label={theme==='light'?'Ativar tema escuro':'Ativar tema claro'} title={theme==='light'?'Mudar para tema escuro':'Mudar para tema claro'}>
         <ThemeIcon theme={theme}/>
       </button>
