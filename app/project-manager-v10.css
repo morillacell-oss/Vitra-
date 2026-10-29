@@ -17,7 +17,13 @@
 .vxProjectManagerTheme-light .vxPmBody h3{color:#17221f!important}.vxProjectManagerTheme-dark .vxPmBody h3{color:#f4f2ec!important}
 .vxPmActions{display:grid!important;grid-template-columns:1.2fr 1fr 1fr;gap:9px;margin-top:22px}.vxPmActions button{display:flex!important;min-height:48px;padding:0 14px;border-radius:14px;border:1px solid #dce6e2!important;background:#f8fbfa!important;color:#29433c!important;font-size:12px;font-weight:780;align-items:center;justify-content:center;gap:8px;opacity:1!important;visibility:visible!important}.vxPmActions button.primary{border-color:#143f39!important;background:#143f39!important;color:#fff!important}.vxProjectManagerTheme-dark .vxPmActions button{background:#1b2022!important;border-color:#303739!important;color:#ecefe9!important}.vxProjectManagerTheme-dark .vxPmActions button.primary{background:#e6f4ee!important;border-color:#e6f4ee!important;color:#153c35!important}
 @media(max-width:820px){
+ /* On the dashboard the theme control belongs to the hero, not to the viewport.
+    The bottom navigation remains fixed independently. */
+ .vxFloatingUi{position:absolute!important;inset:0 0 auto 0!important;width:100%!important;height:0!important;min-height:0!important;z-index:auto!important}
+ body:has(.vxApp) .vxFloatingUi .vxThemeSwitch{position:absolute!important;top:max(92px,calc(env(safe-area-inset-top) + 82px))!important;right:28px!important;z-index:20!important}
+ .vxFloatingUi .vxGlobalMobileNav{position:fixed!important}
  .vxFloatingUi .vxThemeSwitch{top:max(12px,calc(env(safe-area-inset-top) + 8px))!important}
+ body:has(.vxApp) .vxFloatingUi .vxThemeSwitch{top:max(92px,calc(env(safe-area-inset-top) + 82px))!important}
  .vxProjectManagerBackdrop{display:flex!important;align-items:flex-start!important;justify-content:center!important;padding:max(86px,calc(env(safe-area-inset-top) + 70px)) 12px max(112px,calc(env(safe-area-inset-bottom) + 96px))!important;overflow-y:auto!important}
  .vxProjectManager{flex:0 0 auto!important;width:100%!important;max-height:none!important;margin:0 auto!important;border-radius:26px!important;overflow:hidden!important;opacity:1!important;visibility:visible!important}
  .vxPmHero{min-height:230px;padding:22px}.vxPmBody{padding:22px}.vxPmActions{grid-template-columns:1fr}.vxPmActions button{min-height:50px}.vxPmHero h2{font-size:48px}
