@@ -100,8 +100,11 @@ export default function PwaShell(){
   },[]);
 
   useEffect(()=>{
-    document.documentElement.dataset.vitraTheme=theme;
-    document.documentElement.style.colorScheme=theme;
+    const root=document.documentElement;
+    root.dataset.vitraTheme=theme;
+    root.classList.toggle('theme-light',theme==='light');
+    root.classList.toggle('theme-dark',theme==='dark');
+    root.style.colorScheme=theme;
     const themeMeta=document.querySelector('meta[name="theme-color"]');
     themeMeta?.setAttribute('content',theme==='light'?'#F5F8F7':'#090A0D');
     try{localStorage.setItem('vitra-ui-theme',theme)}catch{}
@@ -189,7 +192,7 @@ export default function PwaShell(){
   ):null;
 
   return <>
-    <div className={`vitraAppShell theme-${theme} ${standalone?'isStandalone':''} ${builder?'isBuilder':''}`}>
+    <div className={`vitraAppShell ${standalone?'isStandalone':''} ${builder?'isBuilder':''}`}>
       <AuthGate>
         <StudioV4/>
         {!standalone&&!builder&&<button className="vxInstallFab" onClick={install} aria-label="Instalar VITRA como aplicativo">
