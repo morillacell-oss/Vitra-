@@ -2,15 +2,17 @@
    This file is intentionally loaded last. It only stabilizes the VITRA application
    surface in LIGHT mode; generated client sites and the project-action modal remain isolated. */
 
-/* The bug was not only child colors: the light app root itself could stop painting while
-   portaled controls (theme switch / bottom nav) stayed visible. Keep the root renderable. */
+/* Theme ownership lives on <html>. The application shell itself stays neutral so changing
+   theme can never replace, hide or invalidate the wrapper that contains StudioV4. */
 html[data-vitra-theme='light'],
-html[data-vitra-theme='light'] body{
+html[data-vitra-theme='light'] body,
+html.theme-light,
+html.theme-light body{
   background:#f5f8f7!important;
   color:#17221f!important;
 }
 
-.vitraAppShell.theme-light{
+html.theme-light .vitraAppShell{
   display:block!important;
   min-height:100dvh!important;
   background:#f5f8f7!important;
@@ -28,9 +30,8 @@ html[data-vitra-theme='light'] body{
 }
 
 @media (max-width:820px){
-  /* Reassert the exact mobile application geometry already used by the working dark theme. */
-  .vitraAppShell.theme-light > .vxApp,
-  .vitraAppShell.theme-light .vxApp{
+  html.theme-light .vitraAppShell > .vxApp,
+  html.theme-light .vitraAppShell .vxApp{
     display:block!important;
     position:relative!important;
     z-index:1!important;
@@ -53,7 +54,7 @@ html[data-vitra-theme='light'] body{
     content-visibility:visible!important;
   }
 
-  .vitraAppShell.theme-light .vxDash{
+  html.theme-light .vitraAppShell .vxDash{
     display:block!important;
     position:relative!important;
     z-index:1!important;
@@ -72,11 +73,10 @@ html[data-vitra-theme='light'] body{
     content-visibility:visible!important;
   }
 
-  /* Never allow a dashboard section to remain in an animation/hidden state in light mode. */
-  .vitraAppShell.theme-light .vxDash > *,
-  .vitraAppShell.theme-light .vxHeroWords > *,
-  .vitraAppShell.theme-light .vxVerticalIntro > *,
-  .vitraAppShell.theme-light .vxProjects > *{
+  html.theme-light .vitraAppShell .vxDash > *,
+  html.theme-light .vitraAppShell .vxHeroWords > *,
+  html.theme-light .vitraAppShell .vxVerticalIntro > *,
+  html.theme-light .vitraAppShell .vxProjects > *{
     opacity:1!important;
     visibility:visible!important;
     filter:none!important;
@@ -84,7 +84,7 @@ html[data-vitra-theme='light'] body{
     -webkit-clip-path:none!important;
   }
 
-  .vitraAppShell.theme-light .vxDashTop{
+  html.theme-light .vitraAppShell .vxDashTop{
     display:flex!important;
     opacity:1!important;
     visibility:visible!important;
@@ -92,9 +92,9 @@ html[data-vitra-theme='light'] body{
     background:rgba(248,251,250,.96)!important;
     border-color:#dfe7e4!important;
   }
-  .vitraAppShell.theme-light .vxDashTop>div:first-child b:after{color:#19312b!important}
+  html.theme-light .vitraAppShell .vxDashTop>div:first-child b:after{color:#19312b!important}
 
-  .vitraAppShell.theme-light .vxHeroDash{
+  html.theme-light .vitraAppShell .vxHeroDash{
     display:block!important;
     min-height:0!important;
     opacity:1!important;
@@ -104,7 +104,7 @@ html[data-vitra-theme='light'] body{
     background:radial-gradient(circle at 90% 0,rgba(55,111,218,.11),transparent 34%),radial-gradient(circle at 0 100%,rgba(28,149,129,.1),transparent 38%),linear-gradient(155deg,#fff,#f5f9f7)!important;
     border-color:#dde7e3!important;
   }
-  .vitraAppShell.theme-light .vxHeroWords{
+  html.theme-light .vitraAppShell .vxHeroWords{
     display:block!important;
     opacity:1!important;
     visibility:visible!important;
@@ -112,16 +112,16 @@ html[data-vitra-theme='light'] body{
     transform:none!important;
     color:#17231f!important;
   }
-  .vitraAppShell.theme-light .vxHeroWords>span{color:#157e72!important}
-  .vitraAppShell.theme-light .vxHeroWords h1{color:#17231f!important;opacity:1!important;visibility:visible!important}
-  .vitraAppShell.theme-light .vxHeroWords h1 em{color:#147c72!important}
-  .vitraAppShell.theme-light .vxHeroWords p{color:#65746e!important;opacity:1!important;visibility:visible!important}
-  .vitraAppShell.theme-light .vxHeroCta{background:#143f39!important;color:#fff!important}
-  .vitraAppShell.theme-light .vxTextBtn{color:#46615a!important}
-  .vitraAppShell.theme-light .vxProofLine span{color:#687770!important}
+  html.theme-light .vitraAppShell .vxHeroWords>span{color:#157e72!important}
+  html.theme-light .vitraAppShell .vxHeroWords h1{color:#17231f!important;opacity:1!important;visibility:visible!important}
+  html.theme-light .vitraAppShell .vxHeroWords h1 em{color:#147c72!important}
+  html.theme-light .vitraAppShell .vxHeroWords p{color:#65746e!important;opacity:1!important;visibility:visible!important}
+  html.theme-light .vitraAppShell .vxHeroCta{background:#143f39!important;color:#fff!important}
+  html.theme-light .vitraAppShell .vxTextBtn{color:#46615a!important}
+  html.theme-light .vitraAppShell .vxProofLine span{color:#687770!important}
 
-  .vitraAppShell.theme-light .vxVerticalIntro,
-  .vitraAppShell.theme-light .vxProjects{
+  html.theme-light .vitraAppShell .vxVerticalIntro,
+  html.theme-light .vitraAppShell .vxProjects{
     display:block!important;
     opacity:1!important;
     visibility:visible!important;
@@ -129,7 +129,8 @@ html[data-vitra-theme='light'] body{
     transform:none!important;
   }
 
-  .vitraAppShell.theme-light .vxNicheShelf{
+  html.theme-light .vitraAppShell .vxNicheShelf,
+  html.theme-light .vitraAppShell .vxProjectGrid{
     display:grid!important;
     opacity:1!important;
     visibility:visible!important;
@@ -137,17 +138,9 @@ html[data-vitra-theme='light'] body{
     transform:none!important;
   }
 
-  .vitraAppShell.theme-light .vxProjectGrid{
-    display:grid!important;
-    opacity:1!important;
-    visibility:visible!important;
-    filter:none!important;
-    transform:none!important;
-  }
-
-  .vitraAppShell.theme-light .vxNicheShelf>button,
-  .vitraAppShell.theme-light .vxProjectGrid>button,
-  .vitraAppShell.theme-light .vxEmpty{
+  html.theme-light .vitraAppShell .vxNicheShelf>button,
+  html.theme-light .vitraAppShell .vxProjectGrid>button,
+  html.theme-light .vitraAppShell .vxEmpty{
     opacity:1!important;
     visibility:visible!important;
     filter:none!important;
@@ -156,8 +149,7 @@ html[data-vitra-theme='light'] body{
     border-color:#dce6e2!important;
   }
 
-  /* Keep the customer's generated site independent from the VITRA UI theme. */
-  .vitraAppShell.theme-light .clientSite{
+  html.theme-light .vitraAppShell .clientSite{
     background:var(--cs-bg)!important;
     color:var(--cs-text)!important;
   }
