@@ -28,6 +28,7 @@ import './max-quality-v8.css';
 import './mobile-shell-v9.css';
 import './project-manager-v10.css';
 import './light-mobile-hotfix-v11.css';
+import './premium-refinement-v12.css';
 import ProjectCardManager from './project-card-manager';
 
 export const metadata: Metadata = {
