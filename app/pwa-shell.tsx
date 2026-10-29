@@ -43,7 +43,28 @@ export default function PwaShell(){
     updateStandalone();
     media.addEventListener?.('change',updateStandalone);
 
-    if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js',{updateViaCache:'none'}).then(registration=>{
+        registration.update().catch(()=>{});
+        if(registration.waiting)registration.waiting.postMessage({type:'SKIP_WAITING'});
+        registration.addEventListener('updatefound',()=>{
+          const worker=registration.installing;
+          worker?.addEventListener('statechange',()=>{
+            if(worker.state==='installed'&&navigator.serviceWorker.controller){
+              worker.postMessage({type:'SKIP_WAITING'});
+            }
+          });
+        });
+      }).catch(()=>{});
+    }
+
+    let refreshing=false;
+    const controllerChanged=()=>{
+      if(refreshing)return;
+      refreshing=true;
+      window.location.reload();
+    };
+    navigator.serviceWorker?.addEventListener('controllerchange',controllerChanged);
 
     const beforeInstall=(event:Event)=>{
       event.preventDefault();
@@ -71,6 +92,7 @@ export default function PwaShell(){
 
     return ()=>{
       media.removeEventListener?.('change',updateStandalone);
+      navigator.serviceWorker?.removeEventListener('controllerchange',controllerChanged);
       window.removeEventListener('beforeinstallprompt',beforeInstall);
       window.removeEventListener('appinstalled',installed);
       observer.disconnect();
