@@ -17,7 +17,7 @@ type NavTarget='home'|'projects'|'create'|'models'|'account';
 
 function ThemeIcon({theme}:{theme:ThemeMode}){
   if(theme==='light')return <svg className="vxThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z"/></svg>;
-  return <svg className="vxThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2 12h2.2M19.8 12H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/></svg>;
+  return <svg className="vxThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2 12h2.2M19.8 12H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/></svg>;
 }
 
 export default function PwaShell(){
@@ -29,6 +29,7 @@ export default function PwaShell(){
   const [mounted,setMounted]=useState(false);
   const [showInstallHint,setShowInstallHint]=useState(false);
   const [theme,setTheme]=useState<ThemeMode>('light');
+  const [themeHost,setThemeHost]=useState<HTMLElement|null>(null);
 
   useEffect(()=>{
     setMounted(true);
@@ -95,6 +96,22 @@ export default function PwaShell(){
       navigator.serviceWorker?.removeEventListener('controllerchange',controllerChanged);
       window.removeEventListener('beforeinstallprompt',beforeInstall);
       window.removeEventListener('appinstalled',installed);
+      observer.disconnect();
+    };
+  },[]);
+
+  useEffect(()=>{
+    const mobile=window.matchMedia('(max-width:820px)');
+    const syncThemeHost=()=>{
+      const host=mobile.matches?document.querySelector<HTMLElement>('.vxDashTop > div:last-child'):null;
+      setThemeHost(current=>current===host?current:host);
+    };
+    syncThemeHost();
+    mobile.addEventListener?.('change',syncThemeHost);
+    const observer=new MutationObserver(syncThemeHost);
+    observer.observe(document.body,{childList:true,subtree:true});
+    return ()=>{
+      mobile.removeEventListener?.('change',syncThemeHost);
       observer.disconnect();
     };
   },[]);
@@ -176,11 +193,15 @@ export default function PwaShell(){
     });
   }
 
+  function renderThemeButton(inBar=false){
+    return <button className={`vxThemeSwitch${inBar?' vxThemeSwitchInBar':''}`} onClick={toggleTheme} aria-label={theme==='light'?'Ativar tema escuro':'Ativar tema claro'} title={theme==='light'?'Mudar para tema escuro':'Mudar para tema claro'}>
+      <ThemeIcon theme={theme}/>
+    </button>;
+  }
+
   const floating=mounted&&workspace&&!builder?createPortal(
     <div className="vxFloatingUi">
-      <button className="vxThemeSwitch" onClick={toggleTheme} aria-label={theme==='light'?'Ativar tema escuro':'Ativar tema claro'} title={theme==='light'?'Mudar para tema escuro':'Mudar para tema claro'}>
-        <ThemeIcon theme={theme}/>
-      </button>
+      {!themeHost&&renderThemeButton(false)}
       <nav className="vxGlobalMobileNav" aria-label="Navegação principal">
         <button className={activeTab==='home'?'active':''} onClick={()=>navigate('home')} aria-current={activeTab==='home'?'page':undefined}><Icon name="home" size={20}/><span>Início</span></button>
         <button className={activeTab==='projects'?'active':''} onClick={()=>navigate('projects')} aria-current={activeTab==='projects'?'page':undefined}><Icon name="briefcase" size={20}/><span>Projetos</span></button>
@@ -190,6 +211,8 @@ export default function PwaShell(){
       </nav>
     </div>,document.body
   ):null;
+
+  const dockedTheme=mounted&&themeHost&&!builder?createPortal(renderThemeButton(true),themeHost):null;
 
   return <>
     <div className={`vitraAppShell ${standalone?'isStandalone':''} ${builder?'isBuilder':''}`}>
@@ -210,5 +233,6 @@ export default function PwaShell(){
       </AuthGate>
     </div>
     {floating}
+    {dockedTheme}
   </>;
 }
