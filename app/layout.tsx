@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import ProjectCardManager from './project-card-manager';
 import './globals.css';
 import './premium.css';
 import './refinement.css';
@@ -39,4 +38,4 @@ export const metadata: Metadata = {
   formatDetection:{telephone:false}
 };
 export const viewport: Viewport = {width:'device-width',initialScale:1,viewportFit:'cover',themeColor:'#F5F8F7',colorScheme:'light dark'};
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {return <html lang="pt-BR"><body>{children}<ProjectCardManager/></body></html>}
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {return <html lang="pt-BR"><body>{children}</body></html>}
